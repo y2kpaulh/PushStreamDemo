@@ -161,12 +161,18 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FacebookLikeReaction/FacebookLikeReaction.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HaishinKit/HaishinKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Logboard/Logboard.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/VersaPlayer/VersaPlayer.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/CountdownLabel/CountdownLabel.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/FacebookLikeReaction/FacebookLikeReaction.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HaishinKit/HaishinKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Logboard/Logboard.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/VersaPlayer/VersaPlayer.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

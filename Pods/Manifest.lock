@@ -1,20 +1,32 @@
 PODS:
+  - CountdownLabel (4.0.1)
+  - FacebookLikeReaction (0.1.0)
   - HaishinKit (1.0.4):
     - Logboard (~> 2.1.2)
   - Logboard (2.1.2)
+  - VersaPlayer (3.0.2)
 
 DEPENDENCIES:
+  - CountdownLabel
+  - FacebookLikeReaction
   - HaishinKit (~> 1.0.4)
+  - VersaPlayer
 
 SPEC REPOS:
   trunk:
+    - CountdownLabel
+    - FacebookLikeReaction
     - HaishinKit
     - Logboard
+    - VersaPlayer
 
 SPEC CHECKSUMS:
+  CountdownLabel: c9975e3f329140b5e7d1f45cd63b1300badd1712
+  FacebookLikeReaction: 20eb0a24018c703d8dd1cca4b50aa4502ea08855
   HaishinKit: b911679d362aac54afd835a154b17b3b6aaa9519
   Logboard: e3342fa111e26268bb89577e6a40a0660a423ddd
+  VersaPlayer: 0e9a0ea7da786729ffb377dbd17b34641a8265e4
 
-PODFILE CHECKSUM: d7f5ef9e27a867988d5dbea4d1a6699dc34ab200
+PODFILE CHECKSUM: 4aa7b1d09c0cd1bd8fa79aeb54e3eaf322871e2c
 
 COCOAPODS: 1.8.4

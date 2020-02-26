@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E209C2D23FE54E700CB80CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E209C2C23FE54E700CB80CE /* ViewController.swift */; };
 		2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */; };
 		2E2F1FC823F67B4F00B8FFEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F1FC623F67B4F00B8FFEA /* Main.storyboard */; };
 		2E2F1FCA23F67B5000B8FFEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */; };
@@ -16,10 +17,12 @@
 		2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */; };
 		2E2F1FE723F67C4300B8FFEA /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE123F67C4300B8FFEA /* Preference.swift */; };
 		2E2F1FEA23F67D8500B8FFEA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE923F67D8500B8FFEA /* Icon.png */; };
+		2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */; };
 		35A2A52ABA5EBBAD2FA25487 /* Pods_stream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14BD9B356101EB4C7580248 /* Pods_stream.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E209C2C23FE54E700CB80CE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		2E2F1FBD23F67B4F00B8FFEA /* stream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E2F1FC723F67B4F00B8FFEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -31,6 +34,8 @@
 		2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
 		2E2F1FE123F67C4300B8FFEA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		2E2F1FE923F67D8500B8FFEA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liveStream.entitlements; sourceTree = "<group>"; };
+		2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3AB336ED1936E4C8EA2D2CDF /* Pods-stream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stream.release.xcconfig"; path = "Target Support Files/Pods-stream/Pods-stream.release.xcconfig"; sourceTree = "<group>"; };
 		C14BD9B356101EB4C7580248 /* Pods_stream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_stream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE55C45383381A037EDF8CC5 /* Pods-stream.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stream.debug.xcconfig"; path = "Target Support Files/Pods-stream/Pods-stream.debug.xcconfig"; sourceTree = "<group>"; };
@@ -41,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */,
 				35A2A52ABA5EBBAD2FA25487 /* Pods_stream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,6 +54,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E209C2E23FE5C0A00CB80CE /* Push */ = {
+			isa = PBXGroup;
+			children = (
+				2E2F1FDD23F67C4300B8FFEA /* LiveViewController.swift */,
+				2E2F1FE123F67C4300B8FFEA /* Preference.swift */,
+				2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */,
+				2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */,
+			);
+			path = Push;
+			sourceTree = "<group>";
+		};
+		2E209C2F23FE5C1F00CB80CE /* Pull */ = {
+			isa = PBXGroup;
+			children = (
+				2E209C2C23FE54E700CB80CE /* ViewController.swift */,
+			);
+			path = Pull;
+			sourceTree = "<group>";
+		};
 		2E2F1FB423F67B4F00B8FFEA = {
 			isa = PBXGroup;
 			children = (
@@ -69,16 +94,15 @@
 		2E2F1FBF23F67B4F00B8FFEA /* stream */ = {
 			isa = PBXGroup;
 			children = (
+				2E209C2F23FE5C1F00CB80CE /* Pull */,
+				2E209C2E23FE5C0A00CB80CE /* Push */,
 				2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */,
-				2E2F1FDD23F67C4300B8FFEA /* LiveViewController.swift */,
-				2E2F1FE123F67C4300B8FFEA /* Preference.swift */,
-				2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */,
-				2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */,
 				2E2F1FC623F67B4F00B8FFEA /* Main.storyboard */,
 				2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */,
 				2E2F1FE923F67D8500B8FFEA /* Icon.png */,
 				2E2F1FCB23F67B5000B8FFEA /* LaunchScreen.storyboard */,
 				2E2F1FCE23F67B5000B8FFEA /* Info.plist */,
+				2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */,
 			);
 			path = stream;
 			sourceTree = "<group>";
@@ -86,6 +110,7 @@
 		E4CCE397A47D8D6D8203C8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */,
 				C14BD9B356101EB4C7580248 /* Pods_stream.framework */,
 			);
 			name = Frameworks;
@@ -112,6 +137,7 @@
 				2E2F1FBA23F67B4F00B8FFEA /* Frameworks */,
 				2E2F1FBB23F67B4F00B8FFEA /* Resources */,
 				E79343727AFE9C6A49BA8CA5 /* [CP] Embed Pods Frameworks */,
+				2E2F1FED23F6A6F500B8FFEA /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -192,6 +218,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2E2F1FED23F6A6F500B8FFEA /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect --format\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		E79343727AFE9C6A49BA8CA5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -216,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E209C2D23FE54E700CB80CE /* ViewController.swift in Sources */,
 				2E2F1FE723F67C4300B8FFEA /* Preference.swift in Sources */,
 				2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */,
 				2E2F1FE323F67C4300B8FFEA /* LiveViewController.swift in Sources */,
@@ -303,6 +348,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -356,6 +402,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -365,6 +412,8 @@
 			baseConfigurationReference = EE55C45383381A037EDF8CC5 /* Pods-stream.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = stream/liveStream.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = stream/Info.plist;
@@ -372,10 +421,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.haishinkit.Exsample.iOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.epiens.livestream;
+				PRODUCT_NAME = stream;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -384,6 +434,8 @@
 			baseConfigurationReference = 3AB336ED1936E4C8EA2D2CDF /* Pods-stream.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = stream/liveStream.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = stream/Info.plist;
@@ -391,10 +443,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.haishinkit.Exsample.iOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.epiens.livestream;
+				PRODUCT_NAME = stream;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

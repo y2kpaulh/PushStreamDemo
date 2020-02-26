@@ -7,5 +7,8 @@ target 'stream' do
 
   # Pods for stream
     pod 'HaishinKit', '~> 1.0.4'
+    pod 'CountdownLabel'
+    pod 'VersaPlayer'
+    pod 'FacebookLikeReaction'
 
 end

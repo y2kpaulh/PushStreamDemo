@@ -1,0 +1,9 @@
+disabled_rules: # rule identifiers to exclude from running
+opt_in_rules: # some rules are only opt-in
+  - closure_end_indentation
+  - literal_expression_end_indentation
+included: # paths to include during linting. `--path` is ignored if present.
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods
+indentation: 2 # 2 spaces
