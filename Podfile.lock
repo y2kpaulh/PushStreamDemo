@@ -1,32 +1,42 @@
 PODS:
+  - Alamofire (5.0.2)
   - CountdownLabel (4.0.1)
-  - FacebookLikeReaction (0.1.0)
-  - HaishinKit (1.0.4):
+  - HaishinKit (1.0.5):
     - Logboard (~> 2.1.2)
+  - Kingfisher (5.13.2):
+    - Kingfisher/Core (= 5.13.2)
+  - Kingfisher/Core (5.13.2)
   - Logboard (2.1.2)
+  - SnapKit (5.0.1)
   - VersaPlayer (3.0.2)
 
 DEPENDENCIES:
+  - Alamofire
   - CountdownLabel
-  - FacebookLikeReaction
   - HaishinKit (~> 1.0.4)
+  - Kingfisher (~> 5.0)
+  - SnapKit
   - VersaPlayer
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - CountdownLabel
-    - FacebookLikeReaction
     - HaishinKit
+    - Kingfisher
     - Logboard
+    - SnapKit
     - VersaPlayer
 
 SPEC CHECKSUMS:
+  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
   CountdownLabel: c9975e3f329140b5e7d1f45cd63b1300badd1712
-  FacebookLikeReaction: 20eb0a24018c703d8dd1cca4b50aa4502ea08855
-  HaishinKit: b911679d362aac54afd835a154b17b3b6aaa9519
+  HaishinKit: 5ef4eefdaf532bd54694cade85110f9e596158a5
+  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Logboard: e3342fa111e26268bb89577e6a40a0660a423ddd
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   VersaPlayer: 0e9a0ea7da786729ffb377dbd17b34641a8265e4
 
-PODFILE CHECKSUM: 4aa7b1d09c0cd1bd8fa79aeb54e3eaf322871e2c
+PODFILE CHECKSUM: 8287bd49ce610ef76fe094c917f4d46386f0eb73
 
 COCOAPODS: 1.8.4

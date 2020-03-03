@@ -50,7 +50,8 @@
 ## Requirements
 |-|iOS|OSX|tvOS|XCode|Swift|CocoaPods|Carthage|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-0.11.0+|8.0+|10.11+|10.2+|10.0+|5.0|1.5.0+|0.29.0+|
+|1.0.0+|8.0+|10.11+|10.2+|11.0+|5.0+|1.5.0+|0.29.0+|
+|0.11.0+|8.0+|10.11+|10.2+|10.0+|5.0|1.5.0+|0.29.0+|
 |0.10.0+|8.0+|10.11+|10.2+|10.0+|4.2|1.5.0+|0.29.0+|
 
 ## Cocoa Keys
@@ -73,7 +74,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 def import_pods
-    pod 'HaishinKit', '~> 1.0.4'
+    pod 'HaishinKit', '~> 1.0.5'
 end
 
 target 'Your Target'  do
@@ -83,7 +84,7 @@ end
 ```
 ### Carthage
 ```
-github "shogo4405/HaishinKit.swift" ~> 1.0.4
+github "shogo4405/HaishinKit.swift" ~> 1.0.5
 ```
 
 ## License
@@ -104,16 +105,19 @@ Make sure you setup and activate your AVAudioSession.
 import AVFoundation
 let session = AVAudioSession.sharedInstance()
 do {
-    try session.setPreferredSampleRate(44_100)
     // https://stackoverflow.com/questions/51010390/avaudiosession-setcategory-swift-4-2-ios-12-play-sound-on-silent
     if #available(iOS 10.0, *) {
         try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
     } else {
-        session.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with:  [AVAudioSession.CategoryOptions.allowBluetooth])
+        session.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with: [
+            AVAudioSession.CategoryOptions.allowBluetooth,
+            AVAudioSession.CategoryOptions.defaultToSpeaker]
+        )
+        try session.setMode(.default)
     }
-    try session.setMode(AVAudioSessionModeDefault)
     try session.setActive(true)
 } catch {
+    print(error)
 }
 ```
 ## RTMP Usage
@@ -143,24 +147,6 @@ rtmpStream.publish("streamName")
 
 ### Settings
 ```swift
-let sampleRate:Double = 44_100
-
-// see: #58
-#if(iOS)
-let session = AVAudioSession.sharedInstance()
-do {
-    try session.setPreferredSampleRate(44_100)
-    // https://stackoverflow.com/questions/51010390/avaudiosession-setcategory-swift-4-2-ios-12-play-sound-on-silent
-    if #available(iOS 10.0, *) {
-        try session.setCategory(.playAndRecord, mode: .default, options: [.allowBluetooth])
-    } else {
-        session.perform(NSSelectorFromString("setCategory:withOptions:error:"), with: AVAudioSession.Category.playAndRecord, with:  [AVAudioSession.CategoryOptions.allowBluetooth])
-    }
-    try session.setActive(true)
-} catch {
-}
-#endif
-
 var rtmpStream = RTMPStream(connection: rtmpConnection)
 
 rtmpStream.captureSettings = [
@@ -173,7 +159,6 @@ rtmpStream.captureSettings = [
 rtmpStream.audioSettings = [
     .muted: false, // mute audio
     .bitrate: 32 * 1000,
-    .sampleRate: sampleRate, 
 ]
 rtmpStream.videoSettings = [
     .width: 640, // video output width
