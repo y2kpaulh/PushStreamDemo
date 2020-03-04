@@ -46,6 +46,15 @@ final class PushStreamViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let session = AVAudioSession.sharedInstance()
+    do {
+      try session.setPreferredSampleRate(44_100)
+      // https://stackoverflow.com/questions/51010390/avaudiosession-setcategory-swift-4-2-ios-12-play-sound-on-silent
+      try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
+      try session.setActive(true)
+    } catch {
+    }
+
     rtmpStream = RTMPStream(connection: rtmpConnection)
     if let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
       rtmpStream.orientation = orientation

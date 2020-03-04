@@ -116,6 +116,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E12A736240F85AD0044C850 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */,
+				2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		2E209C2E23FE5C0A00CB80CE /* Push Stream */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,8 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				2E448828240DF6370084C4FE /* Main */,
-				2E209C2F23FE5C1F00CB80CE /* Pull Stream */,
 				2E209C2E23FE5C0A00CB80CE /* Push Stream */,
+				2E209C2F23FE5C1F00CB80CE /* Pull Stream */,
 				2E44885B240DF7DD0084C4FE /* Library */,
 				2E448829240DF66F0084C4FE /* Supports */,
 			);
@@ -189,8 +198,7 @@
 		2E448829240DF66F0084C4FE /* Supports */ = {
 			isa = PBXGroup;
 			children = (
-				2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */,
-				2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */,
+				2E12A736240F85AD0044C850 /* Util */,
 				2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */,
 				2E2F1FC623F67B4F00B8FFEA /* Main.storyboard */,
 				2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */,

@@ -157,6 +157,7 @@ open class VersaPlayerView: View, PIPProtocol {
 
     player.usesExternalPlaybackWhileExternalScreenIsActive = true
     player.allowsExternalPlayback = true
+    player.automaticallyWaitsToMinimizeStalling = true
 
     player.handler = self
     player.preparePlayerPlaybackDelegate()

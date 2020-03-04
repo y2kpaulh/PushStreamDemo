@@ -32,5 +32,11 @@
 		<key>playlist_url</key>
 		<string>http://wowtv.xst.kinxcdn.com/wowtv/livestream/playlist.m3u8</string>
 	</dict>
+	<dict>
+		<key>name</key>
+		<string>Low Latency HLS Stream</string>
+		<key>playlist_url</key>
+		<string>https://streaming.example.com/master.m3u8</string>
+	</dict>
 </array>
 </plist>

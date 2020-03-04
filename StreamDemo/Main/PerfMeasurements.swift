@@ -103,6 +103,9 @@ class PerfMeasurements: NSObject {
   /// Called when a timebase rate change occurs.
   func rateChanged(rate: Double) -> CFTimeInterval {
 
+    var logMsg = ""
+    var userInfo: [AnyHashable: Any] = [AnyHashable: Any]()
+
     var stallTime: CFTimeInterval = 0
 
     if playbackStartTime == 0.0 && rate > 0 {
@@ -110,10 +113,22 @@ class PerfMeasurements: NSObject {
       playbackStartTime = CACurrentMediaTime()
       stallTime = self.startupTime
       os_log("Perf -- Playback started in %.2f seconds", self.startupTime)
+
+      logMsg = String(format: "Perf -- Playback started in %.2f seconds", self.startupTime)
+      userInfo = ["logMsg": logMsg]
+      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
+                                      object: nil,
+                                      userInfo: userInfo)
     } else if rate > 0 && lastStallTime > 0 {
       // Subsequent rate change
       playbackStallEnded()
       os_log("Perf -- Playback resumed in %.2f seconds", totalStallTime)
+
+      logMsg = String(format: "Perf -- Playback resumed in %.2f seconds", totalStallTime)
+      userInfo = ["logMsg": logMsg]
+      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
+                                      object: nil,
+                                      userInfo: userInfo)
       stallTime = totalStallTime
     }
 
@@ -137,9 +152,27 @@ class PerfMeasurements: NSObject {
   /// Called when the player item is released.
   func playbackEnded() {
     playbackStallEnded()
+    var logMsg = ""
+
     os_log("Perf -- Playback ended")
+    logMsg.append("Perf -- Playback ended")
+
+    let ibr = String(format: "Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
     os_log("Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
+    logMsg.append(ibr)
+
     os_log("Perf -- Stall rate: %.2f stalls/hour", stallRate)
+    let stallRate = String(format: "Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
+    logMsg.append(stallRate)
+
     os_log("Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
+    let stallRatio = String(format: "Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
+    logMsg.append(stallRatio)
+
+    let userInfo: [AnyHashable: Any] = ["logMsg": logMsg]
+
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
+                                    object: nil,
+                                    userInfo: userInfo)
   }
 }

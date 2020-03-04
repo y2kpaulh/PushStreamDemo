@@ -22,6 +22,7 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var playerView: VersaPlayerView!
   @IBOutlet weak var controls: VersaPlayerControls!
 
+  @IBOutlet weak var debugBtn: UIButton!
   @IBOutlet weak var playbackProgressView: UIProgressView!
   @IBOutlet weak var bufferProgressView: UIProgressView!
   @IBOutlet weak var loadedProgressView: UIProgressView!
@@ -29,6 +30,9 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var bottomMenuView: UIView!
   @IBOutlet weak var topMenuView: UIView!
   @IBOutlet weak var stallTimeLabel: UILabel!
+  @IBOutlet weak var logMsgView: UITextView!
+
+  var logMsgStr: String = ""
 
   var durationTime: Float64 = 0.0
 
@@ -88,6 +92,23 @@ class PullStreamViewController: UIViewController {
 
     configPlayer(url: url)
     downloadUserInfo()
+
+    NotificationCenter.default.addObserver(self, selector: #selector(didReceivePerfLog(_:)), name: NSNotification.Name(rawValue: "performanceLog"), object: nil)
+  }
+
+  deinit {
+    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "performanceLog"), object: nil)
+  }
+
+  @objc func didReceivePerfLog(_ notification: Notification) {
+    guard let logString: String = notification.userInfo?["logMsg"] as? String else { return }
+
+    let logMsg = "\(logString)\n"
+    logMsgStr.append(logMsg)
+
+    DispatchQueue.main.async {
+      self.logMsgView.text = self.logMsgStr
+    }
   }
 
   func configPlayer(url: String) {
@@ -95,8 +116,6 @@ class PullStreamViewController: UIViewController {
       let item = VersaPlayerItem(url: _url)
       playerView.set(item: item)
     }
-
-    //self.navigationController?.navigationBar.isHidden = true
 
     playerView.layer.backgroundColor = UIColor.black.cgColor
     playerView.use(controls: controls)
@@ -144,6 +163,13 @@ class PullStreamViewController: UIViewController {
         self.bottomMenuView.isHidden = false
       }
     }
+  }
+
+  @IBAction func tapDebugBtn(_ sender: Any) {
+    let btn = sender as! UIButton
+    btn.isSelected = !btn.isSelected
+    logMsgView.isHidden = btn.isSelected
+    print("btn.selected", btn.isSelected)
   }
 
   @IBAction private func onTapVolumeButton(_ sender: UIButton) {
@@ -199,6 +225,12 @@ class PullStreamViewController: UIViewController {
 }
 
 extension PullStreamViewController: VersaPlayerPlaybackDelegate {
+
+  func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?) {
+    guard let currentItem = player.currentItem else { return }
+    print(#function, "canStepBackward", currentItem.canStepBackward)
+  }
+
   func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval) {
     DispatchQueue.main.async {
       self.stallTimeLabel.text = String(format: "Loading: %0.2f sec", stallTime)
@@ -206,18 +238,17 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
   }
 
   func timeDidChange(player: VersaPlayer, to time: CMTime) {
-    let currentItem = player.currentItem
-    let timeRangeArray = currentItem?.loadedTimeRanges
+    guard let currentItem = player.currentItem else { return }
+    let timeRangeArray = currentItem.loadedTimeRanges
+    guard let timeRange = timeRangeArray.first?.timeRangeValue else { return }
 
-    guard let timeRange = timeRangeArray?.first?.timeRangeValue else { return }
-    guard let accessLog: AVPlayerItemAccessLog = currentItem?.accessLog() else { return }
-    let logEvent = accessLog.events[0]
-
-    guard let type = logEvent.playbackType else { return }
-    playbackType = type
-
-    durationTime = CMTimeGetSeconds((currentItem?.asset.duration)!)
+    durationTime = CMTimeGetSeconds((currentItem.asset.duration))
     playbackTime = CMTimeGetSeconds(player.currentTime())
     loadedTime = CMTimeGetSeconds(timeRange.duration)
+
+    guard let accessLog: AVPlayerItemAccessLog = currentItem.accessLog() else { return }
+    guard let type = accessLog.events[0].playbackType else { return }
+
+    playbackType = type
   }
 }
