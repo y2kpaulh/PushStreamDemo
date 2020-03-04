@@ -105,6 +105,18 @@ open class VersaPlayer: AVPlayer, AVAssetResourceLoaderDelegate {
       newItem.addObserver(self, forKeyPath: "playbackBufferFull", options: .new, context: nil)
       newItem.addObserver(self, forKeyPath: "status", options: .new, context: nil)
 
+      if #available(iOS 13.0, *) {
+        // Discover and adjust distance from live
+        let howFarNow = newItem.configuredTimeOffsetFromLive
+        let recommended = newItem.recommendedTimeOffsetFromLive
+
+        if  howFarNow < recommended {
+          newItem.configuredTimeOffsetFromLive = recommended
+        }
+        // Maintain position of playhead relative to live edge after rebuffer
+        newItem.automaticallyPreservesTimeOffsetFromLive = true
+      }
+
       perfMeasurements = PerfMeasurements(playerItem: item!)
       let notificationCenter = NotificationCenter.default
       notificationCenter.addObserver(self,
