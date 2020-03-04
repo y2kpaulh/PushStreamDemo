@@ -71,6 +71,7 @@ public final class H264Encoder {
             settings.observer = self
         }
     }
+    public private(set) var isRunning: Atomic<Bool> = .init(false)
 
     var muted: Bool = false
     var scalingMode: ScalingMode = H264Encoder.defaultScalingMode {
@@ -152,7 +153,6 @@ public final class H264Encoder {
     }
     weak var delegate: VideoEncoderDelegate?
 
-    public private(set) var isRunning: Atomic<Bool> = .init(false)
     private(set) var status: OSStatus = noErr
     private var attributes: [NSString: AnyObject] {
         var attributes: [NSString: AnyObject] = H264Encoder.defaultAttributes
@@ -199,6 +199,10 @@ public final class H264Encoder {
         guard
             let refcon: UnsafeMutableRawPointer = outputCallbackRefCon,
             let sampleBuffer: CMSampleBuffer = sampleBuffer, status == noErr else {
+                if status == kVTParameterErr {
+                    // on iphone 11 with size=1792x827 this occurs
+                    logger.error("encoding failed with kVTParameterErr. Perhaps the width x height is too big for the encoder setup?")
+                }
             return
         }
         let encoder: H264Encoder = Unmanaged<H264Encoder>.fromOpaque(refcon).takeUnretainedValue()
@@ -221,20 +225,22 @@ public final class H264Encoder {
                     outputCallback: callback,
                     refcon: Unmanaged.passUnretained(self).toOpaque(),
                     compressionSessionOut: &_session
-                    ) == noErr else {
+                    ) == noErr, let session = _session else {
                     logger.warn("create a VTCompressionSessionCreate")
                     return nil
                 }
                 invalidateSession = false
-                status = VTSessionSetProperties(_session!, propertyDictionary: properties as CFDictionary)
-                status = VTCompressionSessionPrepareToEncodeFrames(_session!)
+                status = session.setProperties(properties)
+                status = session.prepareToEncodeFrame()
+                guard status == noErr else {
+                    logger.error("setup failed VTCompressionSessionPrepareToEncodeFrames. Size = \(width)x\(height)")
+                    return nil
+                }
             }
             return _session
         }
         set {
-            if let session: VTCompressionSession = _session {
-                VTCompressionSessionInvalidate(session)
-            }
+            _session?.invalidate()
             _session = newValue
         }
     }

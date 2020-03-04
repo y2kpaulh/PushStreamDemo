@@ -1,6 +1,0 @@
-framework module Pods_stream {
-  umbrella header "Pods-stream-umbrella.h"
-
-  export *
-  module * { export * }
-}

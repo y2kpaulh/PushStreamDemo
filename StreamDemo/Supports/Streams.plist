@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Push Stream</string>
+		<key>playlist_url</key>
+		<string>rtmp://epiensup1.xst.kinxcdn.com/epiens</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Epiens Live Stream</string>
+		<key>playlist_url</key>
+		<string>http://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>FILE Stream</string>
+		<key>playlist_url</key>
+		<string>http://www.exit109.com/~dnn/clips/RW20seconds_1.mp4</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>VOD Stream</string>
+		<key>playlist_url</key>
+		<string>https://hls.midibus.kinxcdn.com/hls/ch_16fc4988/1706171e5dd6ad88/playlist.m3u8</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Live Stream</string>
+		<key>playlist_url</key>
+		<string>http://wowtv.xst.kinxcdn.com/wowtv/livestream/playlist.m3u8</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Low Latency HLS Stream</string>
+		<key>playlist_url</key>
+		<string>https://streaming.example.com/master.m3u8</string>
+	</dict>
+</array>
+</plist>
