@@ -30,23 +30,6 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var topMenuView: UIView!
   @IBOutlet weak var stallTimeLabel: UILabel!
 
-  public var stallTime: CFTimeInterval = 0 {
-    willSet {
-      guard newValue != stallTime else { return }
-      print("newValue", newValue)
-    }
-
-    didSet {
-      guard oldValue != stallTime else { return }
-
-      if stallTime == 0 {
-        self.stallTimeLabel.text =  ""
-      } else {
-        self.stallTimeLabel.text =  String(format: "Loading: %.2f sec", stallTime)
-      }
-    }
-  }
-
   var durationTime: Float64 = 0.0
 
   var playbackTime: Float64 = 0.0 {
@@ -77,11 +60,6 @@ class PullStreamViewController: UIViewController {
   var url: String = ""
 
   var playbackType: String = "" {
-    willSet {
-      guard newValue != playbackType else { return }
-      print("newValue", newValue)
-    }
-
     didSet {
       guard oldValue != playbackType else { return }
       self.streamTypeLabel.text = playbackType
@@ -144,20 +122,6 @@ class PullStreamViewController: UIViewController {
         print("Task done for: \(value.source.url?.absoluteString ?? "")")
       case .failure(let error):
         print("Job failed: \(error.localizedDescription)")
-      }
-    }
-
-    AF.request("https://uinames.com/api/").responseJSON {[weak self] response in
-      guard let self = self else { return }
-      debugPrint(response)
-
-      if let value = response.value as? [String: AnyObject] {
-
-        guard let name = value["name"] else { return }
-
-        DispatchQueue.main.async {
-          self.titleLabel.text = "\(name)의 개인방송"
-        }
       }
     }
   }
@@ -235,6 +199,12 @@ class PullStreamViewController: UIViewController {
 }
 
 extension PullStreamViewController: VersaPlayerPlaybackDelegate {
+  func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval) {
+    DispatchQueue.main.async {
+      self.stallTimeLabel.text = String(format: "Loading: %0.2f sec", stallTime)
+    }
+  }
+
   func timeDidChange(player: VersaPlayer, to time: CMTime) {
     let currentItem = player.currentItem
     let timeRangeArray = currentItem?.loadedTimeRanges
@@ -249,7 +219,5 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     durationTime = CMTimeGetSeconds((currentItem?.asset.duration)!)
     playbackTime = CMTimeGetSeconds(player.currentTime())
     loadedTime = CMTimeGetSeconds(timeRange.duration)
-
-    stallTime = player.stallTime
   }
 }

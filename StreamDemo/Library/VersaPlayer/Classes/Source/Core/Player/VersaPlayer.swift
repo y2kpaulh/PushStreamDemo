@@ -121,7 +121,11 @@ open class VersaPlayer: AVPlayer, AVAssetResourceLoaderDelegate {
       let timebase = notification.object as! CMTimebase
       let rate: Double = CMTimebaseGetRate(timebase)
       guard let stallTime: CFTimeInterval = perfMeasurements?.rateChanged(rate: rate) else { return }
-      self.stallTime = stallTime
+
+      if stallTime > 0 {
+        self.stallTime = stallTime
+        self.handler?.playbackDelegate?.playbackRateTimeChanged(player: self, stallTime: stallTime)
+      }
     }
   }
 

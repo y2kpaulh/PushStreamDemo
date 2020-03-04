@@ -10,6 +10,12 @@
 	</dict>
 	<dict>
 		<key>name</key>
+		<string>Epiens Live Stream</string>
+		<key>playlist_url</key>
+		<string>http://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8</string>
+	</dict>
+	<dict>
+		<key>name</key>
 		<string>FILE Stream</string>
 		<key>playlist_url</key>
 		<string>http://www.exit109.com/~dnn/clips/RW20seconds_1.mp4</string>

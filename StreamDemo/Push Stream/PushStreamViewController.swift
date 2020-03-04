@@ -4,8 +4,6 @@ import Photos
 import UIKit
 import VideoToolbox
 
-let sampleRate: Double = 44_100
-
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
   static let `default` = ExampleRecorderDelegate()
 
@@ -49,25 +47,27 @@ final class PushStreamViewController: UIViewController {
     super.viewDidLoad()
 
     rtmpStream = RTMPStream(connection: rtmpConnection)
-
+    if let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
+      rtmpStream.orientation = orientation
+    }
     rtmpStream.captureSettings = [
-      .sessionPreset: AVCaptureSession.Preset.hd1920x1080,
+      .sessionPreset: AVCaptureSession.Preset.hd1280x720,
       .continuousAutofocus: true,
       .continuousExposure: true
       // .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
     rtmpStream.videoSettings = [
-      .width: 1920,
-      .height: 1080,
-      .maxKeyFrameIntervalDuration: 1
-    ]
-    rtmpStream.audioSettings = [
-      .sampleRate: sampleRate
+      .width: 720,
+      .height: 1280
     ]
     rtmpStream.mixer.recorder.delegate = ExampleRecorderDelegate.shared
 
     videoBitrateSlider?.value = Float(RTMPStream.defaultVideoBitrate) / 1024
     audioBitrateSlider?.value = Float(RTMPStream.defaultAudioBitrate) / 1024
+
+    NotificationCenter.default.addObserver(self, selector: #selector(on(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -213,6 +213,24 @@ final class PushStreamViewController: UIViewController {
     default:
       break
     }
+  }
+
+  @objc
+  private func on(_ notification: Notification) {
+    guard let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) else {
+      return
+    }
+    rtmpStream.orientation = orientation
+  }
+
+  @objc
+  private func didEnterBackground(_ notification: Notification) {
+    // rtmpStream.receiveVideo = false
+  }
+
+  @objc
+  private func didBecomeActive(_ notification: Notification) {
+    // rtmpStream.receiveVideo = true
   }
 
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {

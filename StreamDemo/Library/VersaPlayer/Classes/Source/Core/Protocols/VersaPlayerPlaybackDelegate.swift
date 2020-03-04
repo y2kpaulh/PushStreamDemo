@@ -93,6 +93,7 @@ public protocol VersaPlayerPlaybackDelegate: class {
   ///     - item: VersaPlayerItem being used
   func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?)
 
+  func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval)
 }
 
 public extension VersaPlayerPlaybackDelegate {
