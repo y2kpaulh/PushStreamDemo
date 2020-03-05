@@ -35,6 +35,7 @@ class AssetListTableViewController: UITableViewController {
     // General setup for auto sizing UITableViewCells.
     tableView.estimatedRowHeight = 75.0
     tableView.rowHeight = UITableView.automaticDimension
+    tableView.tableFooterView = nil
 
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(handleAssetListManagerDidLoad(_:)),

@@ -285,12 +285,13 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
     switch error {
     case .notFound:
-      let alert =  UIAlertController(title: "재생 실패", message: "현재 방송중이 아닙니다!!", preferredStyle: .alert)
+      let alert =  UIAlertController(title: "playback error", message: "error message:\(error)", preferredStyle: .alert)
       let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
         self.dismiss(animated: true, completion: nil)
       })
 
       alert.addAction(ok)
+
       self.present(alert, animated: true, completion: {
         self.playerView.controls?.hideBuffering()
       })
