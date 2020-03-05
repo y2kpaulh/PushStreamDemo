@@ -48,6 +48,9 @@
 		2EE2BAAC240E2D79004DB1F6 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAA240E2D79004DB1F6 /* Stream.swift */; };
 		2EE2BAAD240E2D79004DB1F6 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAB240E2D79004DB1F6 /* Asset.swift */; };
 		2EE2BAB2240E55D1004DB1F6 /* SRFacebookAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAB1240E55D1004DB1F6 /* SRFacebookAnimation.swift */; };
+		2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635022410CB1500C88FBC /* DebugViewController.swift */; };
+		2EE635052410DB3C00C88FBC /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635042410DB3C00C88FBC /* StorageController.swift */; };
+		2EE635072410DB5900C88FBC /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635062410DB5900C88FBC /* Log.swift */; };
 		43B1590A153FE951F860FF64 /* Pods_StreamDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +99,9 @@
 		2EE2BAAA240E2D79004DB1F6 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		2EE2BAAB240E2D79004DB1F6 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		2EE2BAB1240E55D1004DB1F6 /* SRFacebookAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRFacebookAnimation.swift; sourceTree = "<group>"; };
+		2EE635022410CB1500C88FBC /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
+		2EE635042410DB3C00C88FBC /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
+		2EE635062410DB5900C88FBC /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		3AB336ED1936E4C8EA2D2CDF /* Pods-stream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stream.release.xcconfig"; path = "Target Support Files/Pods-stream/Pods-stream.release.xcconfig"; sourceTree = "<group>"; };
 		A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF31E4C71B17EE2C4091C5BC /* Pods-StreamDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamDemo.debug.xcconfig"; path = "Target Support Files/Pods-StreamDemo/Pods-StreamDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +169,7 @@
 		2E2F1FBF23F67B4F00B8FFEA /* StreamDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2EE635012410CAFD00C88FBC /* Debug */,
 				2E448828240DF6370084C4FE /* Main */,
 				2E209C2E23FE5C0A00CB80CE /* Push Stream */,
 				2E209C2F23FE5C1F00CB80CE /* Pull Stream */,
@@ -191,6 +198,7 @@
 				2E44881A240DF4E40084C4FE /* PerfMeasurements.swift */,
 				2E448814240DF4E40084C4FE /* AssetListTableViewCell.swift */,
 				2E448812240DF4AC0084C4FE /* AssetListTableViewController.swift */,
+				2E44881E240DF4E40084C4FE /* Streams.plist */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -205,7 +213,6 @@
 				2E2F1FE923F67D8500B8FFEA /* Icon.png */,
 				2E2F1FCB23F67B5000B8FFEA /* LaunchScreen.storyboard */,
 				2E2F1FCE23F67B5000B8FFEA /* Info.plist */,
-				2E44881E240DF4E40084C4FE /* Streams.plist */,
 				2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */,
 			);
 			path = Supports;
@@ -358,6 +365,16 @@
 				2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		2EE635012410CAFD00C88FBC /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				2EE635022410CB1500C88FBC /* DebugViewController.swift */,
+				2EE635062410DB5900C88FBC /* Log.swift */,
+				2EE635042410DB3C00C88FBC /* StorageController.swift */,
+			);
+			path = Debug;
 			sourceTree = "<group>";
 		};
 		E4CCE397A47D8D6D8203C8DB /* Frameworks */ = {
@@ -528,12 +545,15 @@
 				2E2F1FE723F67C4300B8FFEA /* Preference.swift in Sources */,
 				2E448822240DF4E40084C4FE /* StreamListManager.swift in Sources */,
 				2E448848240DF7850084C4FE /* VersaPlayerPlaybackError.swift in Sources */,
+				2EE635052410DB3C00C88FBC /* StorageController.swift in Sources */,
 				2E448849240DF7850084C4FE /* VersaPlayerRenderingView.swift in Sources */,
 				2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */,
 				2E448855240DF7850084C4FE /* VersaTimeLabel.swift in Sources */,
 				2E44884E240DF7850084C4FE /* VersaPlayer.swift in Sources */,
 				2E44884D240DF7850084C4FE /* VersaPlayerMediaTrack.swift in Sources */,
+				2EE635072410DB5900C88FBC /* Log.swift in Sources */,
 				2E44884C240DF7850084C4FE /* VersaPlayerExtension.swift in Sources */,
+				2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */,
 				2E2F1FE323F67C4300B8FFEA /* PushStreamViewController.swift in Sources */,
 				2EE2BAAD240E2D79004DB1F6 /* Asset.swift in Sources */,
 				2E448858240DF7850084C4FE /* VersaPlayerControls.swift in Sources */,
@@ -608,6 +628,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -669,6 +690,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -700,6 +722,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -722,6 +745,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

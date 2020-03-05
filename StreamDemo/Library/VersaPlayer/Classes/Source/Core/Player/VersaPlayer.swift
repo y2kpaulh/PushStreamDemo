@@ -10,8 +10,6 @@ import AVFoundation
 
 open class VersaPlayer: AVPlayer, AVAssetResourceLoaderDelegate {
 
-  private var perfMeasurements: PerfMeasurements?
-
   /// Dispatch queue for resource loader
   private let queue = DispatchQueue(label: "quasar.studio.versaplayer")
 
@@ -19,6 +17,8 @@ open class VersaPlayer: AVPlayer, AVAssetResourceLoaderDelegate {
   public enum VPlayerNotificationInfoKey: String {
     case time = "VERSA_PLAYER_TIME"
   }
+
+  var perfMeasurements: PerfMeasurements?
 
   /// Notification name to post
   public enum VPlayerNotificationName: String {
@@ -105,18 +105,10 @@ open class VersaPlayer: AVPlayer, AVAssetResourceLoaderDelegate {
       newItem.addObserver(self, forKeyPath: "playbackBufferFull", options: .new, context: nil)
       newItem.addObserver(self, forKeyPath: "status", options: .new, context: nil)
 
+      // Maintain position of playhead relative to live edge after rebuffer
       if #available(iOS 13.0, *) {
-        // Discover and adjust distance from live
-        let howFarNow = newItem.configuredTimeOffsetFromLive
-        let recommended = newItem.recommendedTimeOffsetFromLive
-
-        if  howFarNow < recommended {
-          newItem.configuredTimeOffsetFromLive = recommended
-        }
-        // Maintain position of playhead relative to live edge after rebuffer
         newItem.automaticallyPreservesTimeOffsetFromLive = true
       }
-
       perfMeasurements = PerfMeasurements(playerItem: item!)
       let notificationCenter = NotificationCenter.default
       notificationCenter.addObserver(self,

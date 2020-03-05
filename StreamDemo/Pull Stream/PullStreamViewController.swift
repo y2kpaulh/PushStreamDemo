@@ -31,8 +31,16 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var topMenuView: UIView!
   @IBOutlet weak var stallTimeLabel: UILabel!
   @IBOutlet weak var logMsgView: UITextView!
+  var storageController: StorageController = StorageController()
 
-  var logMsgStr: String = ""
+  public var logMsg: String = ""{
+    didSet {
+      if logMsg.count > 0 {
+
+        storageController.save(Log(msg: logMsg))
+      }
+    }
+  }
 
   var durationTime: Float64 = 0.0
 
@@ -50,14 +58,18 @@ class PullStreamViewController: UIViewController {
 
   var loadedProgress: Float = 0 {
     didSet {
-      self.bufferProgressView.progress = loadedProgress
-      self.loadedProgressView.progress = loadedProgress
+      DispatchQueue.main.async {
+        self.bufferProgressView.progress = self.loadedProgress
+        self.loadedProgressView.progress = self.loadedProgress
+      }
     }
   }
 
   var playbackProgress: Float = 0 {
     didSet {
-      self.playbackProgressView.progress = playbackProgress
+      DispatchQueue.main.async {
+        self.playbackProgressView.progress = self.playbackProgress
+      }
     }
   }
 
@@ -66,49 +78,36 @@ class PullStreamViewController: UIViewController {
   var playbackType: String = "" {
     didSet {
       guard oldValue != playbackType else { return }
-      self.streamTypeLabel.text = playbackType
 
-      switch playbackType {
-      case "LIVE":
-        self.streamTypeLabel.textColor = .red
-        break
+      storageController.save(Log(msg: "playback type: \(playbackType)"))
 
-      case "VOD":
-        self.streamTypeLabel.textColor = .yellow
+      DispatchQueue.main.async {
+        self.streamTypeLabel.text = self.playbackType
 
-      case "FILE":
-        self.streamTypeLabel.textColor = .blue
-        break
+        switch self.playbackType {
+        case "LIVE":
+          self.streamTypeLabel.textColor = .red
+          break
 
-      default:
-        self.streamTypeLabel.textColor = .darkGray
-        break
+        case "VOD":
+          self.streamTypeLabel.textColor = .yellow
+
+        case "FILE":
+          self.streamTypeLabel.textColor = .blue
+          break
+
+        default:
+          self.streamTypeLabel.textColor = .darkGray
+          break
+        }
       }
     }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
     configPlayer(url: url)
-    downloadUserInfo()
-
-    NotificationCenter.default.addObserver(self, selector: #selector(didReceivePerfLog(_:)), name: NSNotification.Name(rawValue: "performanceLog"), object: nil)
-  }
-
-  deinit {
-    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "performanceLog"), object: nil)
-  }
-
-  @objc func didReceivePerfLog(_ notification: Notification) {
-    guard let logString: String = notification.userInfo?["logMsg"] as? String else { return }
-
-    let logMsg = "\(logString)\n"
-    logMsgStr.append(logMsg)
-
-    DispatchQueue.main.async {
-      self.logMsgView.text = self.logMsgStr
-    }
+    //downloadUserInfo()
   }
 
   func configPlayer(url: String) {
@@ -165,13 +164,6 @@ class PullStreamViewController: UIViewController {
     }
   }
 
-  @IBAction func tapDebugBtn(_ sender: Any) {
-    let btn = sender as! UIButton
-    btn.isSelected = !btn.isSelected
-    logMsgView.isHidden = btn.isSelected
-    print("btn.selected", btn.isSelected)
-  }
-
   @IBAction private func onTapVolumeButton(_ sender: UIButton) {
     let isMuted = !sender.isSelected
     volumeBtn.isSelected = isMuted
@@ -221,14 +213,12 @@ class PullStreamViewController: UIViewController {
     controls.seekbarSlider?.setThumbImage(circleImage, for: .normal)
     controls.seekbarSlider?.setThumbImage(circleImage, for: .highlighted)
   }
-
 }
 
 extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?) {
-    guard let currentItem = player.currentItem else { return }
-    print(#function, "canStepBackward", currentItem.canStepBackward)
+    print(#function)
   }
 
   func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval) {
@@ -250,5 +240,63 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     guard let type = accessLog.events[0].playbackType else { return }
 
     playbackType = type
+
+    if playbackType == "LIVE" {
+      if #available(iOS 13.0, *) {
+        // Discover and adjust distance from live
+        let howFarNow = currentItem.configuredTimeOffsetFromLive
+        let recommended = currentItem.recommendedTimeOffsetFromLive
+
+        let howFarNowSecond = CMTimeGetSeconds(howFarNow)
+        let recommendedSecond = CMTimeGetSeconds(recommended)
+
+        print(#function, "howFarNow", String(format: "%.2f", howFarNowSecond), "recommended", String(format: "%.2f", recommendedSecond))
+
+        if  howFarNow < recommended {
+          currentItem.configuredTimeOffsetFromLive = recommended
+          print(#function, "howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended")
+          storageController.save(Log(msg: "\(storageController.currentTime()) howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended"))
+        }
+      }
+
+      guard let livePosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
+        return
+      }
+
+      let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
+      let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
+
+      print("livePositionStartSecond", livePositionStartSecond, "livePositionEndSecond", livePositionEndSecond)
+    } else {
+      guard let seekPosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
+        return
+      }
+
+      let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
+      let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
+
+      print("seekPositionStartSecond", seekPositionStartSecond, "seekPositionEndSecond", seekPositionEndSecond)
+    }
+  }
+
+  func playbackDidFailed(with error: VersaPlayerPlaybackError) {
+    print(#function, "error occured:", error)
+    storageController.save(Log(msg: "\(storageController.currentTime()) \(#function) error occured: \(error)\n"))
+
+    switch error {
+    case .notFound:
+      let alert =  UIAlertController(title: "재생 실패", message: "현재 방송중이 아닙니다!!", preferredStyle: .alert)
+      let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
+        self.dismiss(animated: true, completion: nil)
+      })
+
+      alert.addAction(ok)
+      self.present(alert, animated: true, completion: {
+        self.playerView.controls?.hideBuffering()
+      })
+
+    default:
+      break
+    }
   }
 }
