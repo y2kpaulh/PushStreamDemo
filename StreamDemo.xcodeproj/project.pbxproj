@@ -61,7 +61,6 @@
 		2E2F1FC723F67B4F00B8FFEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E2F1FCC23F67B5000B8FFEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		2E2F1FCE23F67B5000B8FFEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E2F1FDD23F67C4300B8FFEA /* PushStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushStreamViewController.swift; sourceTree = "<group>"; };
 		2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
@@ -212,7 +211,6 @@
 				2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */,
 				2E2F1FE923F67D8500B8FFEA /* Icon.png */,
 				2E2F1FCB23F67B5000B8FFEA /* LaunchScreen.storyboard */,
-				2E2F1FCE23F67B5000B8FFEA /* Info.plist */,
 				2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */,
 			);
 			path = Supports;
