@@ -89,6 +89,7 @@ class AssetListTableViewController: UITableViewController {
 
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
+
       self.present(vc, animated: true, completion: nil)
     }
   }
@@ -112,6 +113,10 @@ class AssetListTableViewController: UITableViewController {
     DispatchQueue.main.async {
       self.tableView.reloadData()
     }
+  }
+
+  @IBAction func tapDebugBtn(_ sender: Any) {
+
   }
 }
 

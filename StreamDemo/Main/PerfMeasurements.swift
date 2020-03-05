@@ -11,6 +11,16 @@ import os.log
 
 /// - Tag: PerfMeasurements
 class PerfMeasurements: NSObject {
+  var storageController: StorageController = StorageController()
+
+  public var logMsg: String = ""{
+    didSet {
+      if logMsg.count > 0 {
+
+        storageController.save(Log(msg: logMsg))
+      }
+    }
+  }
 
   /// Time when this class was created.
   private var creationTime: CFAbsoluteTime = 0.0
@@ -103,33 +113,21 @@ class PerfMeasurements: NSObject {
   /// Called when a timebase rate change occurs.
   func rateChanged(rate: Double) -> CFTimeInterval {
 
-    var logMsg = ""
-    var userInfo: [AnyHashable: Any] = [AnyHashable: Any]()
-
     var stallTime: CFTimeInterval = 0
 
     if playbackStartTime == 0.0 && rate > 0 {
       // First rate change
       playbackStartTime = CACurrentMediaTime()
       stallTime = self.startupTime
-      os_log("Perf -- Playback started in %.2f seconds", self.startupTime)
 
-      logMsg = String(format: "Perf -- Playback started in %.2f seconds", self.startupTime)
-      userInfo = ["logMsg": logMsg]
-      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
-                                      object: nil,
-                                      userInfo: userInfo)
+      os_log("Perf -- Playback started in %.2f seconds", self.startupTime)
+      self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Playback started in %.2f seconds\n", self.startupTime)
     } else if rate > 0 && lastStallTime > 0 {
       // Subsequent rate change
       playbackStallEnded()
-      os_log("Perf -- Playback resumed in %.2f seconds", totalStallTime)
 
-      logMsg = String(format: "Perf -- Playback resumed in %.2f seconds", totalStallTime)
-      userInfo = ["logMsg": logMsg]
-      NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
-                                      object: nil,
-                                      userInfo: userInfo)
-      stallTime = totalStallTime
+      os_log("Perf -- Playback resumed in %.2f seconds", totalStallTime)
+      self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Playback resumed in %.2f seconds\n", totalStallTime)
     }
 
     return stallTime
@@ -138,6 +136,8 @@ class PerfMeasurements: NSObject {
   /// Called when playback stalls.
   func playbackStalled() {
     os_log("Perf -- Playback stalled")
+    self.logMsg = ("\(storageController.currentTime()) Perf -- Playback stalled\n")
+
     lastStallTime = CACurrentMediaTime()
   }
 
@@ -152,27 +152,17 @@ class PerfMeasurements: NSObject {
   /// Called when the player item is released.
   func playbackEnded() {
     playbackStallEnded()
-    var logMsg = ""
 
     os_log("Perf -- Playback ended")
-    logMsg.append("Perf -- Playback ended")
+    self.logMsg = ("\(storageController.currentTime()) Perf -- Playback ended\n")
 
-    let ibr = String(format: "Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
-    os_log("Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
-    logMsg.append(ibr)
+    os_log(" Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
+    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Time-weighted Indicated Bitrate: %.2fMbps\n", timeWeightedIBR / 1_000_000)
 
     os_log("Perf -- Stall rate: %.2f stalls/hour", stallRate)
-    let stallRate = String(format: "Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
-    logMsg.append(stallRate)
+    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Time-weighted Indicated Bitrate: %.2fMbps\n", timeWeightedIBR / 1_000_000)
 
     os_log("Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
-    let stallRatio = String(format: "Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
-    logMsg.append(stallRatio)
-
-    let userInfo: [AnyHashable: Any] = ["logMsg": logMsg]
-
-    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "performanceLog"),
-                                    object: nil,
-                                    userInfo: userInfo)
+    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched\n", stallWaitRatio)
   }
 }

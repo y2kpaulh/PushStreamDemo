@@ -1,0 +1,19 @@
+//
+//  DebugViewController.swift
+//  StreamDemo
+//
+//  Created by Inpyo Hong on 2020/03/05.
+//  Copyright © 2020 Inpyo Hong. All rights reserved.
+//
+
+import UIKit
+
+class DebugViewController: UIViewController {
+  @IBOutlet weak var logMsgView: UITextView!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // Do any additional setup after loading the view.
+
+  }
+}
