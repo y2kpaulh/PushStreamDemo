@@ -39,6 +39,8 @@ class AssetListTableViewController: UITableViewController {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(handleAssetListManagerDidLoad(_:)),
                                            name: .AssetListManagerDidLoad, object: nil)
+    tableView.tableFooterView = UIView()
+
   }
 
   override func viewWillAppear(_ animated: Bool) {
