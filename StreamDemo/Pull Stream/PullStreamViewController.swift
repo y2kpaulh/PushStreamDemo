@@ -77,7 +77,7 @@ class PullStreamViewController: UIViewController {
     didSet {
       guard oldValue != playbackType else { return }
 
-      storageController.save(Log(msg: "playback type: \(playbackType)"))
+      storageController.save(Log(msg: "playback type: \(playbackType)\n"))
 
       DispatchQueue.main.async {
         self.streamTypeLabel.text = self.playbackType
@@ -268,7 +268,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
         if  howFarNow < recommended {
           currentItem.configuredTimeOffsetFromLive = recommended
           print(#function, "howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended")
-          storageController.save(Log(msg: "\(storageController.currentTime()) howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended"))
+          storageController.save(Log(msg: "\(storageController.currentTime()) howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended\n"))
         }
       }
 
@@ -279,7 +279,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
       let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
 
-      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)"))
+      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)\n"))
 
     } else {
       guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
@@ -292,7 +292,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
       let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
 
-      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)"))
+      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)\n"))
     }
   }
 
