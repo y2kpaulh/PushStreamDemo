@@ -46,7 +46,6 @@ class AssetListTableViewController: UITableViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-
   }
 
   // MARK: - Table view data source
@@ -93,7 +92,9 @@ class AssetListTableViewController: UITableViewController {
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
 
-      self.present(vc, animated: true, completion: nil)
+      self.present(vc, animated: true, completion: {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+      })
     }
   }
 

@@ -229,17 +229,9 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func timeDidChange(player: VersaPlayer, to time: CMTime) {
     guard let currentItem = player.currentItem else { return }
-    let timeRangeArray = currentItem.loadedTimeRanges
-    guard let timeRange = timeRangeArray.first?.timeRangeValue else { return }
 
     durationTime = CMTimeGetSeconds((currentItem.asset.duration))
     playbackTime = CMTimeGetSeconds(player.currentTime())
-    loadedTime = CMTimeGetSeconds(timeRange.duration)
-
-    guard let accessLog: AVPlayerItemAccessLog = currentItem.accessLog() else { return }
-    guard let type = accessLog.events[0].playbackType else { return }
-
-    playbackType = type
 
     if playbackType == "LIVE" {
       if #available(iOS 13.0, *) {
@@ -266,8 +258,12 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
       let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
 
-      print("livePositionStartSecond", livePositionStartSecond, "livePositionEndSecond", livePositionEndSecond)
+      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)"))
+
     } else {
+      guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
+      loadedTime = CMTimeGetSeconds(timeRange.duration)
+
       guard let seekPosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
         return
       }
@@ -275,7 +271,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
       let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
 
-      print("seekPositionStartSecond", seekPositionStartSecond, "seekPositionEndSecond", seekPositionEndSecond)
+      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)"))
     }
   }
 
