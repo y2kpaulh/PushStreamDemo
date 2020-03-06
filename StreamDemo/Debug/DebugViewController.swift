@@ -19,8 +19,8 @@ class DebugViewController: UIViewController {
 
   }
   @IBAction func tapDeleteBtn(_ sender: Any) {
+    let alert =  UIAlertController(title: nil, message: "Are you sure want to delete message?", preferredStyle: .alert)
 
-    let alert =  UIAlertController(title: nil, message: "Delete Message?", preferredStyle: .alert)
     let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
       self.storageController.deleteAll()
       self.dismiss(animated: true, completion: nil)

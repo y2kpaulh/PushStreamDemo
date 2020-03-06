@@ -24,6 +24,8 @@ final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
 final class PushStreamViewController: UIViewController {
   private static let maxRetryCount: Int = 5
 
+  var storageController: StorageController = StorageController()
+
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet private weak var currentFPSLabel: UILabel?
   @IBOutlet private weak var publishButton: UIButton?
@@ -128,6 +130,22 @@ final class PushStreamViewController: UIViewController {
   }
 
   @IBAction func on(pause: UIButton) {
+    if UIApplication.shared.isIdleTimerDisabled != true && pause.isSelected != true {
+      let alert =  UIAlertController(title: nil, message: "cannot pause event. current state is recording state.", preferredStyle: .alert)
+      let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+      alert.addAction(ok)
+      self.present(alert, animated: true, completion: nil)
+      return
+    }
+
+    pause.isSelected = !pause.isSelected
+
+    if pause.isSelected {
+      pause.backgroundColor = .gray
+    } else {
+      pause.backgroundColor = .systemBlue
+    }
+
     rtmpStream.paused.toggle()
   }
 
@@ -142,13 +160,21 @@ final class PushStreamViewController: UIViewController {
       rtmpConnection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.removeEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
       publish.setTitle("●", for: [])
+      publish.backgroundColor = .red
+
+      if pauseButton!.isSelected {
+        self.on(pause: pauseButton!)
+      }
+
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.addEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
       rtmpConnection.connect(Preference.defaultInstance.uri!)
       publish.setTitle("■", for: [])
+      publish.backgroundColor = .gray
     }
+
     publish.isSelected.toggle()
   }
 
@@ -159,6 +185,8 @@ final class PushStreamViewController: UIViewController {
       return
     }
     logger.info(code)
+    storageController.save(Log(msg: "\(storageController.currentTime())\(#function) \(code)"))
+
     switch code {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
@@ -171,6 +199,7 @@ final class PushStreamViewController: UIViewController {
       Thread.sleep(forTimeInterval: pow(2.0, Double(retryCount)))
       rtmpConnection.connect(Preference.defaultInstance.uri!)
       retryCount += 1
+
     default:
       break
     }
@@ -180,6 +209,7 @@ final class PushStreamViewController: UIViewController {
   private func rtmpErrorHandler(_ notification: Notification) {
     let e = Event.from(notification)
     print("rtmpErrorHandler: \(e)")
+    storageController.save(Log(msg: "\(storageController.currentTime()) rtmpErrorHandler: \(e)"))
 
     DispatchQueue.main.async {
       self.rtmpConnection.connect(Preference.defaultInstance.uri!)
