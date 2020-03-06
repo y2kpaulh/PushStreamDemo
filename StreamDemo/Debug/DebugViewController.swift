@@ -9,8 +9,9 @@
 import UIKit
 
 class DebugViewController: UIViewController {
-  @IBOutlet weak var logMsgView: UITextView!
   var storageController: StorageController = StorageController()
+  @IBOutlet weak var logMsgView: UITextView!
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.

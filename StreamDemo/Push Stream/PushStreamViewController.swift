@@ -23,7 +23,9 @@ final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
 
 final class PushStreamViewController: UIViewController {
   private static let maxRetryCount: Int = 5
-
+  let preferences = UserDefaults.standard
+  var uri = ""
+  var streamName = ""
   var storageController: StorageController = StorageController()
 
   @IBOutlet private weak var lfView: GLHKView?
@@ -47,6 +49,12 @@ final class PushStreamViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    guard let pushUrl =  preferences.string(forKey: "pushUrl") else { return }
+    guard let streamKey =  preferences.string(forKey: "streamKey") else { return }
+
+    uri = pushUrl
+    streamName = streamKey
 
     let session = AVAudioSession.sharedInstance()
     do {
@@ -170,7 +178,7 @@ final class PushStreamViewController: UIViewController {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.addEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
-      rtmpConnection.connect(Preference.defaultInstance.uri!)
+      rtmpConnection.connect(uri)
       publish.setTitle("■", for: [])
       publish.backgroundColor = .gray
     }
@@ -190,14 +198,14 @@ final class PushStreamViewController: UIViewController {
     switch code {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
-      rtmpStream!.publish(Preference.defaultInstance.streamName!)
+      rtmpStream!.publish(streamName)
     // sharedObject!.connect(rtmpConnection)
     case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
       guard retryCount <= PushStreamViewController.maxRetryCount else {
         return
       }
       Thread.sleep(forTimeInterval: pow(2.0, Double(retryCount)))
-      rtmpConnection.connect(Preference.defaultInstance.uri!)
+      rtmpConnection.connect(uri)
       retryCount += 1
 
     default:
@@ -212,7 +220,7 @@ final class PushStreamViewController: UIViewController {
     storageController.save(Log(msg: "\(storageController.currentTime()) rtmpErrorHandler: \(e)"))
 
     DispatchQueue.main.async {
-      self.rtmpConnection.connect(Preference.defaultInstance.uri!)
+      self.rtmpConnection.connect(self.uri)
     }
   }
 
