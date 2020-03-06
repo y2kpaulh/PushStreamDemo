@@ -734,7 +734,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -757,7 +757,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
