@@ -33,6 +33,13 @@ class AssetListTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "1.0"
+    let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "1.0"
+    let versionAndBuildNumber = "v\(versionNumber)(\(buildNumber))"
+    print(versionAndBuildNumber)
+
+    self.title = "Epiens Stream Demo \(versionAndBuildNumber)"
+
     // General setup for auto sizing UITableViewCells.
     tableView.estimatedRowHeight = 75.0
     tableView.rowHeight = UITableView.automaticDimension
