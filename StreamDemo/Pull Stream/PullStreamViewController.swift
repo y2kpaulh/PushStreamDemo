@@ -107,7 +107,7 @@ class PullStreamViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configPlayer(url: url)
-    //downloadUserInfo()
+    downloadUserInfo()
   }
 
   func configPlayer(url: String) {
@@ -140,6 +140,19 @@ class PullStreamViewController: UIViewController {
         print("Task done for: \(value.source.url?.absoluteString ?? "")")
       case .failure(let error):
         print("Job failed: \(error.localizedDescription)")
+      }
+    }
+    AF.request("https://uinames.com/api/").responseJSON {[weak self] response in
+      guard let self = self else { return }
+      debugPrint(response)
+
+      if let value = response.value as? [String: AnyObject] {
+
+        guard let name = value["name"] else { return }
+
+        DispatchQueue.main.async {
+          self.titleLabel.text = "\(name)의 개인방송"
+        }
       }
     }
   }
