@@ -11,4 +11,5 @@ target 'StreamDemo' do
     pod 'SnapKit'
     pod 'Kingfisher', '~> 5.0'
     pod 'Alamofire'
+    pod 'IQKeyboardManager'
 end

@@ -3,6 +3,7 @@ PODS:
   - CountdownLabel (4.0.1)
   - HaishinKit (1.0.5):
     - Logboard (~> 2.1.2)
+  - IQKeyboardManager (6.5.5)
   - Kingfisher (5.13.2):
     - Kingfisher/Core (= 5.13.2)
   - Kingfisher/Core (5.13.2)
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - Alamofire
   - CountdownLabel
   - HaishinKit (~> 1.0.4)
+  - IQKeyboardManager
   - Kingfisher (~> 5.0)
   - SnapKit
 
@@ -21,6 +23,7 @@ SPEC REPOS:
     - Alamofire
     - CountdownLabel
     - HaishinKit
+    - IQKeyboardManager
     - Kingfisher
     - Logboard
     - SnapKit
@@ -29,10 +32,11 @@ SPEC CHECKSUMS:
   Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
   CountdownLabel: c9975e3f329140b5e7d1f45cd63b1300badd1712
   HaishinKit: 5ef4eefdaf532bd54694cade85110f9e596158a5
+  IQKeyboardManager: 3a8b9e603f8b0eeaf5f096a1f2b2cfcf121992ef
   Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Logboard: e3342fa111e26268bb89577e6a40a0660a423ddd
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: a5e9d0e3342559443a2ebd1f076075c7b92546d2
+PODFILE CHECKSUM: 2e2fe3c169c27aeea1b0a70b44c5216a729e4166
 
 COCOAPODS: 1.8.4

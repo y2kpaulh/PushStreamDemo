@@ -58,8 +58,4 @@ class StreamListManager {
     return stream
   }
 
-  func writeStream() {
-
-  }
-
 }

@@ -8,56 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--PreferenceViewController-->
-        <scene sceneID="jO6-DD-gcC">
-            <objects>
-                <viewController storyboardIdentifier="PreferenceViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kdo-kw-FhG" userLabel="PreferenceViewController" customClass="PreferenceViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="LaJ-1n-ekV"/>
-                        <viewControllerLayoutGuide type="bottom" id="dU5-ad-c76"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Vld-zB-6rX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QR3-7g-Mh7">
-                                <rect key="frame" x="8" y="52" width="394" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="kdo-kw-FhG" id="dWC-Dt-jpU"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J2A-AX-Tyh">
-                                <rect key="frame" x="8" y="94" width="246" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="kdo-kw-FhG" id="MS3-s7-CBd"/>
-                                </connections>
-                            </textField>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="J2A-AX-Tyh" firstAttribute="top" secondItem="QR3-7g-Mh7" secondAttribute="bottom" constant="8" symbolic="YES" id="FXD-5s-63l"/>
-                            <constraint firstItem="QR3-7g-Mh7" firstAttribute="trailing" secondItem="Vld-zB-6rX" secondAttribute="trailingMargin" constant="8" id="GGm-7o-xzP"/>
-                            <constraint firstAttribute="trailing" secondItem="J2A-AX-Tyh" secondAttribute="trailing" constant="160" id="NxU-yV-D7O"/>
-                            <constraint firstItem="J2A-AX-Tyh" firstAttribute="leading" secondItem="QR3-7g-Mh7" secondAttribute="leading" id="SCk-jB-GG8"/>
-                            <constraint firstItem="QR3-7g-Mh7" firstAttribute="top" secondItem="LaJ-1n-ekV" secondAttribute="bottom" constant="8" id="e5N-SU-AH9"/>
-                            <constraint firstItem="QR3-7g-Mh7" firstAttribute="leading" secondItem="Vld-zB-6rX" secondAttribute="leading" constant="8" id="yBe-gS-UWy"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="설정" image="info.circle.fill" catalog="system" id="e5e-kV-9oT"/>
-                    <navigationItem key="navigationItem" id="hN9-XH-IWl"/>
-                    <connections>
-                        <outlet property="streamNameField" destination="J2A-AX-Tyh" id="H9c-CQ-lSo"/>
-                        <outlet property="urlField" destination="QR3-7g-Mh7" id="LEB-qp-cYh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LfJ-CF-Qyx" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2151" y="1936"/>
-        </scene>
         <!--DebugViewController-->
         <scene sceneID="ScX-xW-L97">
             <objects>
@@ -115,7 +65,7 @@
             </objects>
             <point key="canvasLocation" x="3103" y="1936"/>
         </scene>
-        <!--Stream Demo-->
+        <!--Epiens Stream Demo-->
         <scene sceneID="NgQ-7o-Md8">
             <objects>
                 <tableViewController id="xYV-6W-bnf" customClass="AssetListTableViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -171,7 +121,7 @@
                             <outlet property="delegate" destination="xYV-6W-bnf" id="9Cj-9f-z7V"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Stream Demo" id="vDF-Dl-GGs">
+                    <navigationItem key="navigationItem" title="Epiens Stream Demo" id="vDF-Dl-GGs">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="doc" catalog="system" id="L2m-9h-IxR">
                             <connections>
                                 <segue destination="WSn-QN-cQ7" kind="presentation" id="Lpk-LC-gbY"/>
@@ -679,12 +629,119 @@
             </objects>
             <point key="canvasLocation" x="1373.913043478261" y="1935.9375"/>
         </scene>
+        <!--PreferenceViewController-->
+        <scene sceneID="08b-gX-3XY">
+            <objects>
+                <viewController storyboardIdentifier="PreferenceViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CSz-U1-0O6" userLabel="PreferenceViewController" customClass="PreferenceViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TKa-N1-ks7"/>
+                        <viewControllerLayoutGuide type="bottom" id="YPR-ef-wGc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SZz-S5-z8x">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npx-jL-NOi">
+                                <rect key="frame" x="140.5" y="64" width="133.5" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eZN-9Y-Ch8">
+                                <rect key="frame" x="40" y="175" width="334" height="79"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wG0-15-7yj">
+                                        <rect key="frame" x="0.0" y="0.0" width="314" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sak-C3-TGa">
+                                        <rect key="frame" x="0.0" y="45" width="314" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CSz-U1-0O6" id="iTe-lB-Scu"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="wG0-15-7yj" secondAttribute="trailing" constant="20" symbolic="YES" id="DG2-Cr-bRs"/>
+                                    <constraint firstAttribute="trailing" secondItem="sak-C3-TGa" secondAttribute="trailing" constant="20" symbolic="YES" id="YTE-7A-3rJ"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Drd-Cx-IDZ">
+                                <rect key="frame" x="40" y="274" width="314" height="79"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o2y-Xz-VN1">
+                                        <rect key="frame" x="0.0" y="0.0" width="294" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Ky-t5-SLG">
+                                        <rect key="frame" x="0.0" y="45" width="314" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="CSz-U1-0O6" id="tMu-Gr-qEE"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="9Ky-t5-SLG" secondAttribute="trailing" id="X16-Ya-oQF"/>
+                                    <constraint firstAttribute="trailing" secondItem="o2y-Xz-VN1" secondAttribute="trailing" constant="20" symbolic="YES" id="iYY-H3-M1R"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Kc-GP-Z2i">
+                                <rect key="frame" x="169" y="384" width="80" height="40"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="80d-yN-4MQ"/>
+                                    <constraint firstAttribute="height" constant="40" id="jTy-LL-NfK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Drd-Cx-IDZ" firstAttribute="top" secondItem="eZN-9Y-Ch8" secondAttribute="bottom" constant="20" id="J7j-gD-uOk"/>
+                            <constraint firstItem="Npx-jL-NOi" firstAttribute="top" secondItem="TKa-N1-ks7" secondAttribute="bottom" constant="20" id="Qlp-gU-Fez"/>
+                            <constraint firstItem="Drd-Cx-IDZ" firstAttribute="leading" secondItem="sak-C3-TGa" secondAttribute="leading" id="T55-Db-pgf"/>
+                            <constraint firstItem="Npx-jL-NOi" firstAttribute="centerX" secondItem="SZz-S5-z8x" secondAttribute="centerX" id="aCk-AX-ocx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eZN-9Y-Ch8" secondAttribute="trailing" constant="20" id="eMk-Oj-vMv"/>
+                            <constraint firstItem="Drd-Cx-IDZ" firstAttribute="trailing" secondItem="sak-C3-TGa" secondAttribute="trailing" id="hCP-Vb-fVa"/>
+                            <constraint firstItem="9Kc-GP-Z2i" firstAttribute="top" secondItem="Drd-Cx-IDZ" secondAttribute="bottom" constant="31" id="iaP-PM-0xZ"/>
+                            <constraint firstItem="eZN-9Y-Ch8" firstAttribute="top" secondItem="Npx-jL-NOi" secondAttribute="bottom" constant="82" id="jEp-JP-yiw"/>
+                            <constraint firstItem="eZN-9Y-Ch8" firstAttribute="leading" secondItem="SZz-S5-z8x" secondAttribute="leadingMargin" constant="20" id="khu-jG-LRD"/>
+                            <constraint firstItem="9Kc-GP-Z2i" firstAttribute="centerX" secondItem="Drd-Cx-IDZ" secondAttribute="centerX" constant="12" id="nds-ax-0Yu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="saveBtn" destination="9Kc-GP-Z2i" id="wft-AV-KPj"/>
+                        <outlet property="streamLabel" destination="o2y-Xz-VN1" id="8dy-9y-Tr8"/>
+                        <outlet property="streamNameField" destination="9Ky-t5-SLG" id="jfZ-9L-xIR"/>
+                        <outlet property="titleLabel" destination="Npx-jL-NOi" id="ZsX-F1-xPC"/>
+                        <outlet property="urlField" destination="sak-C3-TGa" id="rbN-iN-FN3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Bg-5Q-0Xk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2143.4782608695655" y="1929.9107142857142"/>
+        </scene>
     </scenes>
     <resources>
         <image name="camera.fill" catalog="system" width="64" height="48"/>
         <image name="doc" catalog="system" width="56" height="64"/>
         <image name="fb" width="500" height="500"/>
-        <image name="info.circle.fill" catalog="system" width="64" height="60"/>
         <image name="lightbulb.fill" catalog="system" width="56" height="64"/>
         <image name="mute" width="50" height="50"/>
         <image name="pause" width="48" height="48"/>

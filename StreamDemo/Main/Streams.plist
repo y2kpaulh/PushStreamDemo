@@ -4,13 +4,13 @@
 <array>
 	<dict>
 		<key>name</key>
-		<string>Push Stream</string>
+		<string>Epiens Push Stream</string>
 		<key>playlist_url</key>
 		<string>rtmp://epiensup1.xst.kinxcdn.com/epiens</string>
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>Epiens Live Stream</string>
+		<string>Epiens Pull Stream</string>
 		<key>playlist_url</key>
 		<string>http://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8</string>
 	</dict>

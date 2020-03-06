@@ -16,6 +16,7 @@ import AVKit
 /// - Tag: AssetListTableViewController
 class AssetListTableViewController: UITableViewController {
   // MARK: Properties
+  let preferences = UserDefaults.standard
 
   // MARK: Deinitialization
 
@@ -67,11 +68,16 @@ class AssetListTableViewController: UITableViewController {
       cell.asset = asset
       cell.delegate = self
 
-      //      if asset.stream.name != "Push Stream" {
-      //        cell.accessoryType = .none
-      //      }
+      if !asset.stream.name.contains("Epiens") {
+        cell.accessoryType = .none
+      }
 
-      cell.accessoryType = .none
+      if asset.stream.name.contains("Epiens Push") {
+        cell.downloadStateLabel.text = preferences.string(forKey: "pushUrl")
+      } else if asset.stream.name.contains("Epiens Pull") {
+        cell.downloadStateLabel.text = preferences.string(forKey: "pullUrl")
+      }
+
     }
 
     return cell
@@ -82,7 +88,7 @@ class AssetListTableViewController: UITableViewController {
       else { return }
     print(asset.stream.playlistURL)
 
-    if asset.stream.name == "Push Stream" {
+    if asset.stream.name.contains("Push") {
       let vc: PushStreamViewController = sb.instantiateViewController(withIdentifier: "PushStreamViewController") as! PushStreamViewController
       //self.navigationController?.pushViewController(vc, animated: true)
       self.present(vc, animated: true, completion: nil)
@@ -103,8 +109,16 @@ class AssetListTableViewController: UITableViewController {
 
     print(asset.stream.name)
 
-    if asset.stream.name == "Push Stream" {
+    if asset.stream.name.contains("Epiens") {
+
       let vc: PreferenceViewController = sb.instantiateViewController(withIdentifier: "PreferenceViewController") as! PreferenceViewController
+
+      if asset.stream.name.contains("Push") {
+        vc.urlType = "Push"
+      } else if asset.stream.name.contains("Pull") {
+        vc.urlType = "Pull"
+      }
+
       self.present(vc, animated: true, completion: nil)
     }
 

@@ -21,8 +21,6 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var volumeBtn: UIButton!
   @IBOutlet weak var playerView: VersaPlayerView!
   @IBOutlet weak var controls: VersaPlayerControls!
-
-  @IBOutlet weak var debugBtn: UIButton!
   @IBOutlet weak var playbackProgressView: UIProgressView!
   @IBOutlet weak var bufferProgressView: UIProgressView!
   @IBOutlet weak var loadedProgressView: UIProgressView!
@@ -242,6 +240,16 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func timeDidChange(player: VersaPlayer, to time: CMTime) {
     guard let currentItem = player.currentItem else { return }
+    guard let accessLog = currentItem.accessLog() else { return }
+
+    if accessLog.events.count > 0 {
+      let event = accessLog.events[0]
+      print("playbackType", event.playbackType!)
+
+      DispatchQueue.main.async {
+        self.playbackType = event.playbackType!
+      }
+    }
 
     durationTime = CMTimeGetSeconds((currentItem.asset.duration))
     playbackTime = CMTimeGetSeconds(player.currentTime())

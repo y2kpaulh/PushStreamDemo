@@ -15,7 +15,6 @@
 		2E2F1FE323F67C4300B8FFEA /* PushStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FDD23F67C4300B8FFEA /* PushStreamViewController.swift */; };
 		2E2F1FE423F67C4300B8FFEA /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */; };
 		2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */; };
-		2E2F1FE723F67C4300B8FFEA /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE123F67C4300B8FFEA /* Preference.swift */; };
 		2E2F1FEA23F67D8500B8FFEA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F1FE923F67D8500B8FFEA /* Icon.png */; };
 		2E448813240DF4AC0084C4FE /* AssetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448812240DF4AC0084C4FE /* AssetListTableViewController.swift */; };
 		2E44881F240DF4E40084C4FE /* AssetListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448814240DF4E40084C4FE /* AssetListTableViewCell.swift */; };
@@ -65,7 +64,6 @@
 		2E2F1FDD23F67C4300B8FFEA /* PushStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushStreamViewController.swift; sourceTree = "<group>"; };
 		2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
-		2E2F1FE123F67C4300B8FFEA /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		2E2F1FE923F67D8500B8FFEA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2E448812240DF4AC0084C4FE /* AssetListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetListTableViewController.swift; sourceTree = "<group>"; };
 		2E448814240DF4E40084C4FE /* AssetListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetListTableViewCell.swift; sourceTree = "<group>"; };
@@ -332,6 +330,22 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		2E47424A241222AA00FF0401 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2EE635062410DB5900C88FBC /* Log.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2E47424B241222BD00FF0401 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				2EE635042410DB3C00C88FBC /* StorageController.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		2EE2BAA9240E2D79004DB1F6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,7 +375,6 @@
 		2EE2BAB4240E6477004DB1F6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				2E2F1FE123F67C4300B8FFEA /* Preference.swift */,
 				2E2F1FDE23F67C4300B8FFEA /* PreferenceViewController.swift */,
 			);
 			path = Settings;
@@ -370,9 +383,9 @@
 		2EE635012410CAFD00C88FBC /* Debug */ = {
 			isa = PBXGroup;
 			children = (
+				2E47424B241222BD00FF0401 /* Helper */,
+				2E47424A241222AA00FF0401 /* Model */,
 				2EE635022410CB1500C88FBC /* DebugViewController.swift */,
-				2EE635062410DB5900C88FBC /* Log.swift */,
-				2EE635042410DB3C00C88FBC /* StorageController.swift */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -542,7 +555,6 @@
 				2E209C2D23FE54E700CB80CE /* PullStreamViewController.swift in Sources */,
 				2E448853240DF7850084C4FE /* VersaPlayerGestureRecieverView.swift in Sources */,
 				2E448850240DF7850084C4FE /* VersaPlayerItem.swift in Sources */,
-				2E2F1FE723F67C4300B8FFEA /* Preference.swift in Sources */,
 				2E448822240DF4E40084C4FE /* StreamListManager.swift in Sources */,
 				2E448848240DF7850084C4FE /* VersaPlayerPlaybackError.swift in Sources */,
 				2EE635052410DB3C00C88FBC /* StorageController.swift in Sources */,
@@ -722,7 +734,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -745,7 +757,7 @@
 				CODE_SIGN_ENTITLEMENTS = StreamDemo/Supports/liveStream.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
