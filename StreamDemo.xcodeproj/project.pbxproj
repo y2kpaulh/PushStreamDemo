@@ -41,6 +41,7 @@
 		2E448858240DF7850084C4FE /* VersaPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448845240DF7850084C4FE /* VersaPlayerControls.swift */; };
 		2E448859240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448846240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift */; };
 		2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448847240DF7850084C4FE /* VersaPlayerView.swift */; };
+		2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5EC324247E736700872DE1 /* RxPlayer.swift */; };
 		2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */; };
 		2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */; };
 		2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */; };
@@ -90,6 +91,7 @@
 		2E448845240DF7850084C4FE /* VersaPlayerControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerControls.swift; sourceTree = "<group>"; };
 		2E448846240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerControlsCoordinator.swift; sourceTree = "<group>"; };
 		2E448847240DF7850084C4FE /* VersaPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerView.swift; sourceTree = "<group>"; };
+		2E5EC324247E736700872DE1 /* RxPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPlayer.swift; sourceTree = "<group>"; };
 		2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liveStream.entitlements; sourceTree = "<group>"; };
 		2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				2EE635042410DB3C00C88FBC /* StorageController.swift */,
+				2E5EC324247E736700872DE1 /* RxPlayer.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				2E2F1FE423F67C4300B8FFEA /* PreferenceViewController.swift in Sources */,
 				2E448823240DF4E40084C4FE /* AssetPersistenceManager.swift in Sources */,
 				2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */,
+				2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */,
 				2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */,
 				2E448854240DF7850084C4FE /* VersaPlayerGestureRecieverViewDelegate.swift in Sources */,
 				2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */,
@@ -659,7 +663,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -715,7 +719,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -737,6 +741,7 @@
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -760,6 +765,7 @@
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = UV36497CVB;
 				INFOPLIST_FILE = StreamDemo/Supports/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

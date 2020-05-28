@@ -12,4 +12,6 @@ target 'StreamDemo' do
     pod 'Kingfisher', '~> 5.0'
     pod 'Alamofire'
     pod 'IQKeyboardManager'
+    pod 'RxSwift'
+    pod 'RxCocoa'
 end

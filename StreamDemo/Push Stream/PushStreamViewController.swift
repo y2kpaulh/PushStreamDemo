@@ -3,6 +3,8 @@ import HaishinKit
 import Photos
 import UIKit
 import VideoToolbox
+import RxSwift
+import RxCocoa
 
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
   static let `default` = ExampleRecorderDelegate()
@@ -46,6 +48,7 @@ final class PushStreamViewController: UIViewController {
   private var currentEffect: VideoEffect?
   private var currentPosition: AVCaptureDevice.Position = .back
   private var retryCount: Int = 0
+  private var disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,9 +69,7 @@ final class PushStreamViewController: UIViewController {
     }
 
     rtmpStream = RTMPStream(connection: rtmpConnection)
-    if let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
-      rtmpStream.orientation = orientation
-    }
+
     rtmpStream.captureSettings = [
       .sessionPreset: AVCaptureSession.Preset.hd1280x720,
       .continuousAutofocus: true,
@@ -84,9 +85,37 @@ final class PushStreamViewController: UIViewController {
     videoBitrateSlider?.value = Float(RTMPStream.defaultVideoBitrate) / 1024
     audioBitrateSlider?.value = Float(RTMPStream.defaultAudioBitrate) / 1024
 
-    NotificationCenter.default.addObserver(self, selector: #selector(on(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+    NotificationCenter.default.rx.notification(UIDevice.orientationDidChangeNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        guard let orientation = DeviceUtil.videoOrientation(by: (UIApplication.shared.windows
+          .first?
+          .windowScene!
+          .interfaceOrientation)!) else {
+            return
+        }
+
+        print("orientationDidChangeNotification", orientation.rawValue)
+
+        self.rtmpStream.orientation = orientation
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didEnterBackgroundNotification")
+        // rtmpStream.receiveVideo = false
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didBecomeActiveNotification")
+        // rtmpStream.receiveVideo = true
+      })
+      .disposed(by: disposeBag)
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -98,14 +127,22 @@ final class PushStreamViewController: UIViewController {
     rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { error in
       logger.warn(error.description)
     }
-    rtmpStream.addObserver(self, forKeyPath: "currentFPS", options: .new, context: nil)
+
+    rtmpStream.rx.observeWeakly(UInt16.self, "currentFPS", options: .new)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] fps in
+        guard let self = self else { return }
+        guard let currentFps = fps else { return }
+        self.currentFPSLabel?.text = "\(currentFps) fps"
+      })
+      .disposed(by: disposeBag)
+
     lfView?.attachStream(rtmpStream)
   }
 
   override func viewWillDisappear(_ animated: Bool) {
     logger.info("viewWillDisappear")
     super.viewWillDisappear(animated)
-    rtmpStream.removeObserver(self, forKeyPath: "currentFPS")
     rtmpStream.close()
     rtmpStream.dispose()
   }
@@ -259,30 +296,6 @@ final class PushStreamViewController: UIViewController {
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     default:
       break
-    }
-  }
-
-  @objc
-  private func on(_ notification: Notification) {
-    guard let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) else {
-      return
-    }
-    rtmpStream.orientation = orientation
-  }
-
-  @objc
-  private func didEnterBackground(_ notification: Notification) {
-    // rtmpStream.receiveVideo = false
-  }
-
-  @objc
-  private func didBecomeActive(_ notification: Notification) {
-    // rtmpStream.receiveVideo = true
-  }
-
-  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-    if Thread.isMainThread {
-      currentFPSLabel?.text = "\(rtmpStream.currentFPS)"
     }
   }
 }

@@ -8,6 +8,12 @@ PODS:
     - Kingfisher/Core (= 5.13.2)
   - Kingfisher/Core (5.13.2)
   - Logboard (2.1.2)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
@@ -16,6 +22,8 @@ DEPENDENCIES:
   - HaishinKit (~> 1.0.4)
   - IQKeyboardManager
   - Kingfisher (~> 5.0)
+  - RxCocoa
+  - RxSwift
   - SnapKit
 
 SPEC REPOS:
@@ -26,6 +34,9 @@ SPEC REPOS:
     - IQKeyboardManager
     - Kingfisher
     - Logboard
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -35,8 +46,11 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 3a8b9e603f8b0eeaf5f096a1f2b2cfcf121992ef
   Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Logboard: e3342fa111e26268bb89577e6a40a0660a423ddd
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 2e2fe3c169c27aeea1b0a70b44c5216a729e4166
+PODFILE CHECKSUM: b4668e6823d58543b5aa8eb069cf8d3400d588d8
 
 COCOAPODS: 1.8.4
