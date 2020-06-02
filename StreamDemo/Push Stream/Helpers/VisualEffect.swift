@@ -36,8 +36,8 @@ final class PronamaEffect: VideoEffect {
         return
       }
       UIGraphicsBeginImageContext(extent.size)
-      let image = UIImage(named: "Icon.png")!
-      image.draw(at: CGPoint(x: 50, y: 50))
+      let image = UIImage.gif(name: "adventure-time")!
+      image.draw(at: CGPoint(x: 200, y: 200))
       pronama = CIImage(image: UIGraphicsGetImageFromCurrentImageContext()!, options: nil)
       UIGraphicsEndImageContext()
     }

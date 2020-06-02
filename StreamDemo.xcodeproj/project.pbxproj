@@ -43,6 +43,9 @@
 		2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448847240DF7850084C4FE /* VersaPlayerView.swift */; };
 		2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5EC324247E736700872DE1 /* RxPlayer.swift */; };
 		2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */; };
+		2EC39A8D247FBFA10023F657 /* adventure-time.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2EC39A8A247FBFA10023F657 /* adventure-time.gif */; };
+		2EC39A8E247FBFA10023F657 /* non_standard_gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2EC39A8B247FBFA10023F657 /* non_standard_gif.gif */; };
+		2EC39A91247FBFCE0023F657 /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC39A90247FBFCE0023F657 /* UIImage+Gif.swift */; };
 		2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */; };
 		2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */; };
 		2EE2BAAC240E2D79004DB1F6 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAA240E2D79004DB1F6 /* Stream.swift */; };
@@ -94,6 +97,9 @@
 		2E5EC324247E736700872DE1 /* RxPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPlayer.swift; sourceTree = "<group>"; };
 		2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liveStream.entitlements; sourceTree = "<group>"; };
 		2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		2EC39A8A247FBFA10023F657 /* adventure-time.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "adventure-time.gif"; sourceTree = "<group>"; };
+		2EC39A8B247FBFA10023F657 /* non_standard_gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = non_standard_gif.gif; sourceTree = "<group>"; };
+		2EC39A90247FBFCE0023F657 /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2EE2BAAA240E2D79004DB1F6 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
@@ -211,6 +217,8 @@
 				2E2F1FC623F67B4F00B8FFEA /* Main.storyboard */,
 				2E2F1FC923F67B5000B8FFEA /* Assets.xcassets */,
 				2E2F1FE923F67D8500B8FFEA /* Icon.png */,
+				2EC39A8A247FBFA10023F657 /* adventure-time.gif */,
+				2EC39A8B247FBFA10023F657 /* non_standard_gif.gif */,
 				2E2F1FCB23F67B5000B8FFEA /* LaunchScreen.storyboard */,
 				2E2F1FCE23F67B5000B8FFEA /* Info.plist */,
 				2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */,
@@ -326,6 +334,7 @@
 		2E44885B240DF7DD0084C4FE /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				2EC39A90247FBFCE0023F657 /* UIImage+Gif.swift */,
 				2EE2BAB0240E55C6004DB1F6 /* Like Animation */,
 				2E44882A240DF7850084C4FE /* VersaPlayer */,
 			);
@@ -474,10 +483,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EC39A8D247FBFA10023F657 /* adventure-time.gif in Resources */,
 				2E2F1FEA23F67D8500B8FFEA /* Icon.png in Resources */,
 				2E2F1FCD23F67B5000B8FFEA /* LaunchScreen.storyboard in Resources */,
 				2E2F1FCA23F67B5000B8FFEA /* Assets.xcassets in Resources */,
 				2E2F1FC823F67B4F00B8FFEA /* Main.storyboard in Resources */,
+				2EC39A8E247FBFA10023F657 /* non_standard_gif.gif in Resources */,
 				2E448827240DF4E40084C4FE /* Streams.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,6 +590,7 @@
 				2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */,
 				2E448854240DF7850084C4FE /* VersaPlayerGestureRecieverViewDelegate.swift in Sources */,
 				2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */,
+				2EC39A91247FBFCE0023F657 /* UIImage+Gif.swift in Sources */,
 				2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */,
 				2E44884B240DF7850084C4FE /* VersaPlayerPlaybackDelegate.swift in Sources */,
 				2E448856240DF7850084C4FE /* VersaStatefulButton.swift in Sources */,
