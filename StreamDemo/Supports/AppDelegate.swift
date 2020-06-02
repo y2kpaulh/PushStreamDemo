@@ -14,6 +14,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     Logboard.with(HaishinKitIdentifier).level = .trace
 
+    do {
+      try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+    } catch {
+      //TODO
+      print("AVAudioSessionCategoryPlayback error")
+    }
+
     AssetPersistenceManager.sharedManager.restorePersistenceManager()
 
     let preferences = UserDefaults.standard

@@ -9,9 +9,12 @@
 import UIKit
 import CoreMedia
 import SnapKit
-import Kingfisher
 import Alamofire
+import Kingfisher
+import AVKit
 import AVFoundation
+import RxSwift
+import RxCocoa
 
 class PullStreamViewController: UIViewController {
   @IBOutlet weak var profileBtn: UIButton!
@@ -29,6 +32,10 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var topMenuView: UIView!
   @IBOutlet weak var stallTimeLabel: UILabel!
   @IBOutlet weak var logMsgView: UITextView!
+
+  var avPlayer: AVPlayer?
+  private var disposeBag = DisposeBag()
+
   var storageController: StorageController = StorageController()
 
   public var logMsg: String = ""{
@@ -106,6 +113,23 @@ class PullStreamViewController: UIViewController {
     super.viewDidLoad()
     configPlayer(url: url)
     downloadUserInfo()
+
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didEnterBackgroundNotification")
+        self.avPlayer = self.playerView.renderingView.playerLayer.player
+        self.playerView.renderingView.playerLayer.player = nil
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didBecomeActiveNotification")
+        self.playerView.renderingView.playerLayer.player = self.avPlayer
+      })
+      .disposed(by: disposeBag)
   }
 
   func configPlayer(url: String) {
