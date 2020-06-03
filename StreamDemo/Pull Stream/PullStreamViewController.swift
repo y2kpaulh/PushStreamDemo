@@ -33,7 +33,10 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var stallTimeLabel: UILabel!
   @IBOutlet weak var logMsgView: UITextView!
 
-  var avPlayer: AVPlayer?
+  var diplayErrorPopup = false
+
+  var savedAvPlayer: AVPlayer?
+
   private var disposeBag = DisposeBag()
 
   var storageController: StorageController = StorageController()
@@ -41,7 +44,6 @@ class PullStreamViewController: UIViewController {
   public var logMsg: String = ""{
     didSet {
       if logMsg.count > 0 {
-
         storageController.save(Log(msg: logMsg))
       }
     }
@@ -109,16 +111,36 @@ class PullStreamViewController: UIViewController {
     }
   }
 
+  override func loadView() {
+    super.loadView()
+    configPlayer(url: url)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    configPlayer(url: url)
-    downloadUserInfo()
+    //configPlayer(url: url)
+  }
+
+  func configPlayer(url: String) {
+    if let _url = URL.init(string: url) {
+      let item = VersaPlayerItem(url: _url)
+      playerView.player.rate = 1
+      playerView.set(item: item)
+    }
+
+    playerView.layer.backgroundColor = UIColor.black.cgColor
+    playerView.use(controls: controls)
+    playerView.playbackDelegate = self
+
+    playerView.isUserInteractionEnabled = true
+    let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
+    playerView.addGestureRecognizer(menuBgViewGesture)
 
     NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didEnterBackgroundNotification")
-        self.avPlayer = self.playerView.renderingView.playerLayer.player
+        self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
         self.playerView.renderingView.playerLayer.player = nil
       })
       .disposed(by: disposeBag)
@@ -127,56 +149,9 @@ class PullStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didBecomeActiveNotification")
-        self.playerView.renderingView.playerLayer.player = self.avPlayer
+        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
       })
       .disposed(by: disposeBag)
-  }
-
-  func configPlayer(url: String) {
-    if let _url = URL.init(string: url) {
-      let item = VersaPlayerItem(url: _url)
-      playerView.set(item: item)
-    }
-
-    playerView.layer.backgroundColor = UIColor.black.cgColor
-    playerView.use(controls: controls)
-    playerView.playbackDelegate = self
-
-    self.setSliderThumbTintColor(.white)
-
-    playerView.isUserInteractionEnabled = true
-    let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
-    playerView.addGestureRecognizer(menuBgViewGesture)
-  }
-
-  func downloadUserInfo() {
-    KingfisherManager.shared.cache.clearMemoryCache()
-    KingfisherManager.shared.cache.clearDiskCache()
-    KingfisherManager.shared.cache.cleanExpiredDiskCache()
-
-    let url = URL(string: "https://picsum.photos/200")
-
-    self.profileBtn.kf.setBackgroundImage(with: url, for: .normal, placeholder: UIImage(named: "profile"), options: [.transition(.fade(0.2))]) { result in
-      switch result {
-      case .success(let value):
-        print("Task done for: \(value.source.url?.absoluteString ?? "")")
-      case .failure(let error):
-        print("Job failed: \(error.localizedDescription)")
-      }
-    }
-    AF.request("https://uinames.com/api/").responseJSON {[weak self] response in
-      guard let self = self else { return }
-      debugPrint(response)
-
-      if let value = response.value as? [String: AnyObject] {
-
-        guard let name = value["name"] else { return }
-
-        DispatchQueue.main.async {
-          self.titleLabel.text = "\(name)의 개인방송"
-        }
-      }
-    }
   }
 
   @objc func tapPlayerView() {
@@ -204,50 +179,6 @@ class PullStreamViewController: UIViewController {
     volumeBtn.isSelected = isMuted
     controls.isMuted = isMuted
   }
-
-  @IBAction func tapLikeBtn(_ sender: Any) {
-    for _ in 0...3 {
-      SRFacebookAnimation.startPoint(CGPoint(x: self.view.frame.size.width - 30, y: self.view.frame.size.height - 80))
-
-      SRFacebookAnimation.animate(image: #imageLiteral(resourceName: "6"))
-      SRFacebookAnimation.animate(image: #imageLiteral(resourceName: "5"))
-
-      // Amplitude of the path. Default value is 50
-      SRFacebookAnimation.animationAmplitude(60)
-
-      // Bouncing needed more than the amplitude , Default value is 5.
-      SRFacebookAnimation.amplitudeBounce(5)
-
-      // duration of the animation
-      SRFacebookAnimation.animationDuration(5)
-
-      //Uptrust true means first it will animate to +ve direction.Default value is true.
-      SRFacebookAnimation.isUptrust(true)
-
-      //Can change the demention of imageview.Default value is 20.
-      SRFacebookAnimation.imageDimention(30)//30 means you will get an imageView of dimension 30x30
-    }
-  }
-
-  fileprivate func makeCircleWith(size: CGSize, backgroundColor: UIColor) -> UIImage? {
-    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-    let context = UIGraphicsGetCurrentContext()
-    context?.setFillColor(backgroundColor.cgColor)
-    context?.setStrokeColor(UIColor.clear.cgColor)
-    let bounds = CGRect(origin: .zero, size: size)
-    context?.addEllipse(in: bounds)
-    context?.drawPath(using: .fill)
-    let image = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-    return image
-  }
-
-  func setSliderThumbTintColor(_ color: UIColor) {
-    let circleImage = makeCircleWith(size: CGSize(width: 10, height: 10),
-                                     backgroundColor: color)
-    controls.seekbarSlider?.setThumbImage(circleImage, for: .normal)
-    controls.seekbarSlider?.setThumbImage(circleImage, for: .highlighted)
-  }
 }
 
 extension PullStreamViewController: VersaPlayerPlaybackDelegate {
@@ -268,8 +199,6 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
     if accessLog.events.count > 0 {
       let event = accessLog.events[0]
-      print("playbackType", event.playbackType!)
-
       DispatchQueue.main.async {
         self.playbackType = event.playbackType!
       }
@@ -279,23 +208,6 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     playbackTime = CMTimeGetSeconds(player.currentTime())
 
     if playbackType == "LIVE" {
-      if #available(iOS 13.0, *) {
-        // Discover and adjust distance from live
-        let howFarNow = currentItem.configuredTimeOffsetFromLive
-        let recommended = currentItem.recommendedTimeOffsetFromLive
-
-        let howFarNowSecond = CMTimeGetSeconds(howFarNow)
-        let recommendedSecond = CMTimeGetSeconds(recommended)
-
-        print(#function, "howFarNow", String(format: "%.2f", howFarNowSecond), "recommended", String(format: "%.2f", recommendedSecond))
-
-        if  howFarNow < recommended {
-          currentItem.configuredTimeOffsetFromLive = recommended
-          print(#function, "howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended")
-          storageController.save(Log(msg: "\(storageController.currentTime()) howFarNow < recommended, currentItem.configuredTimeOffsetFromLive = recommended\n"))
-        }
-      }
-
       guard let livePosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
         return
       }
@@ -304,7 +216,6 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
 
       storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)\n"))
-
     } else {
       guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
       loadedTime = CMTimeGetSeconds(timeRange.duration)
@@ -324,20 +235,58 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     print(#function, "error occured:", error)
     storageController.save(Log(msg: "\(storageController.currentTime()) \(#function) error occured: \(error)\n"))
 
-    switch error {
-    case .notFound:
-      let alert =  UIAlertController(title: "playback error", message: "error message: \(error)", preferredStyle: .alert)
-      let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
-        self.dismiss(animated: true, completion: nil)
-      })
+    let alert =  UIAlertController(title: "Playback Error", message: "\(error)", preferredStyle: .alert)
+    let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
+      self.dismiss(animated: true, completion: nil)
+    })
 
-      alert.addAction(ok)
-      self.present(alert, animated: true, completion: {
-        self.playerView.controls?.hideBuffering()
-      })
+    alert.addAction(ok)
+    self.present(alert, animated: true, completion: {
+      self.playerView.controls?.hideBuffering()
+    })
 
-    default:
-      break
+    //    switch error {
+    //    case .notFound:
+    //        break
+    //
+    //    default:
+    //      break
+    //    }
+  }
+
+  func startBuffering(player: VersaPlayer) {
+    print(#function)
+  }
+
+  // isPlaybackLikelyToKeepUp == true
+  func endBuffering(player: VersaPlayer) {
+    print("AVPlayerItem.isPlaybackLikelyToKeepUp == true")
+    print(#function)
+  }
+
+  func playbackNewErrorLogEntry(with error: AVPlayerItemErrorLog) {
+    //    print(#function, "error occured:", error.events)
+    for errLog in error.events {
+      print(errLog.errorStatusCode, String(errLog.errorComment!))
+
+      if errLog.errorStatusCode == -12884 && !diplayErrorPopup {
+        diplayErrorPopup = true
+
+        DispatchQueue.main.async {
+          let alert =  UIAlertController(title: "Playback Error", message: String(errLog.errorComment!), preferredStyle: .alert)
+          let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            self.diplayErrorPopup = false
+            self.dismiss(animated: true, completion: nil)
+          })
+
+          alert.addAction(ok)
+          self.present(alert, animated: true, completion: nil)
+        }
+      }
     }
+  }
+
+  func playbackDidEnd(player: VersaPlayer) {
+    print(#function)
   }
 }
