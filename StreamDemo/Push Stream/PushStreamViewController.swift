@@ -71,15 +71,18 @@ final class PushStreamViewController: UIViewController {
     rtmpStream = RTMPStream(connection: rtmpConnection)
 
     rtmpStream.captureSettings = [
-      .sessionPreset: AVCaptureSession.Preset.hd1280x720,
+      .sessionPreset: AVCaptureSession.Preset.hd1920x1080,
       .continuousAutofocus: true,
-      .continuousExposure: true
-      // .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
+      .continuousExposure: true,
+      .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
+
     rtmpStream.videoSettings = [
-      .width: 720,
-      .height: 1280
+      .width: 1080,
+      .height: 1920,
+      .profileLevel: kVTProfileLevel_H264_High_AutoLevel
     ]
+
     rtmpStream.mixer.recorder.delegate = ExampleRecorderDelegate.shared
 
     videoBitrateSlider?.value = Float(RTMPStream.defaultVideoBitrate) / 1024
@@ -289,11 +292,13 @@ final class PushStreamViewController: UIViewController {
     }
     switch segment.selectedSegmentIndex {
     case 1:
-      currentEffect = MonochromeEffect()
+      currentEffect = RotationEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
-      currentEffect = PronamaEffect()
-      _ = rtmpStream.registerVideoEffect(currentEffect!)
+      rtmpStream.attachScreen(ScreenCaptureSession(shared: UIApplication.shared))
+      //
+      //      currentEffect = PsyEffect()
+    //      _ = rtmpStream.registerVideoEffect(currentEffect!)
     default:
       break
     }

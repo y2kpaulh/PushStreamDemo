@@ -96,6 +96,10 @@ public protocol VersaPlayerPlaybackDelegate: class {
   func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval)
 
   func playbackNewErrorLogEntry(with error: AVPlayerItemErrorLog)
+
+  func playbackStalled(with item: AVPlayerItem)
+
+  func playbackFailInfo(with error: NSError, type: VersaPlayerPlaybackError)
 }
 
 public extension VersaPlayerPlaybackDelegate {
@@ -129,4 +133,8 @@ public extension VersaPlayerPlaybackDelegate {
   func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?) { }
 
   func playbackNewErrorLogEntry(with error: AVPlayerItemErrorLog) { }
+
+  func playbackStalled(with item: AVPlayerItem) { }
+
+  func playbackFailInfo(with error: NSError, type: VersaPlayerPlaybackError) { }
 }

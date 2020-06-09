@@ -121,10 +121,15 @@ class PullStreamViewController: UIViewController {
     //configPlayer(url: url)
   }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    playerView.player.replaceCurrentItem(with: nil)
+  }
+
   func configPlayer(url: String) {
     if let _url = URL.init(string: url) {
       let item = VersaPlayerItem(url: _url)
       playerView.player.rate = 1
+      //playerView.player.automaticallyWaitsToMinimizeStalling = false
       playerView.set(item: item)
     }
 
@@ -235,7 +240,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     print(#function, "error occured:", error)
     storageController.save(Log(msg: "\(storageController.currentTime()) \(#function) error occured: \(error)\n"))
 
-    let alert =  UIAlertController(title: "Playback Error", message: "\(error)", preferredStyle: .alert)
+    let alert =  UIAlertController(title: "AVPlayer Error", message: "\(error)", preferredStyle: .alert)
     let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
       self.dismiss(animated: true, completion: nil)
     })
@@ -264,16 +269,20 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     print(#function)
   }
 
-  func playbackNewErrorLogEntry(with error: AVPlayerItemErrorLog) {
-    //    print(#function, "error occured:", error.events)
-    for errLog in error.events {
-      print(errLog.errorStatusCode, String(errLog.errorComment!))
+  func playbackFailInfo(with error: NSError, type: VersaPlayerPlaybackError) {
+    print(#function, error, type)
+  }
 
+  func playbackNewErrorLogEntry(with error: AVPlayerItemErrorLog) {
+    print(#function, "error occured:", error.events)
+
+    for errLog in error.events {
+      print("AVPlayerItem Error Log", errLog.errorStatusCode, String(errLog.errorComment!))
       if errLog.errorStatusCode == -12884 && !diplayErrorPopup {
         diplayErrorPopup = true
 
         DispatchQueue.main.async {
-          let alert =  UIAlertController(title: "Playback Error", message: String(errLog.errorComment!), preferredStyle: .alert)
+          let alert =  UIAlertController(title: "AVPlayerItem Error Log", message: String(errLog.errorComment!), preferredStyle: .alert)
           let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
             self.diplayErrorPopup = false
             self.dismiss(animated: true, completion: nil)
@@ -284,6 +293,10 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
         }
       }
     }
+  }
+
+  func playbackStalled(with item: AVPlayerItem) {
+    print(#function, item.asset)
   }
 
   func playbackDidEnd(player: VersaPlayer) {
