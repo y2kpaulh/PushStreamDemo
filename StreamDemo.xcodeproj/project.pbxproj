@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E08F282248F794D00289671 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E08F281248F794C00289671 /* ReplayKit.framework */; };
 		2E209C2D23FE54E700CB80CE /* PullStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E209C2C23FE54E700CB80CE /* PullStreamViewController.swift */; };
 		2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */; };
 		2E2F1FC823F67B4F00B8FFEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E2F1FC623F67B4F00B8FFEA /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E08F281248F794C00289671 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
 		2E209C2C23FE54E700CB80CE /* PullStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullStreamViewController.swift; sourceTree = "<group>"; };
 		2E2F1FBD23F67B4F00B8FFEA /* StreamDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E2F1FC023F67B4F00B8FFEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E08F282248F794D00289671 /* ReplayKit.framework in Frameworks */,
 				2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */,
 				43B1590A153FE951F860FF64 /* Pods_StreamDemo.framework in Frameworks */,
 			);
@@ -452,6 +455,7 @@
 		E4CCE397A47D8D6D8203C8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2E08F281248F794C00289671 /* ReplayKit.framework */,
 				2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */,
 				A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */,
 			);

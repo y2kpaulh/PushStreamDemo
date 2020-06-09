@@ -5,6 +5,7 @@ import UIKit
 import VideoToolbox
 import RxSwift
 import RxCocoa
+import ReplayKit
 
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
   static let `default` = ExampleRecorderDelegate()
@@ -27,8 +28,10 @@ final class PushStreamViewController: UIViewController {
   private static let maxRetryCount: Int = 5
   let preferences = UserDefaults.standard
   var uri = ""
-  var streamName = ""
+  var streamName = "ShallWeShop-iOS"
   var storageController: StorageController = StorageController()
+  let controller = RPBroadcastController()
+  let recorder = RPScreenRecorder.shared()
 
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet private weak var currentFPSLabel: UILabel?
@@ -213,7 +216,7 @@ final class PushStreamViewController: UIViewController {
       if pauseButton!.isSelected {
         self.on(pause: pauseButton!)
       }
-
+      self.stopRecording()
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
@@ -221,6 +224,8 @@ final class PushStreamViewController: UIViewController {
       rtmpConnection.connect(uri)
       publish.setTitle("■", for: [])
       publish.backgroundColor = .gray
+
+      self.startRecording()
     }
 
     publish.isSelected.toggle()
@@ -239,7 +244,8 @@ final class PushStreamViewController: UIViewController {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
       rtmpStream!.publish(streamName)
-    // sharedObject!.connect(rtmpConnection)
+      // sharedObject!.connect(rtmpConnection)
+
     case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
       guard retryCount <= PushStreamViewController.maxRetryCount else {
         return
@@ -295,12 +301,39 @@ final class PushStreamViewController: UIViewController {
       currentEffect = RotationEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
-      rtmpStream.attachScreen(ScreenCaptureSession(shared: UIApplication.shared))
-      //
-      //      currentEffect = PsyEffect()
-    //      _ = rtmpStream.registerVideoEffect(currentEffect!)
+      currentEffect = PsyEffect()
+      _ = rtmpStream.registerVideoEffect(currentEffect!)
     default:
       break
     }
+  }
+}
+
+extension PushStreamViewController: RPPreviewViewControllerDelegate {
+  //  @objc func startRecording() {
+  func startRecording() {
+    recorder.startRecording { [unowned self] (error) in
+      if let unwrappedError = error {
+        print(unwrappedError.localizedDescription)
+      } else {
+        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
+      }
+    }
+  }
+
+  //  @objc func stopRecording() {
+  func stopRecording() {
+    recorder.stopRecording { [unowned self] (preview, _) in
+      // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
+
+      if let unwrappedPreview = preview {
+        unwrappedPreview.previewControllerDelegate = self
+        self.present(unwrappedPreview, animated: true)
+      }
+    }
+  }
+
+  func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+    dismiss(animated: true)
   }
 }
