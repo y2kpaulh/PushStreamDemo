@@ -315,6 +315,10 @@ extension PushStreamViewController: RPPreviewViewControllerDelegate {
     recorder.startRecording { [unowned self] (error) in
       if let unwrappedError = error {
         print(unwrappedError.localizedDescription)
+        let alert =  UIAlertController(title: nil, message: unwrappedError.localizedDescription, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
       } else {
         //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
       }
@@ -325,7 +329,6 @@ extension PushStreamViewController: RPPreviewViewControllerDelegate {
   func stopRecording() {
     recorder.stopRecording { [unowned self] (preview, _) in
       // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
-
       if let unwrappedPreview = preview {
         unwrappedPreview.previewControllerDelegate = self
         self.present(unwrappedPreview, animated: true)
