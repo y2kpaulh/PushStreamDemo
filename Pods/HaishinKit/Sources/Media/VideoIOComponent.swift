@@ -27,13 +27,13 @@ final class VideoIOComponent: IOComponent {
     }
 
     #if os(iOS) || os(macOS)
-    var renderer: NetStreamRenderer? = nil {
+    weak var renderer: NetStreamRenderer? = nil {
         didSet {
             renderer?.orientation = orientation
         }
     }
     #else
-    var renderer: NetStreamRenderer?
+    weak var renderer: NetStreamRenderer?
     #endif
 
     var formatDescription: CMVideoFormatDescription? {
@@ -111,6 +111,17 @@ final class VideoIOComponent: IOComponent {
     var videoSettings: [NSObject: AnyObject] = AVMixer.defaultVideoSettings {
         didSet {
             output.videoSettings = videoSettings as? [String: Any]
+        }
+    }
+
+    var isVideoMirrored = false {
+        didSet {
+            guard isVideoMirrored != oldValue else {
+                return
+            }
+            for connection in output.connections where connection.isVideoMirroringSupported {
+                connection.isVideoMirrored = isVideoMirrored
+            }
         }
     }
 
@@ -319,6 +330,9 @@ final class VideoIOComponent: IOComponent {
         for connection in output.connections {
             if connection.isVideoOrientationSupported {
                 connection.videoOrientation = orientation
+            }
+            if connection.isVideoMirroringSupported {
+                connection.isVideoMirrored = isVideoMirrored
             }
             #if os(iOS)
             connection.preferredVideoStabilizationMode = preferredVideoStabilizationMode

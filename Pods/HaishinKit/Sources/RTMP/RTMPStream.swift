@@ -1,35 +1,5 @@
 import AVFoundation
-/**
- flash.net.NetStreamInfo for Swift
- */
-public struct RTMPStreamInfo {
-    public internal(set) var byteCount: Int64 = 0
-    public internal(set) var resourceName: String?
-    public internal(set) var currentBytesPerSecond: Int32 = 0
 
-    private var previousByteCount: Int64 = 0
-
-    mutating func on(timer: Timer) {
-        let byteCount: Int64 = self.byteCount
-        currentBytesPerSecond = Int32(byteCount - previousByteCount)
-        previousByteCount = byteCount
-    }
-
-    mutating func clear() {
-        byteCount = 0
-        currentBytesPerSecond = 0
-        previousByteCount = 0
-    }
-}
-
-extension RTMPStreamInfo: CustomDebugStringConvertible {
-    // MARK: CustomDebugStringConvertible
-    public var debugDescription: String {
-        Mirror(reflecting: self).debugDescription
-    }
-}
-
-// MARK: -
 /**
  flash.net.NetStream for Swift
  */
@@ -329,11 +299,7 @@ open class RTMPStream: NetStream {
                 mixer.videoIO.encoder.startRunning()
                 sampler?.startRunning()
                 if howToPublish == .localRecord {
-                    var fileNameValid = "videoName"
-                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
-                        fileNameValid = fileName
-                    }
-                    mixer.recorder.fileName = fileNameValid
+                    mixer.recorder.fileName = FilenameUtil.fileName(resourceName: info.resourceName)
                     mixer.recorder.startRunning()
                 }
             default:
@@ -454,14 +420,11 @@ open class RTMPStream: NetStream {
             while self.readyState == .initialized && !self.isBeingClosed {
                 usleep(100)
             }
-            var fileNameValid: String = "videoName"
+
             if self.info.resourceName == name && self.readyState == .publishing {
                 switch type {
                 case .localRecord:
-                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
-                        fileNameValid = fileName
-                    }
-                    self.mixer.recorder.fileName = fileNameValid
+                    self.mixer.recorder.fileName = FilenameUtil.fileName(resourceName: self.info.resourceName)
                     self.mixer.recorder.startRunning()
                 default:
                     self.mixer.recorder.stopRunning()
@@ -470,7 +433,7 @@ open class RTMPStream: NetStream {
                 return
             }
 
-            self.info.resourceName = fileNameValid
+            self.info.resourceName = name
             self.howToPublish = type
             self.readyState = .publish
             self.FCPublish()
@@ -523,7 +486,7 @@ open class RTMPStream: NetStream {
                 handlerName: handlerName,
                 arguments: arguments
             )), locked: nil)
-            OSAtomicAdd64(Int64(length), &self.info.byteCount)
+            self.info.byteCount.mutate { $0 += Int64(length) }
         }
     }
 
@@ -551,11 +514,11 @@ open class RTMPStream: NetStream {
             metadata["height"] = mixer.videoIO.encoder.height
             metadata["framerate"] = mixer.videoIO.fps
             metadata["videocodecid"] = FLVVideoCodec.avc.rawValue
-            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1024
+            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1000
         }
         if let _: AVCaptureInput = mixer.audioIO.input {
             metadata["audiocodecid"] = FLVAudioCodec.aac.rawValue
-            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1024
+            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1000
         }
 #endif
         return metadata
@@ -639,7 +602,7 @@ extension RTMPStream: RTMPMuxerDelegate {
             message: RTMPAudioMessage(streamId: id, timestamp: UInt32(audioTimestamp), payload: buffer)
         ), locked: nil)
         audioWasSent = true
-        OSAtomicAdd64(Int64(length), &info.byteCount)
+        info.byteCount.mutate { $0 += Int64(length) }
         audioTimestamp = withTimestamp + (audioTimestamp - floor(audioTimestamp))
     }
 
@@ -658,7 +621,7 @@ extension RTMPStream: RTMPMuxerDelegate {
             logger.debug("first video frame was sent")
         }
         videoWasSent = true
-        OSAtomicAdd64(Int64(length), &info.byteCount)
+        info.byteCount.mutate { $0 += Int64(length) }
         videoTimestamp = withTimestamp + (videoTimestamp - floor(videoTimestamp))
         frameCount += 1
     }

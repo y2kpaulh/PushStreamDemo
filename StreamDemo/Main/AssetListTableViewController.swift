@@ -12,6 +12,7 @@
 import UIKit
 import AVFoundation
 import AVKit
+import PiPhone
 
 /// - Tag: AssetListTableViewController
 class AssetListTableViewController: UITableViewController {
@@ -43,6 +44,8 @@ class AssetListTableViewController: UITableViewController {
                                            name: .AssetListManagerDidLoad, object: nil)
     tableView.tableFooterView = UIView()
 
+    PiPManager.isPictureInPicturePossible = true
+    PiPManager.contentInsetAdjustmentBehavior = .navigationBar
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +100,7 @@ class AssetListTableViewController: UITableViewController {
 
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
+      vc.delegate = self
 
       self.present(vc, animated: true, completion: {
         self.tableView.deselectRow(at: indexPath, animated: true)
@@ -148,4 +152,18 @@ extension AssetListTableViewController: AssetListTableViewCellDelegate {
 
     tableView.reloadRows(at: [indexPath], with: .automatic)
   }
+}
+
+// MARK: - VideoPlayerViewControllerDelegate
+extension AssetListTableViewController: PullStreamViewControllerDelegate {
+  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+    if navigationController!.viewControllers.firstIndex(of: videoPlayerViewController) != nil {
+      completionHandler(true)
+    } else {
+      self.present(self, animated: true, completion: {
+        completionHandler(true)
+      })
+    }
+  }
+
 }

@@ -11,12 +11,12 @@ open class NetSocket: NSObject {
     open var connected: Bool = false
     public var windowSizeC: Int = NetSocket.defaultWindowSizeC
     /// The statistics of total incoming bytes.
-    open var totalBytesIn: Int64 = 0
+    open var totalBytesIn: Atomic<Int64> = .init(0)
     open var qualityOfService: DispatchQoS = .default
     open var securityLevel: StreamSocketSecurityLevel = .none
     /// The statistics of total outgoing bytes.
-    open private(set) var totalBytesOut: Int64 = 0
-    open private(set) var queueBytesOut: Int64 = 0
+    open private(set) var totalBytesOut: Atomic<Int64> = .init(0)
+    open private(set) var queueBytesOut: Atomic<Int64> = .init(0)
 
     var inputStream: InputStream?
     var outputStream: OutputStream?
@@ -43,7 +43,7 @@ open class NetSocket: NSObject {
 
     @discardableResult
     public func doOutput(data: Data, locked: UnsafeMutablePointer<UInt32>? = nil) -> Int {
-        OSAtomicAdd64(Int64(data.count), &queueBytesOut)
+        queueBytesOut.mutate { $0 += Int64(data.count) }
         outputQueue.async {
             data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) -> Void in
                 self.doOutputProcess(buffer.baseAddress?.assumingMemoryBound(to: UInt8.self), maxLength: data.count)
@@ -91,41 +91,39 @@ open class NetSocket: NSObject {
     }
 
     final func doOutputProcess(_ buffer: UnsafePointer<UInt8>?, maxLength: Int) {
-        guard let buffer = buffer else {
+        guard let buffer = buffer, 0 < maxLength else {
             return
         }
         var total: Int = 0
-        while total < maxLength {
+        repeat {
             guard let outputStream = outputStream else {
                 return
             }
-            let length: Int = outputStream.write(buffer.advanced(by: total), maxLength: maxLength - total)
-            if length <= 0 {
-                break
+            let length = outputStream.write(buffer.advanced(by: total), maxLength: maxLength - total)
+            if 0 < length {
+                total += length
+                totalBytesOut.mutate { $0 += Int64(length) }
+                queueBytesOut.mutate { $0 -= Int64(length) }
             }
-            total += length
-            totalBytesOut += Int64(length)
-            OSAtomicAdd64(-Int64(length), &queueBytesOut)
-        }
+        } while total < maxLength
     }
 
     func close(isDisconnected: Bool) {
-        guard let runloop: RunLoop = self.runloop else {
-            return
+        outputQueue.async {
+            guard self.runloop != nil else {
+                return
+            }
+            self.deinitConnection(isDisconnected: isDisconnected)
         }
-        deinitConnection(isDisconnected: isDisconnected)
-        self.runloop = nil
-        CFRunLoopStop(runloop.getCFRunLoop())
-        logger.trace("isDisconnected: \(isDisconnected)")
     }
 
     func initConnection() {
-        totalBytesIn = 0
-        totalBytesOut = 0
-        queueBytesOut = 0
+        totalBytesIn.mutate { $0 = 0 }
+        totalBytesOut.mutate { $0 = 0 }
+        queueBytesOut.mutate { $0 = 0 }
         inputBuffer.removeAll(keepingCapacity: false)
 
-        guard let inputStream: InputStream = inputStream, let outputStream: OutputStream = outputStream else {
+        guard let inputStream = inputStream, let outputStream = outputStream else {
             return
         }
 
@@ -143,7 +141,7 @@ open class NetSocket: NSObject {
         outputStream.open()
 
         if 0 < timeout {
-            outputQueue.asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
+            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
         }
 
         runloop?.run()
@@ -151,28 +149,34 @@ open class NetSocket: NSObject {
     }
 
     func deinitConnection(isDisconnected: Bool) {
+        guard let runloop = runloop else {
+            return
+        }
         timeoutHandler.cancel()
         outputQueue = .init(label: "com.haishinkit.HaishinKit.NetSocket.output", qos: qualityOfService)
         inputStream?.close()
-        inputStream?.remove(from: runloop!, forMode: .default)
+        inputStream?.remove(from: runloop, forMode: .default)
         inputStream?.delegate = nil
         inputStream = nil
         outputStream?.close()
-        outputStream?.remove(from: runloop!, forMode: .default)
+        outputStream?.remove(from: runloop, forMode: .default)
         outputStream?.delegate = nil
         outputStream = nil
+        self.runloop = nil
+        CFRunLoopStop(runloop.getCFRunLoop())
+        logger.trace("isDisconnected: \(isDisconnected)")
     }
 
     func didTimeout() {
     }
 
     private func doInput() {
-        guard let inputStream: InputStream = inputStream else {
+        guard let inputStream = inputStream, inputStream.streamStatus == .open else {
             return
         }
-        let length: Int = inputStream.read(&buffer, maxLength: windowSizeC)
+        let length = inputStream.read(&buffer, maxLength: windowSizeC)
         if 0 < length {
-            totalBytesIn += Int64(length)
+            totalBytesIn.mutate { $0 += Int64(length) }
             inputBuffer.append(buffer, count: length)
             listen()
         }
@@ -187,7 +191,7 @@ extension NetSocket: StreamDelegate {
         case .openCompleted:
             guard let inputStream = inputStream, let outputStream = outputStream,
                 inputStream.streamStatus == .open && outputStream.streamStatus == .open else {
-                    break
+                break
             }
             if aStream == inputStream {
                 timeoutHandler.cancel()
@@ -206,13 +210,13 @@ extension NetSocket: StreamDelegate {
             guard aStream == inputStream else {
                 return
             }
-            close(isDisconnected: true)
+            deinitConnection(isDisconnected: true)
         // 16 = 1 << 4
         case .endEncountered:
             guard aStream == inputStream else {
                 return
             }
-            close(isDisconnected: true)
+            deinitConnection(isDisconnected: true)
         default:
             break
         }

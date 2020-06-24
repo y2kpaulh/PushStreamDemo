@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zPT-5P-8Ql">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zPT-5P-8Ql">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -297,6 +296,25 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="slX-gt-2BS">
+                                        <rect key="frame" x="192" y="15" width="30" height="30"/>
+                                        <color key="backgroundColor" red="0.90340435500000005" green="0.088775910439999994" blue="0.32955056430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="Lt8-eD-1kf"/>
+                                            <constraint firstAttribute="height" constant="30" id="o0J-dM-Cqb"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="activeImage" value="pip"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="inactiveImage" value="pip"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="pipToggleButtonTapped" destination="3Fv-At-36m" eventType="touchUpInside" id="S3j-E7-wQg"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUz-ml-bzN">
                                         <rect key="frame" x="354" y="20" width="30" height="30"/>
                                         <constraints>
@@ -315,9 +333,11 @@
                                     <constraint firstItem="GGV-bX-O1Z" firstAttribute="leading" secondItem="Yaa-HW-h5v" secondAttribute="trailing" constant="10" id="SLQ-XN-Uym"/>
                                     <constraint firstItem="Yaa-HW-h5v" firstAttribute="leading" secondItem="LB3-ut-nTs" secondAttribute="leading" constant="10" id="UaD-OY-ZQg"/>
                                     <constraint firstItem="Yaa-HW-h5v" firstAttribute="centerY" secondItem="LB3-ut-nTs" secondAttribute="centerY" id="bfM-at-V88"/>
+                                    <constraint firstItem="slX-gt-2BS" firstAttribute="centerX" secondItem="LB3-ut-nTs" secondAttribute="centerX" id="bst-Yd-mxk"/>
                                     <constraint firstItem="yUz-ml-bzN" firstAttribute="centerY" secondItem="LB3-ut-nTs" secondAttribute="centerY" constant="5" id="chf-Jb-B5A"/>
                                     <constraint firstAttribute="trailing" secondItem="yUz-ml-bzN" secondAttribute="trailing" constant="30" id="gIJ-ap-R53"/>
                                     <constraint firstAttribute="height" constant="60" id="jLx-Bo-ni3"/>
+                                    <constraint firstItem="slX-gt-2BS" firstAttribute="centerY" secondItem="LB3-ut-nTs" secondAttribute="centerY" id="oUC-6Y-C5d"/>
                                     <constraint firstItem="GGV-bX-O1Z" firstAttribute="centerY" secondItem="Yaa-HW-h5v" secondAttribute="centerY" id="v4D-ca-Wfd"/>
                                     <constraint firstItem="yUz-ml-bzN" firstAttribute="leading" secondItem="GGV-bX-O1Z" secondAttribute="trailing" constant="8" id="w5W-Ie-3OD"/>
                                 </constraints>
@@ -417,6 +437,7 @@
                         <outlet property="controls" destination="Zfr-QH-UiE" id="w60-Gi-9fT"/>
                         <outlet property="loadedProgressView" destination="Jyy-8u-XOh" id="S46-dr-Vk9"/>
                         <outlet property="logMsgView" destination="4uI-MV-Jhk" id="gwA-5x-6md"/>
+                        <outlet property="pipToggleButton" destination="slX-gt-2BS" id="r4j-ix-FAJ"/>
                         <outlet property="playbackProgressView" destination="WNr-7h-SH0" id="5ut-kF-ReM"/>
                         <outlet property="playerView" destination="dqc-Y9-wIA" id="B2a-QH-uRd"/>
                         <outlet property="profileBtn" destination="Yaa-HW-h5v" id="oZ0-TE-iCP"/>
@@ -739,12 +760,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera.fill" catalog="system" width="64" height="48"/>
-        <image name="doc" catalog="system" width="56" height="64"/>
+        <image name="camera.fill" catalog="system" width="128" height="96"/>
+        <image name="doc" catalog="system" width="115" height="128"/>
         <image name="fb" width="500" height="500"/>
-        <image name="lightbulb.fill" catalog="system" width="56" height="64"/>
+        <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
         <image name="mute" width="50" height="50"/>
         <image name="pause" width="48" height="48"/>
+        <image name="pip" width="24" height="24"/>
         <image name="play" width="48" height="48"/>
         <image name="tabBarItem:bu5-2M-jWr:image" width="16" height="16">
             <mutableData key="keyedArchiveRepresentation">
@@ -838,7 +860,7 @@ AYsBkQGUAZ0BogGqAa0BuAHAAc0B2gHvAfQB+AH6AfwB/gIHAgwCEgIaAhwCHgIgAiITjhOTE6AToxOw
 E7UTvRPAE8UTzQAAAAAAAAIBAAAAAAAAAE8AAAAAAAAAAAAAAAAAABPQA
 </mutableData>
         </image>
-        <image name="trash" catalog="system" width="60" height="64"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <image name="volumeOn" width="50" height="50"/>
     </resources>
 </document>

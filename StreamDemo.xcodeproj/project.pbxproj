@@ -70,6 +70,21 @@
 		2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635022410CB1500C88FBC /* DebugViewController.swift */; };
 		2EE635052410DB3C00C88FBC /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635042410DB3C00C88FBC /* StorageController.swift */; };
 		2EE635072410DB5900C88FBC /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635062410DB5900C88FBC /* Log.swift */; };
+		2EEE804324A32036002BC735 /* CustomMessageFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE802F24A32036002BC735 /* CustomMessageFlowLayout.swift */; };
+		2EEE804424A32036002BC735 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803124A32036002BC735 /* ChatViewController.swift */; };
+		2EEE804524A32036002BC735 /* BasicExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803224A32036002BC735 /* BasicExampleViewController.swift */; };
+		2EEE804624A32036002BC735 /* NSDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803424A32036002BC735 /* NSDate+Extensions.swift */; };
+		2EEE804724A32036002BC735 /* ChatSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803524A32036002BC735 /* ChatSocket.swift */; };
+		2EEE804824A32036002BC735 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803624A32036002BC735 /* ChatMessage.swift */; };
+		2EEE804924A32036002BC735 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803724A32036002BC735 /* ChatRoomViewModel.swift */; };
+		2EEE804A24A32036002BC735 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803824A32036002BC735 /* ChatUser.swift */; };
+		2EEE804B24A32036002BC735 /* ChatSocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803924A32036002BC735 /* ChatSocketIOManager.swift */; };
+		2EEE804C24A32036002BC735 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803B24A32036002BC735 /* UIViewController+Extensions.swift */; };
+		2EEE804D24A32036002BC735 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803C24A32036002BC735 /* UIColor+Extensions.swift */; };
+		2EEE804E24A32036002BC735 /* Lorem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803E24A32036002BC735 /* Lorem.swift */; };
+		2EEE804F24A32036002BC735 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE803F24A32036002BC735 /* SampleData.swift */; };
+		2EEE805024A32036002BC735 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE804124A32036002BC735 /* CustomCell.swift */; };
+		2EEE805124A32036002BC735 /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE804224A32036002BC735 /* TableViewCells.swift */; };
 		43B1590A153FE951F860FF64 /* Pods_StreamDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +156,21 @@
 		2EE635042410DB3C00C88FBC /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
 		2EE635062410DB5900C88FBC /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		2EEDB62C24892899009CBAB8 /* StreamDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StreamDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		2EEE802F24A32036002BC735 /* CustomMessageFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageFlowLayout.swift; sourceTree = "<group>"; };
+		2EEE803124A32036002BC735 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		2EEE803224A32036002BC735 /* BasicExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicExampleViewController.swift; sourceTree = "<group>"; };
+		2EEE803424A32036002BC735 /* NSDate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extensions.swift"; sourceTree = "<group>"; };
+		2EEE803524A32036002BC735 /* ChatSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSocket.swift; sourceTree = "<group>"; };
+		2EEE803624A32036002BC735 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		2EEE803724A32036002BC735 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		2EEE803824A32036002BC735 /* ChatUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
+		2EEE803924A32036002BC735 /* ChatSocketIOManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSocketIOManager.swift; sourceTree = "<group>"; };
+		2EEE803B24A32036002BC735 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		2EEE803C24A32036002BC735 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		2EEE803E24A32036002BC735 /* Lorem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorem.swift; sourceTree = "<group>"; };
+		2EEE803F24A32036002BC735 /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		2EEE804124A32036002BC735 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		2EEE804224A32036002BC735 /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		3AB336ED1936E4C8EA2D2CDF /* Pods-stream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stream.release.xcconfig"; path = "Target Support Files/Pods-stream/Pods-stream.release.xcconfig"; sourceTree = "<group>"; };
 		A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF31E4C71B17EE2C4091C5BC /* Pods-StreamDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamDemo.debug.xcconfig"; path = "Target Support Files/Pods-StreamDemo/Pods-StreamDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -384,6 +414,7 @@
 		2E44885B240DF7DD0084C4FE /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				2EEE802D24A32036002BC735 /* Chat */,
 				2EE2BAB0240E55C6004DB1F6 /* Like Animation */,
 				2E44882A240DF7850084C4FE /* VersaPlayer */,
 				2EEDB62C24892899009CBAB8 /* StreamDemo-Bridging-Header.h */,
@@ -450,6 +481,76 @@
 				2EE635022410CB1500C88FBC /* DebugViewController.swift */,
 			);
 			path = Debug;
+			sourceTree = "<group>";
+		};
+		2EEE802D24A32036002BC735 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE802E24A32036002BC735 /* Layout */,
+				2EEE803024A32036002BC735 /* View Controllers */,
+				2EEE803324A32036002BC735 /* Models */,
+				2EEE803A24A32036002BC735 /* Extensions */,
+				2EEE803D24A32036002BC735 /* Data Generation */,
+				2EEE804024A32036002BC735 /* Views */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		2EEE802E24A32036002BC735 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE802F24A32036002BC735 /* CustomMessageFlowLayout.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		2EEE803024A32036002BC735 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE803124A32036002BC735 /* ChatViewController.swift */,
+				2EEE803224A32036002BC735 /* BasicExampleViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		2EEE803324A32036002BC735 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE803424A32036002BC735 /* NSDate+Extensions.swift */,
+				2EEE803524A32036002BC735 /* ChatSocket.swift */,
+				2EEE803624A32036002BC735 /* ChatMessage.swift */,
+				2EEE803724A32036002BC735 /* ChatRoomViewModel.swift */,
+				2EEE803824A32036002BC735 /* ChatUser.swift */,
+				2EEE803924A32036002BC735 /* ChatSocketIOManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2EEE803A24A32036002BC735 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE803B24A32036002BC735 /* UIViewController+Extensions.swift */,
+				2EEE803C24A32036002BC735 /* UIColor+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2EEE803D24A32036002BC735 /* Data Generation */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE803E24A32036002BC735 /* Lorem.swift */,
+				2EEE803F24A32036002BC735 /* SampleData.swift */,
+			);
+			path = "Data Generation";
+			sourceTree = "<group>";
+		};
+		2EEE804024A32036002BC735 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE804124A32036002BC735 /* CustomCell.swift */,
+				2EEE804224A32036002BC735 /* TableViewCells.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E4CCE397A47D8D6D8203C8DB /* Frameworks */ = {
@@ -628,14 +729,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEE804624A32036002BC735 /* NSDate+Extensions.swift in Sources */,
 				2EE2BAB2240E55D1004DB1F6 /* SRFacebookAnimation.swift in Sources */,
 				2E448820240DF4E40084C4FE /* AssetListManager.swift in Sources */,
+				2EEE804B24A32036002BC735 /* ChatSocketIOManager.swift in Sources */,
+				2EEE804D24A32036002BC735 /* UIColor+Extensions.swift in Sources */,
 				2E448813240DF4AC0084C4FE /* AssetListTableViewController.swift in Sources */,
 				2E44884A240DF7850084C4FE /* VersaPlayerDecryptionDelegate.swift in Sources */,
+				2EEE804824A32036002BC735 /* ChatMessage.swift in Sources */,
 				2E44884F240DF7850084C4FE /* VersaPlayerCaptionStyling.swift in Sources */,
 				2E448852240DF7850084C4FE /* VersaPlayerControlsBehaviour.swift in Sources */,
 				2E209C2D23FE54E700CB80CE /* PullStreamViewController.swift in Sources */,
 				2E448853240DF7850084C4FE /* VersaPlayerGestureRecieverView.swift in Sources */,
+				2EEE804A24A32036002BC735 /* ChatUser.swift in Sources */,
+				2EEE804324A32036002BC735 /* CustomMessageFlowLayout.swift in Sources */,
+				2EEE805024A32036002BC735 /* CustomCell.swift in Sources */,
+				2EEE804724A32036002BC735 /* ChatSocket.swift in Sources */,
 				2E448850240DF7850084C4FE /* VersaPlayerItem.swift in Sources */,
 				2E448822240DF4E40084C4FE /* StreamListManager.swift in Sources */,
 				2E448848240DF7850084C4FE /* VersaPlayerPlaybackError.swift in Sources */,
@@ -645,21 +754,28 @@
 				2E448855240DF7850084C4FE /* VersaTimeLabel.swift in Sources */,
 				2E44884E240DF7850084C4FE /* VersaPlayer.swift in Sources */,
 				2E44884D240DF7850084C4FE /* VersaPlayerMediaTrack.swift in Sources */,
+				2EEE804424A32036002BC735 /* ChatViewController.swift in Sources */,
 				2EE635072410DB5900C88FBC /* Log.swift in Sources */,
 				2E44884C240DF7850084C4FE /* VersaPlayerExtension.swift in Sources */,
 				2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */,
+				2EEE804F24A32036002BC735 /* SampleData.swift in Sources */,
 				2E2F1FE323F67C4300B8FFEA /* PushStreamViewController.swift in Sources */,
+				2EEE804C24A32036002BC735 /* UIViewController+Extensions.swift in Sources */,
 				2EE2BAAD240E2D79004DB1F6 /* Asset.swift in Sources */,
+				2EEE804E24A32036002BC735 /* Lorem.swift in Sources */,
 				2E448858240DF7850084C4FE /* VersaPlayerControls.swift in Sources */,
+				2EEE804924A32036002BC735 /* ChatRoomViewModel.swift in Sources */,
 				2E2F1FE423F67C4300B8FFEA /* PreferenceViewController.swift in Sources */,
 				2E448823240DF4E40084C4FE /* AssetPersistenceManager.swift in Sources */,
 				2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */,
+				2EEE804524A32036002BC735 /* BasicExampleViewController.swift in Sources */,
 				2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */,
 				2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */,
 				2E448854240DF7850084C4FE /* VersaPlayerGestureRecieverViewDelegate.swift in Sources */,
 				2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */,
 				2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */,
 				2E44884B240DF7850084C4FE /* VersaPlayerPlaybackDelegate.swift in Sources */,
+				2EEE805124A32036002BC735 /* TableViewCells.swift in Sources */,
 				2E448856240DF7850084C4FE /* VersaStatefulButton.swift in Sources */,
 				2E448857240DF7850084C4FE /* VersaSeekbarSlider.swift in Sources */,
 				2E448859240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift in Sources */,

@@ -14,4 +14,8 @@ target 'StreamDemo' do
     pod 'IQKeyboardManager'
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'PiPhone'
+    pod 'MessageKit'
+    pod 'Socket.IO-Client-Swift'
+    pod 'Swinject'
 end

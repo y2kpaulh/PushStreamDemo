@@ -15,6 +15,11 @@ import AVKit
 import AVFoundation
 import RxSwift
 import RxCocoa
+import PiPhone
+
+protocol PullStreamViewControllerDelegate: class {
+  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
+}
 
 class PullStreamViewController: UIViewController {
   @IBOutlet weak var profileBtn: UIButton!
@@ -24,6 +29,20 @@ class PullStreamViewController: UIViewController {
   @IBOutlet weak var volumeBtn: UIButton!
   @IBOutlet weak var playerView: VersaPlayerView!
   @IBOutlet weak var controls: VersaPlayerControls!
+
+  @IBOutlet var pipToggleButton: UIButton!
+
+  weak var delegate: PullStreamViewControllerDelegate?
+  //var player: AVPlayer?
+  private var pictureInPictureController: AVPictureInPictureController!
+  private var pictureInPictureObservations = [NSKeyValueObservation]()
+  private var strongSelf: Any?
+
+  deinit {
+    // without this line vanilla AVPictureInPictureController will crash due to KVO issue
+    pictureInPictureObservations = []
+  }
+
   @IBOutlet weak var playbackProgressView: UIProgressView!
   @IBOutlet weak var bufferProgressView: UIProgressView!
   @IBOutlet weak var loadedProgressView: UIProgressView!
@@ -119,6 +138,7 @@ class PullStreamViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     //configPlayer(url: url)
+
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -126,6 +146,8 @@ class PullStreamViewController: UIViewController {
   }
 
   func configPlayer(url: String) {
+    setupPictureInPicture()
+
     if let _url = URL.init(string: url) {
       let item = VersaPlayerItem(url: _url)
       playerView.player.rate = 1
@@ -136,6 +158,10 @@ class PullStreamViewController: UIViewController {
     playerView.layer.backgroundColor = UIColor.black.cgColor
     playerView.use(controls: controls)
     playerView.playbackDelegate = self
+    //
+    //    if let result = playerView.pipController?.isPictureInPicturePossible, result == true {
+    //      print("isPictureInPicturePossible", result)
+    //    }
 
     playerView.isUserInteractionEnabled = true
     let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
@@ -301,5 +327,64 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func playbackDidEnd(player: VersaPlayer) {
     print(#function)
+  }
+
+  // https://developer.apple.com/documentation/avkit/adopting_picture_in_picture_in_a_custom_player
+  func setupPictureInPicture() {
+    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStartImage(compatibleWith: nil), for: .normal)
+    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: .selected)
+    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
+
+    guard AVPictureInPictureController.isPictureInPictureSupported(),
+      let pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.renderingView.playerLayer) else {
+        pipToggleButton.isEnabled = false
+        return
+    }
+
+    self.pictureInPictureController = pictureInPictureController
+    pictureInPictureController.delegate = self
+    pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
+
+    pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
+      guard let `self` = self else { return }
+
+      self.pipToggleButton.isSelected = pictureInPictureController.isPictureInPictureActive
+    })
+
+    pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPicturePossible) { [weak self] pictureInPictureController, _ in
+      guard let `self` = self else { return }
+
+      self.pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
+    })
+  }
+
+  // MARK: - Actions
+  @IBAction func pipToggleButtonTapped() {
+    if pipToggleButton.isSelected {
+      pictureInPictureController.stopPictureInPicture()
+    } else {
+      pictureInPictureController.startPictureInPicture()
+    }
+  }
+
+}
+
+// MARK: - AVPictureInPictureControllerDelegate
+extension PullStreamViewController: AVPictureInPictureControllerDelegate {
+
+  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+    strongSelf = self
+  }
+
+  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+    strongSelf = nil
+  }
+
+  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+    if let delegate = delegate {
+      delegate.pullStreamViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
+    } else {
+      completionHandler(true)
+    }
   }
 }
