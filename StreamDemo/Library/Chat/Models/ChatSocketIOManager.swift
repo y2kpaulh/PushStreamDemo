@@ -36,6 +36,7 @@ class ChatSocketIOManager {
   var socket: SocketIOClient!
   var manager: SocketManager!
   let chatServerInfo: ChatServerInfo
+
   //    private var onNewMessageCode: ((ChatMessage) -> Void)?
   //    private var onTypingStatusCode: (() -> Void)?
   private var connectedUsers: [ChatUser] = []
@@ -63,36 +64,13 @@ class ChatSocketIOManager {
     case .text(let data):
       let textMessage: String = data
       let date = chatMsg.sentDate as NSDate
+      //            socket.emitWithAck(chatServerInfo.chatRoom!, ["msgId": chatMsg.messageId, "userId": chatMsg.user.senderId, "userName": chatMsg.user.displayName, "sentDate": date.toLocalTimeString(), "msg": textMessage, "msgType": "text"]).timingOut(after: 0.2) { data in
+      //                self.socket.emit(self.chatServerInfo.chatRoom!, data)
+      //            }
       socket.emit(chatServerInfo.chatRoom!, ["msgId": chatMsg.messageId, "userId": chatMsg.user.senderId, "userName": chatMsg.user.displayName, "sentDate": date.toLocalTimeString(), "msg": textMessage, "msgType": "text"])
 
     default:
       break
     }
   }
-
-  //    @discardableResult
-  //       func connect(with senders: [ChatUser]) -> Self {
-  //           disconnect()
-  //           connectedUsers = senders
-  //           return self
-  //       }
-  //
-  //       @discardableResult
-  //       func disconnect() -> Self {
-  //           onTypingStatusCode = nil
-  //           onNewMessageCode = nil
-  //           return self
-  //       }
-  //
-  //       @discardableResult
-  //       func onNewMessage(code: @escaping (ChatMessage) -> Void) -> Self {
-  //           onNewMessageCode = code
-  //           return self
-  //       }
-  //
-  //       @discardableResult
-  //       func onTypingStatus(code: @escaping () -> Void) -> Self {
-  //           onTypingStatusCode = code
-  //           return self
-  //       }
 }

@@ -97,7 +97,7 @@ class AssetListTableViewController: UITableViewController {
       self.present(vc, animated: true, completion: nil)
     } else {
       let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
-
+      vc.modalPresentationStyle = .fullScreen
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
       vc.delegate = self

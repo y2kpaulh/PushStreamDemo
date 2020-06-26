@@ -22,6 +22,19 @@ protocol PullStreamViewControllerDelegate: class {
 }
 
 class PullStreamViewController: UIViewController {
+
+  let conversationViewController = ChatRoomViewController()
+
+  /// Required for the `MessageInputBar` to be visible
+  override var canBecomeFirstResponder: Bool {
+    return conversationViewController.canBecomeFirstResponder
+  }
+
+  /// Required for the `MessageInputBar` to be visible
+  override var inputAccessoryView: UIView? {
+    return conversationViewController.inputAccessoryView
+  }
+
   @IBOutlet weak var profileBtn: UIButton!
 
   @IBOutlet weak var streamTypeLabel: UILabel!
@@ -135,10 +148,24 @@ class PullStreamViewController: UIViewController {
     configPlayer(url: url)
   }
 
+  @IBAction func tapBgBtn(_ sender: Any) {
+    conversationViewController.messageInputBar.inputTextView.resignFirstResponder()
+  }
+
+  @IBAction func tapTestBtn(_ sender: Any) {
+    conversationViewController.messageInputBar.inputTextView.resignFirstResponder()
+  }
+  @IBAction func tapCloseBtn(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
   override func viewDidLoad() {
     super.viewDidLoad()
     //configPlayer(url: url)
-
+    /// Add the `ConversationViewController` as a child view controller
+    conversationViewController.willMove(toParent: self)
+    addChild(conversationViewController)
+    view.addSubview(conversationViewController.view)
+    conversationViewController.didMove(toParent: self)
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -156,7 +183,7 @@ class PullStreamViewController: UIViewController {
     }
 
     playerView.layer.backgroundColor = UIColor.black.cgColor
-    playerView.use(controls: controls)
+    // playerView.use(controls: controls)
     playerView.playbackDelegate = self
     //
     //    if let result = playerView.pipController?.isPictureInPicturePossible, result == true {
@@ -367,6 +394,24 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     }
   }
 
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+
+    //채팅창 화면 상단 하단 gradation
+    let gradient = CAGradientLayer()
+    gradient.frame = conversationViewController.view.bounds
+    gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+    gradient.locations = [0, 0.1, 0.9, 1]
+
+    conversationViewController.view.layer.mask = gradient
+
+    conversationViewController.view.backgroundColor = .clear
+    conversationViewController.messageInputBar.backgroundView.backgroundColor = .clear
+    conversationViewController.inputAccessoryView?.backgroundColor = .clear
+
+    // 채팅창 화면 사이즈 및 위치
+    conversationViewController.view.frame = CGRect(x: 0, y: 200, width: view.bounds.width-100, height: view.bounds.height - 200)
+  }
 }
 
 // MARK: - AVPictureInPictureControllerDelegate
