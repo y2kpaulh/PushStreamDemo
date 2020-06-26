@@ -155,9 +155,11 @@ class PullStreamViewController: UIViewController {
   @IBAction func tapTestBtn(_ sender: Any) {
     conversationViewController.messageInputBar.inputTextView.resignFirstResponder()
   }
+
   @IBAction func tapCloseBtn(_ sender: Any) {
     self.dismiss(animated: true, completion: nil)
   }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     //configPlayer(url: url)

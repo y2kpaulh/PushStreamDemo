@@ -140,7 +140,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
 
   func configureMessageInputBar() {
     messageInputBar.delegate = self
-    messageInputBar.inputTextView.placeholder = "댓글 달기"
+    messageInputBar.inputTextView.placeholder = " 댓글 달기"
     messageInputBar.inputTextView.placeholderTextColor = .white
     messageInputBar.inputTextView.tintColor = .white
   }
@@ -316,13 +316,13 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 
     // Send button activity animation
     messageInputBar.sendButton.startAnimating()
-    messageInputBar.inputTextView.placeholder = "전송중..."
+    messageInputBar.inputTextView.placeholder = " 전송중..."
     DispatchQueue.global(qos: .default).async {
       // fake send request task
       DispatchQueue.main.async { [weak self] in
         guard let self = self else { return }
         self.messageInputBar.sendButton.stopAnimating()
-        self.messageInputBar.inputTextView.placeholder = "댓글 달기"
+        self.messageInputBar.inputTextView.placeholder = " 댓글 달기"
         self.insertMessages(components)
         self.messagesCollectionView.scrollToBottom(animated: true)
       }

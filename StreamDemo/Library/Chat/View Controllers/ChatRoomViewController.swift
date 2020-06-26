@@ -44,7 +44,7 @@ final class ChatRoomViewController: ChatViewController {
     messageInputBar.inputTextView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     messageInputBar.inputTextView.placeholderTextColor = .white
     messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 36)
-    messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 90, bottom: 8, right: 90)
+    messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 36)
     messageInputBar.inputTextView.layer.borderColor = UIColor.white.cgColor
 
     //메세지 입력창 설정
