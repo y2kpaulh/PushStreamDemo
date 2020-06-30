@@ -125,11 +125,8 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
   }
 
   func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-    if message.sender.displayName == "Inpyo Hong" {
-      let avatar = self.setAvatarData(sender: message.sender)
-      avatarView.set(avatar: avatar)
-    }
-
+    let avatar = self.setAvatarData(sender: message.sender)
+    avatarView.set(avatar: avatar)
   }
 }
 

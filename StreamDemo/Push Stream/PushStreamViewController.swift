@@ -74,15 +74,15 @@ final class PushStreamViewController: UIViewController {
     rtmpStream = RTMPStream(connection: rtmpConnection)
 
     rtmpStream.captureSettings = [
-      .sessionPreset: AVCaptureSession.Preset.hd1920x1080,
+      .sessionPreset: AVCaptureSession.Preset.hd1280x720,
       .continuousAutofocus: true,
       .continuousExposure: true,
       .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
 
     rtmpStream.videoSettings = [
-      .width: 1080,
-      .height: 1920,
+      .width: 720,
+      .height: 1280,
       .profileLevel: kVTProfileLevel_H264_High_AutoLevel
     ]
 
