@@ -95,6 +95,19 @@ final class ChatRoomViewController: ChatViewController {
     // or InputTextView padding
     messageInputBar.inputTextView.textContainerInset.bottom = 8
   }
+
+  func setAvatarData(sender: SenderType) -> Avatar {
+    let firstName = sender.displayName.components(separatedBy: " ").first
+    let lastName = sender.displayName.components(separatedBy: " ").first
+    let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
+    switch sender.senderId {
+    case "000000":
+      return Avatar(image: #imageLiteral(resourceName: "Inpyo"), initials: initials)
+
+    default:
+      return Avatar(image: #imageLiteral(resourceName: "mj"), initials: initials)
+    }
+  }
 }
 
 // MARK: - MessagesDisplayDelegate
@@ -112,8 +125,11 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
   }
 
   func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-    //        let avatar = SampleData.shared.getAvatarFor(sender: message.sender)
-    //        avatarView.set(avatar: avatar)
+    if message.sender.displayName == "Inpyo Hong" {
+      let avatar = self.setAvatarData(sender: message.sender)
+      avatarView.set(avatar: avatar)
+    }
+
   }
 }
 

@@ -49,6 +49,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
   var adminUser: ChatUser = ChatUser(senderId: "-1", displayName: "Admin")
 
   let refreshControl = UIRefreshControl()
+  let disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,6 +67,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         guard let self = self else { return }
         self.insertMessage(chatMsg)
         self.messagesCollectionView.scrollToBottom(animated: true)
+        self.messageInputBar.inputTextView.resignFirstResponder()
       }
     }).disposed(by: viewModel.disposeBag)
 
@@ -292,6 +294,10 @@ extension ChatViewController: MessageLabelDelegate {
 
   func didSelectCustom(_ pattern: String, match: String?) {
     print("Custom data detector patter selected: \(pattern)")
+  }
+
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
   }
 
 }

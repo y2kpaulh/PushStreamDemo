@@ -77,6 +77,7 @@
 		2EE2BAAC240E2D79004DB1F6 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAA240E2D79004DB1F6 /* Stream.swift */; };
 		2EE2BAAD240E2D79004DB1F6 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAB240E2D79004DB1F6 /* Asset.swift */; };
 		2EE2BAB2240E55D1004DB1F6 /* SRFacebookAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAB1240E55D1004DB1F6 /* SRFacebookAnimation.swift */; };
+		2EE3DAD924AB36FD00995F1A /* VodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DAD824AB36FD00995F1A /* VodViewController.swift */; };
 		2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635022410CB1500C88FBC /* DebugViewController.swift */; };
 		2EE635052410DB3C00C88FBC /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635042410DB3C00C88FBC /* StorageController.swift */; };
 		2EE635072410DB5900C88FBC /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635062410DB5900C88FBC /* Log.swift */; };
@@ -157,6 +158,7 @@
 		2EE2BAAA240E2D79004DB1F6 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		2EE2BAAB240E2D79004DB1F6 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		2EE2BAB1240E55D1004DB1F6 /* SRFacebookAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRFacebookAnimation.swift; sourceTree = "<group>"; };
+		2EE3DAD824AB36FD00995F1A /* VodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VodViewController.swift; sourceTree = "<group>"; };
 		2EE635022410CB1500C88FBC /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		2EE635042410DB3C00C88FBC /* StorageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageController.swift; sourceTree = "<group>"; };
 		2EE635062410DB5900C88FBC /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				2E448828240DF6370084C4FE /* Main */,
 				2E209C2E23FE5C0A00CB80CE /* Push Stream */,
 				2E209C2F23FE5C1F00CB80CE /* Pull Stream */,
+				2EE3DAD724AB36FD00995F1A /* VOD */,
 				2E44885B240DF7DD0084C4FE /* Library */,
 				2E448829240DF66F0084C4FE /* Supports */,
 			);
@@ -504,6 +507,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		2EE3DAD724AB36FD00995F1A /* VOD */ = {
+			isa = PBXGroup;
+			children = (
+				2EE3DAD824AB36FD00995F1A /* VodViewController.swift */,
+			);
+			path = VOD;
+			sourceTree = "<group>";
+		};
 		2EE635012410CAFD00C88FBC /* Debug */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +728,7 @@
 				2E44884C240DF7850084C4FE /* VersaPlayerExtension.swift in Sources */,
 				2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */,
 				2E2F1FE323F67C4300B8FFEA /* PushStreamViewController.swift in Sources */,
+				2EE3DAD924AB36FD00995F1A /* VodViewController.swift in Sources */,
 				2EE2BAAD240E2D79004DB1F6 /* Asset.swift in Sources */,
 				2E60870624A5839300C1747A /* ChatViewController.swift in Sources */,
 				2E60870F24A5839300C1747A /* UIViewController+Extensions.swift in Sources */,

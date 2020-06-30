@@ -17,13 +17,11 @@ import RxSwift
 import RxCocoa
 import PiPhone
 
-protocol PullStreamViewControllerDelegate: class {
-  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
-}
+//protocol PullStreamViewControllerDelegate: class {
+//  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
+//}
 
-class PullStreamViewController: UIViewController {
-
-  @IBOutlet weak var closeBtn: UIButton!
+class VodViewController: UIViewController {
 
   let chatView = ChatRoomViewController()
 
@@ -39,11 +37,11 @@ class PullStreamViewController: UIViewController {
 
   @IBOutlet weak var profileBtn: UIButton!
 
-  //  @IBOutlet weak var streamTypeLabel: UILabel!
+  @IBOutlet weak var streamTypeLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var volumeBtn: UIButton!
   @IBOutlet weak var playerView: VersaPlayerView!
-  // @IBOutlet weak var controls: VersaPlayerControls!
+  @IBOutlet weak var controls: VersaPlayerControls!
 
   @IBOutlet var pipToggleButton: UIButton!
 
@@ -58,14 +56,14 @@ class PullStreamViewController: UIViewController {
     pictureInPictureObservations = []
   }
 
-  //  @IBOutlet weak var playbackProgressView: UIProgressView!
-  //  @IBOutlet weak var bufferProgressView: UIProgressView!
-  // @IBOutlet weak var loadedProgressView: UIProgressView!
+  @IBOutlet weak var playbackProgressView: UIProgressView!
+  @IBOutlet weak var bufferProgressView: UIProgressView!
+  @IBOutlet weak var loadedProgressView: UIProgressView!
 
-  //  @IBOutlet weak var bottomMenuView: UIView!
+  @IBOutlet weak var bottomMenuView: UIView!
   @IBOutlet weak var topMenuView: UIView!
-  //  @IBOutlet weak var stallTimeLabel: UILabel!
-  //  @IBOutlet weak var logMsgView: UITextView!
+  @IBOutlet weak var stallTimeLabel: UILabel!
+  @IBOutlet weak var logMsgView: UITextView!
 
   var diplayErrorPopup = false
 
@@ -83,77 +81,71 @@ class PullStreamViewController: UIViewController {
     }
   }
 
-  //  var durationTime: Float64 = 0.0
-  //
-  //  var playbackTime: Float64 = 0.0 {
-  //    didSet {
-  //      playbackProgress = Float(playbackTime/durationTime)
-  //    }
-  //  }
-  //
-  //  var loadedTime: Float64 = 0.0 {
-  //    didSet {
-  //      loadedProgress = Float(loadedTime/durationTime)
-  //    }
-  //  }
-  //
-  //  var loadedProgress: Float = 0 {
-  //    didSet {
-  //      DispatchQueue.main.async {
-  //        self.bufferProgressView.progress = self.loadedProgress
-  //        self.loadedProgressView.progress = self.loadedProgress
-  //      }
-  //    }
-  //  }
-  //
-  //  var playbackProgress: Float = 0 {
-  //    didSet {
-  //      DispatchQueue.main.async {
-  //        self.playbackProgressView.progress = self.playbackProgress
-  //      }
-  //    }
-  //  }
+  var durationTime: Float64 = 0.0
+
+  var playbackTime: Float64 = 0.0 {
+    didSet {
+      playbackProgress = Float(playbackTime/durationTime)
+    }
+  }
+
+  var loadedTime: Float64 = 0.0 {
+    didSet {
+      loadedProgress = Float(loadedTime/durationTime)
+    }
+  }
+
+  var loadedProgress: Float = 0 {
+    didSet {
+      DispatchQueue.main.async {
+        self.bufferProgressView.progress = self.loadedProgress
+        self.loadedProgressView.progress = self.loadedProgress
+      }
+    }
+  }
+
+  var playbackProgress: Float = 0 {
+    didSet {
+      DispatchQueue.main.async {
+        self.playbackProgressView.progress = self.playbackProgress
+      }
+    }
+  }
 
   var url: String = ""
 
-  //  var playbackType: String = "" {
-  //    didSet {
-  //      guard oldValue != playbackType else { return }
-  //
-  //      storageController.save(Log(msg: "playback type: \(playbackType)\n"))
-  //
-  //      DispatchQueue.main.async {
-  //        self.streamTypeLabel.text = self.playbackType
-  //
-  //        switch self.playbackType {
-  //        case "LIVE":
-  //          self.streamTypeLabel.textColor = .red
-  //          break
-  //
-  //        case "VOD":
-  //          self.streamTypeLabel.textColor = .yellow
-  //
-  //        case "FILE":
-  //          self.streamTypeLabel.textColor = .blue
-  //          break
-  //
-  //        default:
-  //          self.streamTypeLabel.textColor = .darkGray
-  //          break
-  //        }
-  //      }
-  //    }
-  //  }
+  var playbackType: String = "" {
+    didSet {
+      guard oldValue != playbackType else { return }
+
+      storageController.save(Log(msg: "playback type: \(playbackType)\n"))
+
+      DispatchQueue.main.async {
+        self.streamTypeLabel.text = self.playbackType
+
+        switch self.playbackType {
+        case "LIVE":
+          self.streamTypeLabel.textColor = .red
+          break
+
+        case "VOD":
+          self.streamTypeLabel.textColor = .yellow
+
+        case "FILE":
+          self.streamTypeLabel.textColor = .blue
+          break
+
+        default:
+          self.streamTypeLabel.textColor = .darkGray
+          break
+        }
+      }
+    }
+  }
 
   override func loadView() {
     super.loadView()
-
-    let image = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
-    closeBtn.setImage(image, for: .normal)
-    closeBtn.tintColor = .white
-
     configPlayer(url: url)
-    configChatView()
   }
 
   @IBAction func tapBgBtn(_ sender: Any) {
@@ -170,20 +162,16 @@ class PullStreamViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    playerView.player.replaceCurrentItem(with: nil)
-  }
-
-  func configChatView() {
+    //configPlayer(url: url)
+    /// Add the `ConversationViewController` as a child view controller
     chatView.willMove(toParent: self)
     addChild(chatView)
     view.addSubview(chatView.view)
     chatView.didMove(toParent: self)
+  }
 
-    self.titleLabel.text = chatView.userInfo.displayName
-    self.profileBtn.setImage(UIImage(named: "Inpyo"), for: .normal)
+  override func viewWillDisappear(_ animated: Bool) {
+    playerView.player.replaceCurrentItem(with: nil)
   }
 
   func configPlayer(url: String) {
@@ -208,8 +196,8 @@ class PullStreamViewController: UIViewController {
     playerView.layer.cornerRadius = 20
 
     playerView.isUserInteractionEnabled = true
-    //    let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
-    //    playerView.addGestureRecognizer(menuBgViewGesture)
+    let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
+    playerView.addGestureRecognizer(menuBgViewGesture)
 
     NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
       .observeOn(MainScheduler.instance)
@@ -229,34 +217,34 @@ class PullStreamViewController: UIViewController {
       .disposed(by: disposeBag)
   }
 
-  //  @objc func tapPlayerView() {
-  //    UIView.animate(withDuration: 0.3) { [weak self] in
-  //      guard let self = self else { return }
-  //
-  //      if !self.topMenuView.isHidden {
-  //        self.topMenuView.alpha = 0
-  //        self.bottomMenuView.alpha = 0
-  //
-  //        self.topMenuView.isHidden = true
-  //        self.bottomMenuView.isHidden = true
-  //      } else {
-  //        self.topMenuView.alpha = 1
-  //        self.bottomMenuView.alpha = 1
-  //
-  //        self.topMenuView.isHidden = false
-  //        self.bottomMenuView.isHidden = false
-  //      }
-  //    }
-  //  }
+  @objc func tapPlayerView() {
+    UIView.animate(withDuration: 0.3) { [weak self] in
+      guard let self = self else { return }
+
+      if !self.topMenuView.isHidden {
+        self.topMenuView.alpha = 0
+        self.bottomMenuView.alpha = 0
+
+        self.topMenuView.isHidden = true
+        self.bottomMenuView.isHidden = true
+      } else {
+        self.topMenuView.alpha = 1
+        self.bottomMenuView.alpha = 1
+
+        self.topMenuView.isHidden = false
+        self.bottomMenuView.isHidden = false
+      }
+    }
+  }
 
   @IBAction private func onTapVolumeButton(_ sender: UIButton) {
     let isMuted = !sender.isSelected
     volumeBtn.isSelected = isMuted
-    //controls.isMuted = isMuted
+    controls.isMuted = isMuted
   }
 }
 
-extension PullStreamViewController: VersaPlayerPlaybackDelegate {
+extension VodViewController: VersaPlayerPlaybackDelegate {
 
   func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?) {
     print(#function)
@@ -264,46 +252,46 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func playbackRateTimeChanged(player: VersaPlayer, stallTime: CFTimeInterval) {
     DispatchQueue.main.async {
-      //self.stallTimeLabel.text = String(format: "Loading: %0.2f sec", stallTime)
+      self.stallTimeLabel.text = String(format: "Loading: %0.2f sec", stallTime)
     }
   }
 
   func timeDidChange(player: VersaPlayer, to time: CMTime) {
-    //    guard let currentItem = player.currentItem else { return }
-    //    guard let accessLog = currentItem.accessLog() else { return }
-    //
-    //    if accessLog.events.count > 0 {
-    //      let event = accessLog.events[0]
-    //      DispatchQueue.main.async {
-    //        self.playbackType = event.playbackType!
-    //      }
-    //    }
-    //
-    //    durationTime = CMTimeGetSeconds((currentItem.asset.duration))
-    //    playbackTime = CMTimeGetSeconds(player.currentTime())
-    //
-    //    if playbackType == "LIVE" {
-    //      guard let livePosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
-    //        return
-    //      }
-    //
-    //      let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
-    //      let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
-    //
-    //      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)\n"))
-    //    } else {
-    //      guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
-    //      loadedTime = CMTimeGetSeconds(timeRange.duration)
-    //
-    //      guard let seekPosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
-    //        return
-    //      }
-    //
-    //      let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
-    //      let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
-    //
-    //      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)\n"))
-    //    }
+    guard let currentItem = player.currentItem else { return }
+    guard let accessLog = currentItem.accessLog() else { return }
+
+    if accessLog.events.count > 0 {
+      let event = accessLog.events[0]
+      DispatchQueue.main.async {
+        self.playbackType = event.playbackType!
+      }
+    }
+
+    durationTime = CMTimeGetSeconds((currentItem.asset.duration))
+    playbackTime = CMTimeGetSeconds(player.currentTime())
+
+    if playbackType == "LIVE" {
+      guard let livePosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
+        return
+      }
+
+      let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
+      let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
+
+      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)\n"))
+    } else {
+      guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
+      loadedTime = CMTimeGetSeconds(timeRange.duration)
+
+      guard let seekPosition = currentItem.seekableTimeRanges.last as? CMTimeRange else {
+        return
+      }
+
+      let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
+      let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
+
+      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)\n"))
+    }
   }
 
   func playbackDidFailed(with error: VersaPlayerPlaybackError) {
@@ -386,7 +374,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     }
 
     self.pictureInPictureController = pictureInPictureController
-    pictureInPictureController.delegate = self
+    // pictureInPictureController.delegate = self
     pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
 
     pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
@@ -427,26 +415,26 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     chatView.inputAccessoryView?.backgroundColor = .clear
 
     // 채팅창 화면 사이즈 및 위치
-    chatView.view.frame = CGRect(x: 0, y: 200, width: view.bounds.width-100, height: view.bounds.height - 300)
+    chatView.view.frame = CGRect(x: 0, y: 200, width: view.bounds.width-100, height: view.bounds.height - 200)
   }
 }
 
 // MARK: - AVPictureInPictureControllerDelegate
-extension PullStreamViewController: AVPictureInPictureControllerDelegate {
-
-  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-    strongSelf = self
-  }
-
-  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-    strongSelf = nil
-  }
-
-  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-    if let delegate = delegate {
-      delegate.pullStreamViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
-    } else {
-      completionHandler(true)
-    }
-  }
-}
+//extension VodViewController: AVPictureInPictureControllerDelegate {
+//
+//  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+//    strongSelf = self
+//  }
+//
+//  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+//    strongSelf = nil
+//  }
+//
+//  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+//    if let delegate = delegate {
+//      delegate.pullStreamViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
+//    } else {
+//      completionHandler(true)
+//    }
+//  }
+//}
