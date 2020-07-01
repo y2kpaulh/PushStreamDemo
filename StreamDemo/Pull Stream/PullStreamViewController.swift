@@ -68,6 +68,11 @@ class PullStreamViewController: UIViewController {
 
   let chatView = ChatRoomViewController()
 
+  var startPointX: CGFloat = UIScreen.main.bounds.width - 20
+  var startPointY: CGFloat = UIScreen.main.bounds.height
+  var endPointX: CGFloat = UIScreen.main.bounds.width - 20
+  var endPointY: CGFloat = -100.0
+
   /// Required for the `MessageInputBar` to be visible
   override var canBecomeFirstResponder: Bool {
     return chatView.canBecomeFirstResponder
@@ -159,6 +164,47 @@ class PullStreamViewController: UIViewController {
         self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
       })
       .disposed(by: disposeBag)
+  }
+
+  @objc func handleTap() {
+    (0...10).forEach { (_) in
+      generateAnimatedViews()
+    }
+  }
+
+  fileprivate func generateAnimatedViews() {
+    let image = drand48() > 0.5 ? #imageLiteral(resourceName: "thumbs_up") : #imageLiteral(resourceName: "heart")
+    let imageView = UIImageView(image: image)
+    let dimension = 20 + drand48() * 10
+    imageView.frame = CGRect(x: 0, y: 0, width: dimension, height: dimension)
+
+    let animation = CAKeyframeAnimation(keyPath: "position")
+
+    animation.path = customPath().cgPath
+    animation.duration = 2 + drand48() * 3
+    animation.fillMode = CAMediaTimingFillMode.forwards
+    animation.isRemovedOnCompletion = false
+    animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+
+    imageView.layer.add(animation, forKey: nil)
+    self.view.addSubview(imageView)
+  }
+
+  func customPath() -> UIBezierPath {
+    let path = UIBezierPath()
+
+    path.move(to: CGPoint(x: self.startPointX, y: self.startPointY))
+
+    let endPoint = CGPoint(x: self.endPointX, y: self.endPointY)
+
+    let randomYShift = 200 + drand48() * 300
+    let cp1 = CGPoint(x: self.startPointX, y: UIScreen.main.bounds.height )
+    let cp2 = CGPoint(x: 10 + randomYShift, y: 0.0 )
+
+    path.addCurve(to: endPoint, controlPoint1: cp1, controlPoint2: cp2)
+    path.addLine(to: endPoint)
+
+    return path
   }
 
 }
@@ -313,6 +359,46 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       })
     }
 
+    func handleTap() {
+      (0...10).forEach { (_) in
+        generateAnimatedViews()
+      }
+    }
+
+    func generateAnimatedViews() {
+      let image = drand48() > 0.5 ? #imageLiteral(resourceName: "thumbs_up") : #imageLiteral(resourceName: "heart")
+      let imageView = UIImageView(image: image)
+      let dimension = 20 + drand48() * 10
+      imageView.frame = CGRect(x: 0, y: 0, width: dimension, height: dimension)
+
+      let animation = CAKeyframeAnimation(keyPath: "position")
+
+      animation.path = customPath().cgPath
+      animation.duration = 2 + drand48() * 3
+      animation.fillMode = CAMediaTimingFillMode.forwards
+      animation.isRemovedOnCompletion = false
+      animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+
+      imageView.layer.add(animation, forKey: nil)
+      self.view.addSubview(imageView)
+    }
+
+    func customPath() -> UIBezierPath {
+      let path = UIBezierPath()
+
+      path.move(to: CGPoint(x: self.startPointX, y: self.startPointY))
+
+      let endPoint = CGPoint(x: self.endPointX, y: self.endPointY)
+
+      let randomYShift = 200 + drand48() * 300
+      let cp1 = CGPoint(x: self.startPointX, y: UIScreen.main.bounds.height )
+      let cp2 = CGPoint(x: 10 + randomYShift, y: 0.0 )
+
+      path.addCurve(to: endPoint, controlPoint1: cp1, controlPoint2: cp2)
+      path.addLine(to: endPoint)
+
+      return path
+    }
   }
 
   // MARK: - Actions
