@@ -282,31 +282,37 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   // https://developer.apple.com/documentation/avkit/adopting_picture_in_picture_in_a_custom_player
   func setupPictureInPicture() {
-    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStartImage(compatibleWith: nil), for: .normal)
-    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: .selected)
-    pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
 
-    guard AVPictureInPictureController.isPictureInPictureSupported(),
-      let pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.renderingView.playerLayer) else {
-        pipToggleButton.isEnabled = false
-        return
+    DispatchQueue.main.async {
+      self.pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStartImage(compatibleWith: nil), for: .normal)
+      self.pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: .selected)
+      self.pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
+
+      guard AVPictureInPictureController.isPictureInPictureSupported(),
+        let pictureInPictureController = AVPictureInPictureController(playerLayer: self.playerView.renderingView.playerLayer) else {
+          self.pipToggleButton.isEnabled = false
+          return
+      }
+
+      self.pictureInPictureController = pictureInPictureController
+      pictureInPictureController.delegate = self
+      self.pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
+
+      self.pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
+        guard let `self` = self else { return }
+        DispatchQueue.main.async {
+          self.pipToggleButton.isSelected = pictureInPictureController.isPictureInPictureActive
+        }
+      })
+
+      self.pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPicturePossible) { [weak self] pictureInPictureController, _ in
+        guard let `self` = self else { return }
+        DispatchQueue.main.async {
+          self.pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
+        }
+      })
     }
 
-    self.pictureInPictureController = pictureInPictureController
-    pictureInPictureController.delegate = self
-    pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
-
-    pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
-      guard let `self` = self else { return }
-
-      self.pipToggleButton.isSelected = pictureInPictureController.isPictureInPictureActive
-    })
-
-    pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPicturePossible) { [weak self] pictureInPictureController, _ in
-      guard let `self` = self else { return }
-
-      self.pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
-    })
   }
 
   // MARK: - Actions

@@ -68,7 +68,7 @@ final class ChatRoomViewController: ChatViewController {
     messageInputBar.sendButton.title = nil
     messageInputBar.sendButton.imageView?.layer.cornerRadius = 16
 
-    let rightItems = [messageInputBar.sendButton, makeButton(named: "ic_at"), makeButton(named: "ic_hashtag"), .flexibleSpace]
+    let rightItems = [messageInputBar.sendButton, makeButton(named: "ic_hashtag"), makeButton(named: "like"), .flexibleSpace]
     messageInputBar.setStackViewItems(rightItems, forStack: .right, animated: false)
 
     let charCountButton = InputBarButtonItem()
@@ -136,11 +136,11 @@ final class ChatRoomViewController: ChatViewController {
         $0.setSize(CGSize(width: 25, height: 25), animated: false)
         $0.tintColor = UIColor(white: 0.8, alpha: 1)
       }.onSelected {
-      $0.tintColor = .primaryColor
+      $0.tintColor = .orange
       }.onDeselected {
       $0.tintColor = UIColor(white: 0.8, alpha: 1)
-      }.onTouchUpInside { _ in
-      print("Item Tapped")
+      }.onTouchUpInside { btn in
+      print("Item Tapped", btn)
       }
   }
 }
