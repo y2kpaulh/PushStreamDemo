@@ -136,6 +136,7 @@ class PullStreamViewController: UIViewController {
     //      print("isPictureInPicturePossible", result)
     //    }
 
+    //video view round 처리
     playerView.renderingView.cornerRadius = 8
 
     playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
