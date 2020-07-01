@@ -40,7 +40,7 @@ final class ChatRoomViewController: ChatViewController {
     super.configureMessageInputBar()
 
     messageInputBar.separatorLine.isHidden = true
-    messageInputBar.inputTextView.tintColor = .primaryColor
+    messageInputBar.inputTextView.tintColor = .orange
     messageInputBar.inputTextView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     messageInputBar.inputTextView.placeholderTextColor = .white
     messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 36)
@@ -85,7 +85,7 @@ final class ChatRoomViewController: ChatViewController {
       if isOverLimit {
         item.inputBarAccessoryView?.sendButton.isEnabled = false
       }
-      let color = isOverLimit ? .red : UIColor(white: 0.6, alpha: 1)
+      let color = isOverLimit ? .orange : UIColor(white: 0.6, alpha: 1)
       item.setTitleColor(color, for: .normal)
       }
     let bottomItems = [.flexibleSpace, charCountButton]
@@ -98,18 +98,6 @@ final class ChatRoomViewController: ChatViewController {
 
     let leftItems = [makeButton(named: "ic_at"), makeButton(named: "ic_hashtag"), .flexibleSpace]
     messageInputBar.setStackViewItems(leftItems, forStack: .left, animated: false)
-
-    // This just adds some more flare
-    messageInputBar.sendButton
-      .onEnabled { item in
-        UIView.animate(withDuration: 0.3, animations: {
-          item.imageView?.backgroundColor = .primaryColor
-        })
-      }.onDisabled { item in
-      UIView.animate(withDuration: 0.3, animations: {
-        item.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
-      })
-      }
   }
 
   /// The input bar will autosize based on the contained text, but we can add padding to adjust the height or width if neccesary
@@ -178,7 +166,7 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
     switch message.sender.senderId {
     case "000000":
       avatarView.layer.borderWidth = 2
-      avatarView.layer.borderColor = UIColor.primaryColor.cgColor
+      avatarView.layer.borderColor = UIColor.orange.cgColor
 
     default:
       break

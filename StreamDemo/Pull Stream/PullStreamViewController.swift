@@ -24,25 +24,10 @@ protocol PullStreamViewControllerDelegate: class {
 
 class PullStreamViewController: UIViewController {
 
-  @IBOutlet weak var closeBtn: UIButton!
-
-  let chatView = ChatRoomViewController()
-
-  /// Required for the `MessageInputBar` to be visible
-  override var canBecomeFirstResponder: Bool {
-    return chatView.canBecomeFirstResponder
-  }
-
-  /// Required for the `MessageInputBar` to be visible
-  override var inputAccessoryView: UIView? {
-    return chatView.inputAccessoryView
-  }
-
   @IBOutlet weak var profileBtn: UIButton!
 
   //  @IBOutlet weak var streamTypeLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var volumeBtn: UIButton!
   @IBOutlet weak var playerView: VersaPlayerView!
   // @IBOutlet weak var controls: VersaPlayerControls!
 
@@ -59,14 +44,7 @@ class PullStreamViewController: UIViewController {
     pictureInPictureObservations = []
   }
 
-  //  @IBOutlet weak var playbackProgressView: UIProgressView!
-  //  @IBOutlet weak var bufferProgressView: UIProgressView!
-  // @IBOutlet weak var loadedProgressView: UIProgressView!
-
-  //  @IBOutlet weak var bottomMenuView: UIView!
   @IBOutlet weak var topMenuView: UIView!
-  //  @IBOutlet weak var stallTimeLabel: UILabel!
-  //  @IBOutlet weak var logMsgView: UITextView!
 
   var diplayErrorPopup = false
 
@@ -84,67 +62,21 @@ class PullStreamViewController: UIViewController {
     }
   }
 
-  //  var durationTime: Float64 = 0.0
-  //
-  //  var playbackTime: Float64 = 0.0 {
-  //    didSet {
-  //      playbackProgress = Float(playbackTime/durationTime)
-  //    }
-  //  }
-  //
-  //  var loadedTime: Float64 = 0.0 {
-  //    didSet {
-  //      loadedProgress = Float(loadedTime/durationTime)
-  //    }
-  //  }
-  //
-  //  var loadedProgress: Float = 0 {
-  //    didSet {
-  //      DispatchQueue.main.async {
-  //        self.bufferProgressView.progress = self.loadedProgress
-  //        self.loadedProgressView.progress = self.loadedProgress
-  //      }
-  //    }
-  //  }
-  //
-  //  var playbackProgress: Float = 0 {
-  //    didSet {
-  //      DispatchQueue.main.async {
-  //        self.playbackProgressView.progress = self.playbackProgress
-  //      }
-  //    }
-  //  }
-
   var url: String = ""
 
-  //  var playbackType: String = "" {
-  //    didSet {
-  //      guard oldValue != playbackType else { return }
-  //
-  //      storageController.save(Log(msg: "playback type: \(playbackType)\n"))
-  //
-  //      DispatchQueue.main.async {
-  //        self.streamTypeLabel.text = self.playbackType
-  //
-  //        switch self.playbackType {
-  //        case "LIVE":
-  //          self.streamTypeLabel.textColor = .red
-  //          break
-  //
-  //        case "VOD":
-  //          self.streamTypeLabel.textColor = .yellow
-  //
-  //        case "FILE":
-  //          self.streamTypeLabel.textColor = .blue
-  //          break
-  //
-  //        default:
-  //          self.streamTypeLabel.textColor = .darkGray
-  //          break
-  //        }
-  //      }
-  //    }
-  //  }
+  @IBOutlet weak var closeBtn: UIButton!
+
+  let chatView = ChatRoomViewController()
+
+  /// Required for the `MessageInputBar` to be visible
+  override var canBecomeFirstResponder: Bool {
+    return chatView.canBecomeFirstResponder
+  }
+
+  /// Required for the `MessageInputBar` to be visible
+  override var inputAccessoryView: UIView? {
+    return chatView.inputAccessoryView
+  }
 
   override func loadView() {
     super.loadView()
@@ -155,14 +87,6 @@ class PullStreamViewController: UIViewController {
 
     configPlayer(url: url)
     configChatView()
-  }
-
-  @IBAction func tapBgBtn(_ sender: Any) {
-    chatView.messageInputBar.inputTextView.resignFirstResponder()
-  }
-
-  @IBAction func tapTestBtn(_ sender: Any) {
-    chatView.messageInputBar.inputTextView.resignFirstResponder()
   }
 
   @IBAction func tapCloseBtn(_ sender: Any) {
@@ -177,6 +101,7 @@ class PullStreamViewController: UIViewController {
     IQKeyboardManager.shared().isEnabled = false
     IQKeyboardManager.shared().isEnableAutoToolbar = false
   }
+
   override func viewWillDisappear(_ animated: Bool) {
     playerView.player.replaceCurrentItem(with: nil)
     IQKeyboardManager.shared().isEnabled = true
@@ -211,12 +136,11 @@ class PullStreamViewController: UIViewController {
     //      print("isPictureInPicturePossible", result)
     //    }
 
-    playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
-    playerView.layer.cornerRadius = 20
+    playerView.renderingView.cornerRadius = 8
 
-    playerView.isUserInteractionEnabled = true
-    //    let menuBgViewGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapPlayerView))
-    //    playerView.addGestureRecognizer(menuBgViewGesture)
+    playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
+
+    playerView.isUserInteractionEnabled = false
 
     NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
       .observeOn(MainScheduler.instance)
@@ -236,31 +160,6 @@ class PullStreamViewController: UIViewController {
       .disposed(by: disposeBag)
   }
 
-  //  @objc func tapPlayerView() {
-  //    UIView.animate(withDuration: 0.3) { [weak self] in
-  //      guard let self = self else { return }
-  //
-  //      if !self.topMenuView.isHidden {
-  //        self.topMenuView.alpha = 0
-  //        self.bottomMenuView.alpha = 0
-  //
-  //        self.topMenuView.isHidden = true
-  //        self.bottomMenuView.isHidden = true
-  //      } else {
-  //        self.topMenuView.alpha = 1
-  //        self.bottomMenuView.alpha = 1
-  //
-  //        self.topMenuView.isHidden = false
-  //        self.bottomMenuView.isHidden = false
-  //      }
-  //    }
-  //  }
-
-  @IBAction private func onTapVolumeButton(_ sender: UIButton) {
-    let isMuted = !sender.isSelected
-    volumeBtn.isSelected = isMuted
-    //controls.isMuted = isMuted
-  }
 }
 
 extension PullStreamViewController: VersaPlayerPlaybackDelegate {
@@ -428,7 +327,6 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     gradient.locations = [0, 0.1, 0.8, 0.9, 1]
 
     chatView.view.layer.mask = gradient
-
     chatView.view.backgroundColor = .clear
     chatView.messageInputBar.backgroundView.backgroundColor = .clear
     chatView.inputAccessoryView?.backgroundColor = .clear
