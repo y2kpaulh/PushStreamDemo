@@ -48,6 +48,8 @@ final class ChatRoomViewController: ChatViewController {
     messageInputBar.inputTextView.layer.borderColor = UIColor.white.cgColor
 
     //메세지 입력창 설정
+    messageInputBar.inputTextView.keyboardType = .twitter
+
     messageInputBar.inputTextView.textColor = .white
     messageInputBar.inputTextView.backgroundColor = .clear
     messageInputBar.inputTextView.layer.borderWidth = 1.0
@@ -58,7 +60,7 @@ final class ChatRoomViewController: ChatViewController {
   }
 
   private func configureInputBarItems() {
-    messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
+    messageInputBar.setRightStackViewWidthConstant(to: 110, animated: false) // stackView 사이즈 마진
     messageInputBar.sendButton.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
     messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
     messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
@@ -66,19 +68,48 @@ final class ChatRoomViewController: ChatViewController {
     messageInputBar.sendButton.title = nil
     messageInputBar.sendButton.imageView?.layer.cornerRadius = 16
 
+    let rightItems = [messageInputBar.sendButton, makeButton(named: "ic_at"), makeButton(named: "ic_hashtag"), .flexibleSpace]
+    messageInputBar.setStackViewItems(rightItems, forStack: .right, animated: false)
+
+    let charCountButton = InputBarButtonItem()
+      .configure {
+        $0.title = "0/140"
+        $0.contentHorizontalAlignment = .right
+        $0.setTitleColor(UIColor(white: 0.6, alpha: 1), for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        $0.setSize(CGSize(width: 50, height: 25), animated: false)
+      }.onTextViewDidChange { (item, textView) in
+      item.title = "\(textView.text.count)/140"
+      let isOverLimit = textView.text.count > 140
+      item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
+      if isOverLimit {
+        item.inputBarAccessoryView?.sendButton.isEnabled = false
+      }
+      let color = isOverLimit ? .red : UIColor(white: 0.6, alpha: 1)
+      item.setTitleColor(color, for: .normal)
+      }
+    let bottomItems = [.flexibleSpace, charCountButton]
+
     configureInputBarPadding()
 
-    //    // This just adds some more flare
-    //    messageInputBar.sendButton
-    //      .onEnabled { item in
-    //        UIView.animate(withDuration: 0.3, animations: {
-    //          item.imageView?.backgroundColor = .primaryColor
-    //        })
-    //      }.onDisabled { item in
-    //      UIView.animate(withDuration: 0.3, animations: {
-    //        item.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
-    //      })
-    //      }
+    messageInputBar.setStackViewItems(bottomItems, forStack: .bottom, animated: false)
+
+    messageInputBar.setLeftStackViewWidthConstant(to: 52, animated: false)
+
+    let leftItems = [makeButton(named: "ic_at"), makeButton(named: "ic_hashtag"), .flexibleSpace]
+    messageInputBar.setStackViewItems(leftItems, forStack: .left, animated: false)
+
+    // This just adds some more flare
+    messageInputBar.sendButton
+      .onEnabled { item in
+        UIView.animate(withDuration: 0.3, animations: {
+          item.imageView?.backgroundColor = .primaryColor
+        })
+      }.onDisabled { item in
+      UIView.animate(withDuration: 0.3, animations: {
+        item.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
+      })
+      }
   }
 
   /// The input bar will autosize based on the contained text, but we can add padding to adjust the height or width if neccesary
@@ -90,7 +121,7 @@ final class ChatRoomViewController: ChatViewController {
     messageInputBar.padding.bottom = 8
 
     // or MiddleContentView padding
-    messageInputBar.middleContentViewPadding.right = -38
+    messageInputBar.middleContentViewPadding.right = -38//-38
 
     // or InputTextView padding
     messageInputBar.inputTextView.textContainerInset.bottom = 8
@@ -107,6 +138,22 @@ final class ChatRoomViewController: ChatViewController {
     default:
       return Avatar(image: #imageLiteral(resourceName: "mj"), initials: initials)
     }
+  }
+
+  private func makeButton(named: String) -> InputBarButtonItem {
+    return InputBarButtonItem()
+      .configure {
+        $0.spacing = .fixed(10)
+        $0.image = UIImage(named: named)?.withRenderingMode(.alwaysTemplate)
+        $0.setSize(CGSize(width: 25, height: 25), animated: false)
+        $0.tintColor = UIColor(white: 0.8, alpha: 1)
+      }.onSelected {
+      $0.tintColor = .primaryColor
+      }.onDeselected {
+      $0.tintColor = UIColor(white: 0.8, alpha: 1)
+      }.onTouchUpInside { _ in
+      print("Item Tapped")
+      }
   }
 }
 
@@ -127,6 +174,16 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
   func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
     let avatar = self.setAvatarData(sender: message.sender)
     avatarView.set(avatar: avatar)
+
+    switch message.sender.senderId {
+    case "000000":
+      avatarView.layer.borderWidth = 2
+      avatarView.layer.borderColor = UIColor.primaryColor.cgColor
+
+    default:
+      break
+    }
+
   }
 }
 

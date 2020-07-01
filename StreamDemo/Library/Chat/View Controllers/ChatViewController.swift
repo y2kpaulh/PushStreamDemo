@@ -67,9 +67,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
       DispatchQueue.main.async { [weak self] in
         guard let self = self else { return }
         self.insertMessage(chatMsg)
-        self.messageInputBar.inputTextView.endEditing(true)
         self.messagesCollectionView.scrollToBottom(animated: true)
-        self.messageInputBar.inputTextView.resignFirstResponder()
       }
     }).disposed(by: viewModel.disposeBag)
 
