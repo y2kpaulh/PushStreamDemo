@@ -182,8 +182,8 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GGV-bX-O1Z">
-                                        <rect key="frame" x="60" y="30" width="286" height="0.0"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="60" y="30" width="296" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -207,13 +207,13 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yUz-ml-bzN">
-                                        <rect key="frame" x="354" y="20" width="30" height="30"/>
+                                        <rect key="frame" x="364" y="25" width="20" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="A65-Mb-MWQ"/>
-                                            <constraint firstAttribute="height" constant="30" id="ALY-ww-VtY"/>
+                                            <constraint firstAttribute="width" constant="20" id="A65-Mb-MWQ"/>
+                                            <constraint firstAttribute="height" constant="20" id="ALY-ww-VtY"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" backgroundImage="clo"/>
+                                        <state key="normal" backgroundImage="close"/>
                                         <state key="selected" backgroundImage="mute"/>
                                         <connections>
                                             <action selector="tapCloseBtn:" destination="3Fv-At-36m" eventType="touchUpInside" id="Ss2-VY-4n8"/>
@@ -907,8 +907,7 @@
     <resources>
         <image name="1" width="217" height="220"/>
         <image name="camera.fill" catalog="system" width="128" height="96"/>
-        <image name="clo" width="128" height="128"/>
-        <image name="close" width="18.666666030883789" height="18.666666030883789"/>
+        <image name="close" width="357" height="357"/>
         <image name="doc" catalog="system" width="115" height="128"/>
         <image name="fb" width="500" height="500"/>
         <image name="lightbulb.fill" catalog="system" width="113" height="128"/>

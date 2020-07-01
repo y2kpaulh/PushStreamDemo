@@ -27,6 +27,7 @@ import MessageKit
 import InputBarAccessoryView
 import RxSwift
 import RxCocoa
+import IQKeyboardManager
 
 /// A base class for the example controllers
 class ChatViewController: MessagesViewController, MessagesDataSource {
@@ -66,6 +67,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
       DispatchQueue.main.async { [weak self] in
         guard let self = self else { return }
         self.insertMessage(chatMsg)
+        self.messageInputBar.inputTextView.endEditing(true)
         self.messagesCollectionView.scrollToBottom(animated: true)
         self.messageInputBar.inputTextView.resignFirstResponder()
       }
@@ -84,7 +86,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-
     viewModel.chatServerManager.closeConnection()
   }
 

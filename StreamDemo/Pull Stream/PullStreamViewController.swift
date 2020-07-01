@@ -16,6 +16,7 @@ import AVFoundation
 import RxSwift
 import RxCocoa
 import PiPhone
+import IQKeyboardManager
 
 protocol PullStreamViewControllerDelegate: class {
   func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
@@ -172,8 +173,14 @@ class PullStreamViewController: UIViewController {
     super.viewDidLoad()
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    IQKeyboardManager.shared().isEnabled = false
+    IQKeyboardManager.shared().isEnableAutoToolbar = false
+  }
   override func viewWillDisappear(_ animated: Bool) {
     playerView.player.replaceCurrentItem(with: nil)
+    IQKeyboardManager.shared().isEnabled = true
+    IQKeyboardManager.shared().isEnableAutoToolbar = true
   }
 
   func configChatView() {
@@ -417,8 +424,8 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     //채팅창 화면 상단 하단 gradation
     let gradient = CAGradientLayer()
     gradient.frame = chatView.view.bounds
-    gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
-    gradient.locations = [0, 0.1, 0.9, 1]
+    gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.black.cgColor]
+    gradient.locations = [0, 0.1, 0.8, 0.9, 1]
 
     chatView.view.layer.mask = gradient
 
@@ -427,7 +434,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     chatView.inputAccessoryView?.backgroundColor = .clear
 
     // 채팅창 화면 사이즈 및 위치
-    chatView.view.frame = CGRect(x: 0, y: 200, width: view.bounds.width-100, height: view.bounds.height - 300)
+    chatView.view.frame = CGRect(x: 0, y: 140, width: view.bounds.width, height: view.bounds.height - 200)
   }
 }
 
