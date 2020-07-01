@@ -94,6 +94,7 @@ class AssetListTableViewController: UITableViewController {
     if asset.stream.name.contains("Push") {
       let vc: PushStreamViewController = sb.instantiateViewController(withIdentifier: "PushStreamViewController") as! PushStreamViewController
       //self.navigationController?.pushViewController(vc, animated: true)
+      vc.modalPresentationStyle = .fullScreen
       self.present(vc, animated: true, completion: nil)
     } else {
       let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController

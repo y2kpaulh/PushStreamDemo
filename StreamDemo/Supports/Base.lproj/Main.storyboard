@@ -246,9 +246,6 @@
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="kJS-0h-2Bq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fOE-BS-35h"/>
-                        <connections>
-                            <action selector="tapBgBtn:" destination="3Fv-At-36m" eventType="touchUpInside" id="PqQ-JK-dJP"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="HM2-pC-5Lr"/>
                     <connections>
