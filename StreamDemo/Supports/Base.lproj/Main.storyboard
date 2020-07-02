@@ -328,17 +328,30 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewl-DO-7n3">
-                                <rect key="frame" x="309" y="60" width="24" height="22"/>
+                                <rect key="frame" x="292" y="60" width="24" height="22"/>
                                 <state key="normal" image="camera.fill" catalog="system"/>
                                 <connections>
                                     <action selector="rotateCamera:" destination="PlH-Fq-UGR" eventType="touchDown" id="djw-zb-zbD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVM-bx-DuO">
-                                <rect key="frame" x="349" y="60" width="19" height="23"/>
+                                <rect key="frame" x="332" y="60" width="19" height="23"/>
                                 <state key="normal" image="lightbulb.fill" catalog="system"/>
                                 <connections>
                                     <action selector="toggleTorch:" destination="PlH-Fq-UGR" eventType="touchDown" id="4Y0-GQ-44y"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNg-NH-9vw">
+                                <rect key="frame" x="374" y="61.5" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="l9N-v3-97D"/>
+                                    <constraint firstAttribute="height" constant="20" id="tvN-21-u2x"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" backgroundImage="close"/>
+                                <state key="selected" backgroundImage="mute"/>
+                                <connections>
+                                    <action selector="tapCloseBtn:" destination="PlH-Fq-UGR" eventType="touchUpInside" id="mRX-75-clg"/>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="u5s-KH-PXq">
@@ -411,7 +424,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="L4b-hc-bi6" firstAttribute="top" secondItem="u5s-KH-PXq" secondAttribute="bottom" constant="8" id="2PN-SS-P65"/>
                             <constraint firstAttribute="trailing" secondItem="L4b-hc-bi6" secondAttribute="trailing" constant="8" id="501-Y5-HIm"/>
@@ -422,6 +435,7 @@
                             <constraint firstItem="SVM-bx-DuO" firstAttribute="leading" secondItem="ewl-DO-7n3" secondAttribute="trailing" constant="16" id="Isy-c6-NmE"/>
                             <constraint firstItem="nXk-Dq-nTt" firstAttribute="leading" secondItem="uRw-s2-J7x" secondAttribute="leading" constant="8" id="KIZ-a8-JIG"/>
                             <constraint firstAttribute="trailing" secondItem="nQQ-MQ-PdA" secondAttribute="trailing" id="Lxo-pL-tmV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CNg-NH-9vw" secondAttribute="trailing" id="MOn-fc-EmC"/>
                             <constraint firstItem="iU2-y8-XZg" firstAttribute="leading" secondItem="1m3-7v-gaB" secondAttribute="trailing" constant="15" id="N6k-Jm-tNa"/>
                             <constraint firstItem="nQQ-MQ-PdA" firstAttribute="leading" secondItem="uRw-s2-J7x" secondAttribute="leading" id="PA1-zN-3kq"/>
                             <constraint firstAttribute="trailing" secondItem="u5s-KH-PXq" secondAttribute="trailing" constant="8" id="RXM-0s-q9U"/>
@@ -431,19 +445,21 @@
                             <constraint firstAttribute="bottom" secondItem="nQQ-MQ-PdA" secondAttribute="bottom" id="XMO-Ri-7wE"/>
                             <constraint firstItem="r9H-Zo-68w" firstAttribute="top" secondItem="iU2-y8-XZg" secondAttribute="bottom" constant="8" id="aY8-Pl-bdE"/>
                             <constraint firstItem="iU2-y8-XZg" firstAttribute="leading" secondItem="Vev-rT-kKm" secondAttribute="trailing" constant="15" id="bDi-Ex-9Uq"/>
+                            <constraint firstItem="CNg-NH-9vw" firstAttribute="centerY" secondItem="SVM-bx-DuO" secondAttribute="centerY" id="bbA-Uz-dXd"/>
                             <constraint firstItem="u5s-KH-PXq" firstAttribute="top" secondItem="SVM-bx-DuO" secondAttribute="bottom" constant="-1" id="cHB-Dp-hiV"/>
                             <constraint firstItem="iU2-y8-XZg" firstAttribute="leading" secondItem="r9H-Zo-68w" secondAttribute="leading" id="eYr-aT-z33"/>
                             <constraint firstItem="iU2-y8-XZg" firstAttribute="trailing" secondItem="r9H-Zo-68w" secondAttribute="trailing" id="fwZ-nb-SPq"/>
                             <constraint firstItem="jfN-5Q-hq4" firstAttribute="top" secondItem="r9H-Zo-68w" secondAttribute="bottom" constant="16" id="tg5-8Z-g2o"/>
                             <constraint firstItem="ddb-o6-kt8" firstAttribute="leading" secondItem="uRw-s2-J7x" secondAttribute="leading" constant="13" id="uZE-ZA-KwV"/>
                             <constraint firstItem="ddb-o6-kt8" firstAttribute="bottom" secondItem="r9H-Zo-68w" secondAttribute="bottom" id="wpB-Qg-TK7"/>
-                            <constraint firstItem="SVM-bx-DuO" firstAttribute="leading" secondItem="nQQ-MQ-PdA" secondAttribute="trailing" constant="-65" id="ybO-AM-4jF"/>
+                            <constraint firstItem="SVM-bx-DuO" firstAttribute="trailing" secondItem="CNg-NH-9vw" secondAttribute="trailing" constant="-43" id="wxb-P9-TJZ"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="tabBarItem:bu5-2M-jWr:image" id="bu5-2M-jWr"/>
                     <connections>
                         <outlet property="audioBitrateLabel" destination="IaA-WX-HzS" id="n7s-aE-gQr"/>
                         <outlet property="audioBitrateSlider" destination="ddb-o6-kt8" id="oT5-u6-JvR"/>
+                        <outlet property="closeBtn" destination="CNg-NH-9vw" id="PlQ-Og-R1H"/>
                         <outlet property="currentFPSLabel" destination="nXk-Dq-nTt" id="Go6-rl-BAi"/>
                         <outlet property="effectSegmentControl" destination="u5s-KH-PXq" id="5P4-ev-WyF"/>
                         <outlet property="fpsControl" destination="L4b-hc-bi6" id="eHA-TR-jRg"/>

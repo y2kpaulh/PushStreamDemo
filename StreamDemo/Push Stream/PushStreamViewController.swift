@@ -44,6 +44,7 @@ final class PushStreamViewController: UIViewController {
   @IBOutlet private weak var audioBitrateSlider: UISlider?
   @IBOutlet private weak var fpsControl: UISegmentedControl?
   @IBOutlet private weak var effectSegmentControl: UISegmentedControl?
+  @IBOutlet weak var closeBtn: UIButton!
 
   private var rtmpConnection = RTMPConnection()
   private var rtmpStream: RTMPStream!
@@ -56,6 +57,14 @@ final class PushStreamViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let image = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
+    closeBtn.setImage(image, for: .normal)
+    closeBtn.tintColor = .white
+
+    configStreaming()
+  }
+
+  func configStreaming() {
     guard let pushUrl =  preferences.string(forKey: "pushUrl") else { return }
     guard let streamKey =  preferences.string(forKey: "streamKey") else { return }
 
@@ -127,13 +136,13 @@ final class PushStreamViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     logger.info("viewWillAppear")
     super.viewWillAppear(animated)
+
     rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { error in
       logger.warn(error.description)
     }
     rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { error in
       logger.warn(error.description)
     }
-
     rtmpStream.rx.observeWeakly(UInt16.self, "currentFPS", options: .new)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] fps in
@@ -146,14 +155,18 @@ final class PushStreamViewController: UIViewController {
     lfView?.attachStream(rtmpStream)
     lfView?.videoGravity = .resizeAspectFill
     lfView?.cornerRadius = 8
-    lfView?.backgroundColor = .clear
   }
 
   override func viewWillDisappear(_ animated: Bool) {
     logger.info("viewWillDisappear")
     super.viewWillDisappear(animated)
+
     rtmpStream.close()
     rtmpStream.dispose()
+  }
+
+  @IBAction func tapCloseBtn(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
   }
 
   @IBAction func rotateCamera(_ sender: UIButton) {
@@ -201,10 +214,6 @@ final class PushStreamViewController: UIViewController {
     }
 
     rtmpStream.paused.toggle()
-  }
-
-  @IBAction func on(close: UIButton) {
-    self.dismiss(animated: true, completion: nil)
   }
 
   @IBAction func on(publish: UIButton) {

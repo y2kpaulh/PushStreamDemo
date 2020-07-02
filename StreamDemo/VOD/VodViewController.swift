@@ -17,9 +17,9 @@ import RxSwift
 import RxCocoa
 import PiPhone
 
-//protocol PullStreamViewControllerDelegate: class {
-//  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
-//}
+protocol PipViewControllerDelegate: class {
+  func PipViewController(_ videoPlayerViewController: UIViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
+}
 
 class VodViewController: UIViewController {
 
@@ -45,7 +45,7 @@ class VodViewController: UIViewController {
 
   @IBOutlet var pipToggleButton: UIButton!
 
-  weak var delegate: PullStreamViewControllerDelegate?
+  weak var delegate: PipViewControllerDelegate?
   //var player: AVPlayer?
   private var pictureInPictureController: AVPictureInPictureController!
   private var pictureInPictureObservations = [NSKeyValueObservation]()
@@ -171,7 +171,8 @@ class VodViewController: UIViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    playerView.player.replaceCurrentItem(with: nil)
+    //PIP 동작을 위해 현재 VC를 빠져나갈 경우 삭제되어야함.
+    // playerView.player.replaceCurrentItem(with: nil)
   }
 
   func configPlayer(url: String) {
@@ -374,7 +375,7 @@ extension VodViewController: VersaPlayerPlaybackDelegate {
     }
 
     self.pictureInPictureController = pictureInPictureController
-    // pictureInPictureController.delegate = self
+    pictureInPictureController.delegate = self
     pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
 
     pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
@@ -420,21 +421,22 @@ extension VodViewController: VersaPlayerPlaybackDelegate {
 }
 
 // MARK: - AVPictureInPictureControllerDelegate
-//extension VodViewController: AVPictureInPictureControllerDelegate {
-//
-//  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-//    strongSelf = self
-//  }
-//
-//  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-//    strongSelf = nil
-//  }
-//
-//  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-//    if let delegate = delegate {
-//      delegate.pullStreamViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
-//    } else {
-//      completionHandler(true)
-//    }
-//  }
-//}
+extension VodViewController: AVPictureInPictureControllerDelegate {
+
+  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+    strongSelf = self
+  }
+
+  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+    strongSelf = nil
+  }
+
+  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+    if let delegate = delegate {
+      delegate.PipViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
+    } else {
+      completionHandler(true)
+    }
+  }
+
+}

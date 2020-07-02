@@ -18,10 +18,6 @@ import RxCocoa
 import PiPhone
 import IQKeyboardManager
 
-protocol PullStreamViewControllerDelegate: class {
-  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
-}
-
 class PullStreamViewController: UIViewController {
 
   @IBOutlet weak var profileBtn: UIButton!
@@ -33,7 +29,7 @@ class PullStreamViewController: UIViewController {
 
   @IBOutlet var pipToggleButton: UIButton!
 
-  weak var delegate: PullStreamViewControllerDelegate?
+  weak var delegate: PipViewControllerDelegate?
   //var player: AVPlayer?
   private var pictureInPictureController: AVPictureInPictureController!
   private var pictureInPictureObservations = [NSKeyValueObservation]()
@@ -108,7 +104,7 @@ class PullStreamViewController: UIViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    playerView.player.replaceCurrentItem(with: nil)
+    //playerView.player.replaceCurrentItem(with: nil)
     IQKeyboardManager.shared().isEnabled = true
     IQKeyboardManager.shared().isEnableAutoToolbar = true
   }
@@ -341,7 +337,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       }
 
       self.pictureInPictureController = pictureInPictureController
-      pictureInPictureController.delegate = self
+      //      pictureInPictureController.delegate = self
       self.pipToggleButton.isEnabled = pictureInPictureController.isPictureInPicturePossible
 
       self.pictureInPictureObservations.append(pictureInPictureController.observe(\.isPictureInPictureActive) { [weak self] pictureInPictureController, _ in
@@ -430,21 +426,21 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 }
 
 // MARK: - AVPictureInPictureControllerDelegate
-extension PullStreamViewController: AVPictureInPictureControllerDelegate {
-
-  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-    strongSelf = self
-  }
-
-  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-    strongSelf = nil
-  }
-
-  func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-    if let delegate = delegate {
-      delegate.pullStreamViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
-    } else {
-      completionHandler(true)
-    }
-  }
-}
+//extension PullStreamViewController: AVPictureInPictureControllerDelegate {
+//
+//  func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+//    strongSelf = self
+//  }
+//
+//  func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+//    strongSelf = nil
+//  }
+//
+//  private func PipViewController(_ pictureInPictureController: UIViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+//    if let delegate = delegate {
+//      delegate.PipViewController(self, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler: completionHandler)
+//    } else {
+//      completionHandler(true)
+//    }
+//  }
+//}

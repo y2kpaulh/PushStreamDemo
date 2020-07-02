@@ -96,13 +96,25 @@ class AssetListTableViewController: UITableViewController {
       //self.navigationController?.pushViewController(vc, animated: true)
       vc.modalPresentationStyle = .fullScreen
       self.present(vc, animated: true, completion: nil)
-    } else {
+    } else if indexPath.row == 1 {
       let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
       vc.modalPresentationStyle = .fullScreen
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
       vc.delegate = self
+      self.navigationController?.pushViewController(vc, animated: true)
 
+      //      self.present(vc, animated: true, completion: {
+      //        self.tableView.deselectRow(at: indexPath, animated: true)
+      //      })
+    } else {
+      guard let vc: VodViewController = sb.instantiateViewController(withIdentifier: "VodViewController") as? VodViewController else { return }
+      //vc.modalPresentationStyle = .fullScreen
+      let urlStr = asset.stream.playlistURL
+      vc.url = urlStr
+      vc.delegate = self
+
+      //self.navigationController?.pushViewController(vc, animated: true)
       self.present(vc, animated: true, completion: {
         self.tableView.deselectRow(at: indexPath, animated: true)
       })
@@ -156,15 +168,15 @@ extension AssetListTableViewController: AssetListTableViewCellDelegate {
 }
 
 // MARK: - VideoPlayerViewControllerDelegate
-extension AssetListTableViewController: PullStreamViewControllerDelegate {
-  func pullStreamViewController(_ videoPlayerViewController: PullStreamViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+extension AssetListTableViewController: PipViewControllerDelegate {
+  func PipViewController(_ videoPlayerViewController: UIViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
     if navigationController!.viewControllers.firstIndex(of: videoPlayerViewController) != nil {
       completionHandler(true)
     } else {
-      self.present(self, animated: true, completion: {
-        completionHandler(true)
-      })
+      //      navigationController!.pushViewController(videoPlayerViewController, animated: true)
+      //      completionHandler(true)
+      self.present(videoPlayerViewController, animated: true)
+      completionHandler(true)
     }
   }
-
 }
