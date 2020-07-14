@@ -134,14 +134,14 @@ final class PushStreamViewController: UIViewController {
   }
 
   override func viewWillAppear(_ animated: Bool) {
-    logger.info("viewWillAppear")
+    //logger.info("viewWillAppear")
     super.viewWillAppear(animated)
 
-    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { error in
-      logger.warn(error.description)
+    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { _ in
+      //logger.warn(error.description)
     }
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { error in
-      logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { _ in
+      //logger.warn(error.description)
     }
     rtmpStream.rx.observeWeakly(UInt16.self, "currentFPS", options: .new)
       .observeOn(MainScheduler.instance)
@@ -158,7 +158,7 @@ final class PushStreamViewController: UIViewController {
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    logger.info("viewWillDisappear")
+    //logger.info("viewWillDisappear")
     super.viewWillDisappear(animated)
 
     rtmpStream.close()
@@ -170,10 +170,10 @@ final class PushStreamViewController: UIViewController {
   }
 
   @IBAction func rotateCamera(_ sender: UIButton) {
-    logger.info("rotateCamera")
+    //logger.info("rotateCamera")
     let position: AVCaptureDevice.Position = currentPosition == .back ? .front : .back
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { error in
-      logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { _ in
+      //logger.warn(error.description)
     }
     currentPosition = position
   }
@@ -249,7 +249,7 @@ final class PushStreamViewController: UIViewController {
     guard let data: ASObject = e.data as? ASObject, let code: String = data["code"] as? String else {
       return
     }
-    logger.info(code)
+    //logger.info(code)
     storageController.save(Log(msg: "\(storageController.currentTime())\(#function) \(code)"))
 
     switch code {
