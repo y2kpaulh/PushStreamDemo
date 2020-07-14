@@ -71,16 +71,6 @@ class VodViewController: UIViewController {
 
   private var disposeBag = DisposeBag()
 
-  var storageController: StorageController = StorageController()
-
-  public var logMsg: String = ""{
-    didSet {
-      if logMsg.count > 0 {
-        storageController.save(Log(msg: logMsg))
-      }
-    }
-  }
-
   var durationTime: Float64 = 0.0
 
   var playbackTime: Float64 = 0.0 {
@@ -117,8 +107,6 @@ class VodViewController: UIViewController {
   var playbackType: String = "" {
     didSet {
       guard oldValue != playbackType else { return }
-
-      storageController.save(Log(msg: "playback type: \(playbackType)\n"))
 
       DispatchQueue.main.async {
         self.streamTypeLabel.text = self.playbackType
@@ -279,7 +267,6 @@ extension VodViewController: VersaPlayerPlaybackDelegate {
       let livePositionStartSecond = CMTimeGetSeconds(livePosition.start)
       let livePositionEndSecond = CMTimeGetSeconds(livePosition.end)
 
-      storageController.save(Log(msg: "livePositionStartSecond:\(livePositionStartSecond) livePositionEndSecond:\(livePositionEndSecond)\n"))
     } else {
       guard let timeRange = currentItem.loadedTimeRanges.first?.timeRangeValue else { return }
       loadedTime = CMTimeGetSeconds(timeRange.duration)
@@ -291,13 +278,11 @@ extension VodViewController: VersaPlayerPlaybackDelegate {
       let seekPositionStartSecond = CMTimeGetSeconds(seekPosition.start)
       let seekPositionEndSecond = CMTimeGetSeconds(seekPosition.end)
 
-      storageController.save(Log(msg: "seekPositionStartSecond:\(seekPositionStartSecond) seekPositionEndSecond: \(seekPositionEndSecond)\n"))
     }
   }
 
   func playbackDidFailed(with error: VersaPlayerPlaybackError) {
     print(#function, "error occured:", error)
-    storageController.save(Log(msg: "\(storageController.currentTime()) \(#function) error occured: \(error)\n"))
 
     let alert =  UIAlertController(title: "AVPlayer Error", message: "\(error)", preferredStyle: .alert)
     let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in

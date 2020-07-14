@@ -48,16 +48,6 @@ class PullStreamViewController: UIViewController {
 
   private var disposeBag = DisposeBag()
 
-  var storageController: StorageController = StorageController()
-
-  public var logMsg: String = ""{
-    didSet {
-      if logMsg.count > 0 {
-        storageController.save(Log(msg: logMsg))
-      }
-    }
-  }
-
   var url: String = ""
 
   @IBOutlet weak var closeBtn: UIButton!
@@ -257,7 +247,6 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func playbackDidFailed(with error: VersaPlayerPlaybackError) {
     print(#function, "error occured:", error)
-    storageController.save(Log(msg: "\(storageController.currentTime()) \(#function) error occured: \(error)\n"))
 
     let alert =  UIAlertController(title: "AVPlayer Error", message: "\(error)", preferredStyle: .alert)
     let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in

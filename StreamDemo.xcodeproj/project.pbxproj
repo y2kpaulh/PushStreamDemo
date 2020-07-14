@@ -57,9 +57,6 @@
 		2E448858240DF7850084C4FE /* VersaPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448845240DF7850084C4FE /* VersaPlayerControls.swift */; };
 		2E448859240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448846240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift */; };
 		2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E448847240DF7850084C4FE /* VersaPlayerView.swift */; };
-		2E5532AC24BD99BC0086A7E9 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5532AB24BD99BC0086A7E9 /* Log.swift */; };
-		2E5532AE24BD99C40086A7E9 /* StorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5532AD24BD99C40086A7E9 /* StorageController.swift */; };
-		2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5EC324247E736700872DE1 /* RxPlayer.swift */; };
 		2E60870624A5839300C1747A /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6086F924A5839300C1747A /* ChatViewController.swift */; };
 		2E60870724A5839300C1747A /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6086FA24A5839300C1747A /* ChatRoomViewController.swift */; };
 		2E60870924A5839300C1747A /* NSDate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6086FD24A5839300C1747A /* NSDate+Extensions.swift */; };
@@ -134,9 +131,6 @@
 		2E448845240DF7850084C4FE /* VersaPlayerControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerControls.swift; sourceTree = "<group>"; };
 		2E448846240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerControlsCoordinator.swift; sourceTree = "<group>"; };
 		2E448847240DF7850084C4FE /* VersaPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersaPlayerView.swift; sourceTree = "<group>"; };
-		2E5532AB24BD99BC0086A7E9 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		2E5532AD24BD99C40086A7E9 /* StorageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorageController.swift; path = ../../../../../../.Trash/StorageController.swift; sourceTree = "<group>"; };
-		2E5EC324247E736700872DE1 /* RxPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPlayer.swift; sourceTree = "<group>"; };
 		2E6086F924A5839300C1747A /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2E6086FA24A5839300C1747A /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2E6086FD24A5839300C1747A /* NSDate+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extensions.swift"; sourceTree = "<group>"; };
@@ -406,19 +400,9 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
-		2E47424A241222AA00FF0401 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		2E47424B241222BD00FF0401 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				2E5532AB24BD99BC0086A7E9 /* Log.swift */,
-				2E5EC324247E736700872DE1 /* RxPlayer.swift */,
-				2E5532AD24BD99C40086A7E9 /* StorageController.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -510,7 +494,6 @@
 			isa = PBXGroup;
 			children = (
 				2E47424B241222BD00FF0401 /* Helper */,
-				2E47424A241222AA00FF0401 /* Model */,
 				2EE635022410CB1500C88FBC /* DebugViewController.swift */,
 			);
 			path = Debug;
@@ -724,12 +707,9 @@
 				2E448823240DF4E40084C4FE /* AssetPersistenceManager.swift in Sources */,
 				2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */,
 				2E60870724A5839300C1747A /* ChatRoomViewController.swift in Sources */,
-				2E5EC325247E736700872DE1 /* RxPlayer.swift in Sources */,
 				2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */,
 				2E448854240DF7850084C4FE /* VersaPlayerGestureRecieverViewDelegate.swift in Sources */,
-				2E5532AC24BD99BC0086A7E9 /* Log.swift in Sources */,
 				2E2F1FE623F67C4300B8FFEA /* VisualEffect.swift in Sources */,
-				2E5532AE24BD99C40086A7E9 /* StorageController.swift in Sources */,
 				2E44885A240DF7850084C4FE /* VersaPlayerView.swift in Sources */,
 				2E44884B240DF7850084C4FE /* VersaPlayerPlaybackDelegate.swift in Sources */,
 				2E448856240DF7850084C4FE /* VersaStatefulButton.swift in Sources */,

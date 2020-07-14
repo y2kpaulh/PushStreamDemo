@@ -9,21 +9,21 @@
 import UIKit
 
 class DebugViewController: UIViewController {
-  var storageController: StorageController = StorageController()
+  //var storageController: StorageController = StorageController()
   @IBOutlet weak var logMsgView: UITextView!
 
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    guard let log = storageController.fetchLog() else { return }
-    logMsgView.text = log.msg
+    //guard let log = storageController.fetchLog() else { return }
+    //logMsgView.text = log.msg
 
   }
   @IBAction func tapDeleteBtn(_ sender: Any) {
     let alert =  UIAlertController(title: nil, message: "Are you sure want to delete message?", preferredStyle: .alert)
 
     let ok = UIAlertAction(title: "OK", style: .default, handler: { (_) in
-      self.storageController.deleteAll()
+      //self.storageController.deleteAll()
       self.dismiss(animated: true, completion: nil)
     })
     let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

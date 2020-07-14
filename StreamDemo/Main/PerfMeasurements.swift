@@ -11,16 +11,6 @@ import os.log
 
 /// - Tag: PerfMeasurements
 class PerfMeasurements: NSObject {
-  var storageController: StorageController = StorageController()
-
-  public var logMsg: String = ""{
-    didSet {
-      if logMsg.count > 0 {
-
-        storageController.save(Log(msg: logMsg))
-      }
-    }
-  }
 
   /// Time when this class was created.
   private var creationTime: CFAbsoluteTime = 0.0
@@ -121,13 +111,11 @@ class PerfMeasurements: NSObject {
       stallTime = self.startupTime
 
       os_log("Perf -- Playback started in %.2f seconds", self.startupTime)
-      self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Playback started in %.2f seconds\n", self.startupTime)
     } else if rate > 0 && lastStallTime > 0 {
       // Subsequent rate change
       playbackStallEnded()
 
       os_log("Perf -- Playback resumed in %.2f seconds", totalStallTime)
-      self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Playback resumed in %.2f seconds\n", totalStallTime)
     }
 
     return stallTime
@@ -136,8 +124,6 @@ class PerfMeasurements: NSObject {
   /// Called when playback stalls.
   func playbackStalled() {
     os_log("Perf -- Playback stalled")
-    self.logMsg = ("\(storageController.currentTime()) Perf -- Playback stalled\n")
-
     lastStallTime = CACurrentMediaTime()
   }
 
@@ -154,15 +140,11 @@ class PerfMeasurements: NSObject {
     playbackStallEnded()
 
     os_log("Perf -- Playback ended")
-    self.logMsg = ("\(storageController.currentTime()) Perf -- Playback ended\n")
 
     os_log(" Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
-    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Time-weighted Indicated Bitrate: %.2fMbps\n", timeWeightedIBR / 1_000_000)
 
     os_log("Perf -- Stall rate: %.2f stalls/hour", stallRate)
-    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Time-weighted Indicated Bitrate: %.2fMbps\n", timeWeightedIBR / 1_000_000)
 
     os_log("Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
-    self.logMsg = String(format: "\(storageController.currentTime()) Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched\n", stallWaitRatio)
   }
 }

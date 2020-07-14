@@ -29,7 +29,6 @@ final class PushStreamViewController: UIViewController {
   let preferences = UserDefaults.standard
   var uri = ""
   var streamName = "ShallWeShop-iOS"
-  var storageController: StorageController = StorageController()
   let controller = RPBroadcastController()
   let recorder = RPScreenRecorder.shared()
 
@@ -250,8 +249,6 @@ final class PushStreamViewController: UIViewController {
       return
     }
     //logger.info(code)
-    storageController.save(Log(msg: "\(storageController.currentTime())\(#function) \(code)"))
-
     switch code {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
@@ -275,7 +272,6 @@ final class PushStreamViewController: UIViewController {
   private func rtmpErrorHandler(_ notification: Notification) {
     let e = Event.from(notification)
     print("rtmpErrorHandler: \(e)")
-    storageController.save(Log(msg: "\(storageController.currentTime()) rtmpErrorHandler: \(e)"))
 
     DispatchQueue.main.async {
       self.rtmpConnection.connect(self.uri)
