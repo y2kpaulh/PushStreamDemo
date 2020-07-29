@@ -227,7 +227,7 @@ final class PushStreamViewController: UIViewController {
       if pauseButton!.isSelected {
         self.on(pause: pauseButton!)
       }
-      self.stopRecording()
+      //self.stopRecording()
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
@@ -236,7 +236,7 @@ final class PushStreamViewController: UIViewController {
       publish.setTitle("■", for: [])
       publish.backgroundColor = .gray
 
-      self.startRecording()
+      //self.startRecording()
     }
 
     publish.isSelected.toggle()
@@ -316,35 +316,35 @@ final class PushStreamViewController: UIViewController {
     }
   }
 }
-
-extension PushStreamViewController: RPPreviewViewControllerDelegate {
-  //  @objc func startRecording() {
-  func startRecording() {
-    recorder.startRecording { [unowned self] (error) in
-      if let unwrappedError = error {
-        print(unwrappedError.localizedDescription)
-        let alert =  UIAlertController(title: nil, message: unwrappedError.localizedDescription, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-      } else {
-        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
-      }
-    }
-  }
-
-  //  @objc func stopRecording() {
-  func stopRecording() {
-    recorder.stopRecording { [unowned self] (preview, _) in
-      // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
-      if let unwrappedPreview = preview {
-        unwrappedPreview.previewControllerDelegate = self
-        self.present(unwrappedPreview, animated: true)
-      }
-    }
-  }
-
-  func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-    dismiss(animated: true)
-  }
-}
+//
+//extension PushStreamViewController: RPPreviewViewControllerDelegate {
+//  //  @objc func startRecording() {
+//  func startRecording() {
+//    recorder.startRecording { [unowned self] (error) in
+//      if let unwrappedError = error {
+//        print(unwrappedError.localizedDescription)
+//        let alert =  UIAlertController(title: nil, message: unwrappedError.localizedDescription, preferredStyle: .alert)
+//        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(ok)
+//        self.present(alert, animated: true, completion: nil)
+//      } else {
+//        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
+//      }
+//    }
+//  }
+//
+//  //  @objc func stopRecording() {
+//  func stopRecording() {
+//    recorder.stopRecording { [unowned self] (preview, _) in
+//      // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
+//      if let unwrappedPreview = preview {
+//        unwrappedPreview.previewControllerDelegate = self
+//        self.present(unwrappedPreview, animated: true)
+//      }
+//    }
+//  }
+//
+//  func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+//    dismiss(animated: true)
+//  }
+//}

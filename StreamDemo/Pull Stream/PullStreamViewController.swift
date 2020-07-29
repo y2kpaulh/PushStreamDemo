@@ -16,6 +16,7 @@ import AVFoundation
 import RxSwift
 import RxCocoa
 import PiPhone
+import PictureInPicture
 import IQKeyboardManager
 
 class PullStreamViewController: UIViewController {
@@ -25,6 +26,8 @@ class PullStreamViewController: UIViewController {
   //  @IBOutlet weak var streamTypeLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var playerView: VersaPlayerView!
+  @IBOutlet weak var volumeBtn: UIButton!
+
   // @IBOutlet weak var controls: VersaPlayerControls!
 
   @IBOutlet var pipToggleButton: UIButton!
@@ -52,65 +55,71 @@ class PullStreamViewController: UIViewController {
 
   @IBOutlet weak var closeBtn: UIButton!
 
-  let chatView = ChatRoomViewController()
+  // let chatView = ChatRoomViewController()
 
   var startPointX: CGFloat = UIScreen.main.bounds.width - 20
   var startPointY: CGFloat = UIScreen.main.bounds.height
   var endPointX: CGFloat = UIScreen.main.bounds.width - 20
   var endPointY: CGFloat = -100.0
 
-  /// Required for the `MessageInputBar` to be visible
-  override var canBecomeFirstResponder: Bool {
-    return chatView.canBecomeFirstResponder
-  }
-
-  /// Required for the `MessageInputBar` to be visible
-  override var inputAccessoryView: UIView? {
-    return chatView.inputAccessoryView
-  }
+  //  /// Required for the `MessageInputBar` to be visible
+  //  override var canBecomeFirstResponder: Bool {
+  //    return chatView.canBecomeFirstResponder
+  //  }
+  //
+  //  /// Required for the `MessageInputBar` to be visible
+  //  override var inputAccessoryView: UIView? {
+  //    return chatView.inputAccessoryView
+  //  }
 
   override func loadView() {
     super.loadView()
 
-    let image = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
+    let image = UIImage(named: "downArrow")?.withRenderingMode(.alwaysTemplate)
     closeBtn.setImage(image, for: .normal)
     closeBtn.tintColor = .white
 
     configPlayer(url: url)
-    configChatView()
+    //  configChatView()
   }
 
   @IBAction func tapCloseBtn(_ sender: Any) {
-    self.dismiss(animated: true, completion: nil)
+    //self.dismiss(animated: true, completion: nil)
+    PictureInPicture.shared.makeSmaller()
+
+  }
+
+  @IBAction private func onTapVolumeButton(_ sender: UIButton) {
+    let isMuted = !sender.isSelected
+    volumeBtn.isSelected = isMuted
+    playerView.player.isMuted = isMuted
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    let shadowConfig = PictureInPicture.ShadowConfig(color: .black, offset: .zero, radius: 20, opacity: 1)
+    PictureInPicture.configure(movable: true, scale: 0.2, margin: 10, defaultEdge: .right, shadowConfig: shadowConfig)
+
+    self.titleLabel.text = "Inpyo"
+    self.profileBtn.setImage(UIImage(named: "Inpyo"), for: .normal)
   }
 
   override func viewWillAppear(_ animated: Bool) {
     IQKeyboardManager.shared().isEnabled = false
     IQKeyboardManager.shared().isEnableAutoToolbar = false
+    observeNotifications()
   }
 
   override func viewWillDisappear(_ animated: Bool) {
     //playerView.player.replaceCurrentItem(with: nil)
+    NotificationCenter.default.removeObserver(self)
+
     IQKeyboardManager.shared().isEnabled = true
     IQKeyboardManager.shared().isEnableAutoToolbar = true
   }
 
-  func configChatView() {
-    chatView.willMove(toParent: self)
-    addChild(chatView)
-    view.addSubview(chatView.view)
-    chatView.didMove(toParent: self)
-
-    self.titleLabel.text = chatView.userInfo.displayName
-    self.profileBtn.setImage(UIImage(named: "Inpyo"), for: .normal)
-  }
-
   func configPlayer(url: String) {
-    setupPictureInPicture()
+    // setupPictureInPicture()
 
     if let _url = URL.init(string: url) {
       let item = VersaPlayerItem(url: _url)
@@ -134,22 +143,22 @@ class PullStreamViewController: UIViewController {
 
     playerView.isUserInteractionEnabled = false
 
-    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { _ in
-        print("didEnterBackgroundNotification")
-        self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
-        self.playerView.renderingView.playerLayer.player = nil
-      })
-      .disposed(by: disposeBag)
-
-    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { _ in
-        print("didBecomeActiveNotification")
-        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
-      })
-      .disposed(by: disposeBag)
+    //    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+    //      .observeOn(MainScheduler.instance)
+    //      .subscribe(onNext: { _ in
+    //        print("didEnterBackgroundNotification")
+    //        self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
+    //        self.playerView.renderingView.playerLayer.player = nil
+    //      })
+    //      .disposed(by: disposeBag)
+    //
+    //    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+    //      .observeOn(MainScheduler.instance)
+    //      .subscribe(onNext: { _ in
+    //        print("didBecomeActiveNotification")
+    //        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
+    //      })
+    //      .disposed(by: disposeBag)
   }
 
   @objc func handleTap() {
@@ -399,18 +408,18 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
     super.viewDidLayoutSubviews()
 
     //채팅창 화면 상단 하단 gradation
-    let gradient = CAGradientLayer()
-    gradient.frame = chatView.view.bounds
-    gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.black.cgColor]
-    gradient.locations = [0, 0.1, 0.8, 0.9, 1]
-
-    chatView.view.layer.mask = gradient
-    chatView.view.backgroundColor = .clear
-    chatView.messageInputBar.backgroundView.backgroundColor = .clear
-    chatView.inputAccessoryView?.backgroundColor = .clear
-
-    // 채팅창 화면 사이즈 및 위치
-    chatView.view.frame = CGRect(x: 0, y: 140, width: view.bounds.width, height: view.bounds.height - 200)
+    //    let gradient = CAGradientLayer()
+    //    gradient.frame = chatView.view.bounds
+    //    gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.black.cgColor]
+    //    gradient.locations = [0, 0.1, 0.8, 0.9, 1]
+    //
+    //    chatView.view.layer.mask = gradient
+    //    chatView.view.backgroundColor = .clear
+    //    chatView.messageInputBar.backgroundView.backgroundColor = .clear
+    //    chatView.inputAccessoryView?.backgroundColor = .clear
+    //
+    //    // 채팅창 화면 사이즈 및 위치
+    //    chatView.view.frame = CGRect(x: 0, y: 140, width: view.bounds.width, height: view.bounds.height - 200)
   }
 }
 
@@ -433,3 +442,66 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 //    }
 //  }
 //}
+extension PullStreamViewController {
+  fileprivate func observeNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeSmaller), name: .PictureInPictureMadeSmaller, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeLarger), name: .PictureInPictureMadeLarger, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMoved(_:)), name: .PictureInPictureMoved, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDismissed), name: .PictureInPictureDismissed, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDidBeginMakingSmaller), name: .PictureInPictureDidBeginMakingSmaller, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureDidBeginMakingLarger), name: .PictureInPictureDidBeginMakingLarger, object: nil)
+    //    NotificationCenter.default.addObserver(self, selector: #selector(PullStreamViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    //    NotificationCenter.default.addObserver(self, selector: #selector(PullStreamViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+
+  @objc private func pictureInPictureMadeSmaller() {
+    print("pictureInPictureMadeSmaller")
+  }
+
+  @objc private func pictureInPictureMadeLarger() {
+    print("pictureInPictureMadeLarger")
+  }
+
+  @objc private func pictureInPictureMoved(_ notification: Notification) {
+    let userInfo = notification.userInfo!
+    let oldCorner = userInfo[PictureInPictureOldCornerUserInfoKey] as! PictureInPicture.Corner
+    let newCorner = userInfo[PictureInPictureNewCornerUserInfoKey] as! PictureInPicture.Corner
+    print("pictureInPictureMoved(old: \(oldCorner), new: \(newCorner))")
+  }
+
+  @objc private func pictureInPictureDismissed() {
+    print("pictureInPictureDismissed")
+  }
+
+  @objc private func pictureInPictureDidBeginMakingSmaller() {
+    print("pictureInPictureDidBeginMakingSmaller")
+    // self.topMenuView.isHidden = true
+    // self.channelView.bottomMenuView.isHidden = true
+  }
+
+  @objc private func pictureInPictureDidBeginMakingLarger() {
+    print("pictureInPictureDidBeginMakingLarger")
+    //self.topMenuView.isHidden = false
+    // self.channelView.bottomMenuView.isHidden = true
+  }
+
+  //  @objc func keyboardWillHide(_ sender: Notification) {
+  //    if chatView.messageInputBar.inputTextView.isFirstResponder {
+  //      chatView.messageInputBar.inputTextView.resignFirstResponder()
+  //      chatView.messageInputBar.isHidden = true
+  //    }
+  //    //    if let userInfo = (sender as NSNotification).userInfo {
+  //    //      if let _ = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height {
+  //    //
+  //    //      }
+  //    //    }
+  //  }
+  //
+  //  @objc func keyboardWillShow(_ sender: Notification) {
+  //    //    if let userInfo = (sender as NSNotification).userInfo {
+  //    //      if let keyboardHeight = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height {
+  //    //
+  //    //      }
+  //    //    }
+  //  }
+}

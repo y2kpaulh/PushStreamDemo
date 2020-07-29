@@ -13,6 +13,7 @@ import UIKit
 import AVFoundation
 import AVKit
 import PiPhone
+import PictureInPicture
 
 /// - Tag: AssetListTableViewController
 class AssetListTableViewController: UITableViewController {
@@ -96,28 +97,18 @@ class AssetListTableViewController: UITableViewController {
       //self.navigationController?.pushViewController(vc, animated: true)
       vc.modalPresentationStyle = .fullScreen
       self.present(vc, animated: true, completion: nil)
-    } else if indexPath.row == 1 {
+    } else {
       let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
       vc.modalPresentationStyle = .fullScreen
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
-      vc.delegate = self
-      self.navigationController?.pushViewController(vc, animated: true)
+      //  vc.delegate = self
+      //      self.navigationController?.pushViewController(vc, animated: true)
+      PictureInPicture.shared.present(with: vc)
 
       //      self.present(vc, animated: true, completion: {
       //        self.tableView.deselectRow(at: indexPath, animated: true)
       //      })
-    } else {
-      guard let vc: VodViewController = sb.instantiateViewController(withIdentifier: "VodViewController") as? VodViewController else { return }
-      //vc.modalPresentationStyle = .fullScreen
-      let urlStr = asset.stream.playlistURL
-      vc.url = urlStr
-      vc.delegate = self
-
-      //self.navigationController?.pushViewController(vc, animated: true)
-      self.present(vc, animated: true, completion: {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-      })
     }
   }
 

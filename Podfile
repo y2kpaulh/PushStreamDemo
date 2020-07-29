@@ -15,6 +15,7 @@ target 'StreamDemo' do
     pod 'RxSwift'
     pod 'RxCocoa'
     pod 'PiPhone'
+    pod "PictureInPicture"
     pod 'MessageKit'
     pod 'Socket.IO-Client-Swift'
     pod 'Swinject'
