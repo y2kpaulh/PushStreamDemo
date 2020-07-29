@@ -3,6 +3,9 @@ import HaishinKit
 import Photos
 import UIKit
 import VideoToolbox
+import RxSwift
+import RxCocoa
+import ReplayKit
 
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
   static let `default` = ExampleRecorderDelegate()
@@ -25,8 +28,9 @@ final class PushStreamViewController: UIViewController {
   private static let maxRetryCount: Int = 5
   let preferences = UserDefaults.standard
   var uri = ""
-  var streamName = ""
-  var storageController: StorageController = StorageController()
+  var streamName = "ShallWeShop-iOS"
+  let controller = RPBroadcastController()
+  let recorder = RPScreenRecorder.shared()
 
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet private weak var currentFPSLabel: UILabel?
@@ -39,6 +43,7 @@ final class PushStreamViewController: UIViewController {
   @IBOutlet private weak var audioBitrateSlider: UISlider?
   @IBOutlet private weak var fpsControl: UISegmentedControl?
   @IBOutlet private weak var effectSegmentControl: UISegmentedControl?
+  @IBOutlet weak var closeBtn: UIButton!
 
   private var rtmpConnection = RTMPConnection()
   private var rtmpStream: RTMPStream!
@@ -46,10 +51,19 @@ final class PushStreamViewController: UIViewController {
   private var currentEffect: VideoEffect?
   private var currentPosition: AVCaptureDevice.Position = .back
   private var retryCount: Int = 0
+  private var disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let image = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
+    closeBtn.setImage(image, for: .normal)
+    closeBtn.tintColor = .white
+
+    configStreaming()
+  }
+
+  func configStreaming() {
     guard let pushUrl =  preferences.string(forKey: "pushUrl") else { return }
     guard let streamKey =  preferences.string(forKey: "streamKey") else { return }
 
@@ -66,55 +80,99 @@ final class PushStreamViewController: UIViewController {
     }
 
     rtmpStream = RTMPStream(connection: rtmpConnection)
-    if let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
-      rtmpStream.orientation = orientation
-    }
+
     rtmpStream.captureSettings = [
       .sessionPreset: AVCaptureSession.Preset.hd1280x720,
       .continuousAutofocus: true,
-      .continuousExposure: true
-      // .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
+      .continuousExposure: true,
+      .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
+
     rtmpStream.videoSettings = [
       .width: 720,
-      .height: 1280
+      .height: 1280,
+      .profileLevel: kVTProfileLevel_H264_High_AutoLevel
     ]
+
     rtmpStream.mixer.recorder.delegate = ExampleRecorderDelegate.shared
 
     videoBitrateSlider?.value = Float(RTMPStream.defaultVideoBitrate) / 1024
     audioBitrateSlider?.value = Float(RTMPStream.defaultAudioBitrate) / 1024
 
-    NotificationCenter.default.addObserver(self, selector: #selector(on(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+    NotificationCenter.default.rx.notification(UIDevice.orientationDidChangeNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        guard let orientation = DeviceUtil.videoOrientation(by: (UIApplication.shared.windows
+          .first?
+          .windowScene!
+          .interfaceOrientation)!) else {
+            return
+        }
+
+        print("orientationDidChangeNotification", orientation.rawValue)
+
+        self.rtmpStream.orientation = orientation
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didEnterBackgroundNotification")
+        // rtmpStream.receiveVideo = false
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didBecomeActiveNotification")
+        // rtmpStream.receiveVideo = true
+      })
+      .disposed(by: disposeBag)
   }
 
   override func viewWillAppear(_ animated: Bool) {
-    logger.info("viewWillAppear")
+    //logger.info("viewWillAppear")
     super.viewWillAppear(animated)
-    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { error in
-      logger.warn(error.description)
+
+    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { _ in
+      //logger.warn(error.description)
     }
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { error in
-      logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { _ in
+      //logger.warn(error.description)
     }
-    rtmpStream.addObserver(self, forKeyPath: "currentFPS", options: .new, context: nil)
+    rtmpStream.rx.observeWeakly(UInt16.self, "currentFPS", options: .new)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] fps in
+        guard let self = self else { return }
+        guard let currentFps = fps else { return }
+        self.currentFPSLabel?.text = "\(currentFps) fps"
+      })
+      .disposed(by: disposeBag)
+
     lfView?.attachStream(rtmpStream)
+    lfView?.videoGravity = .resizeAspectFill
+    lfView?.cornerRadius = 8
   }
 
   override func viewWillDisappear(_ animated: Bool) {
-    logger.info("viewWillDisappear")
+    //logger.info("viewWillDisappear")
     super.viewWillDisappear(animated)
-    rtmpStream.removeObserver(self, forKeyPath: "currentFPS")
+
     rtmpStream.close()
     rtmpStream.dispose()
   }
 
+  @IBAction func tapCloseBtn(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
+
   @IBAction func rotateCamera(_ sender: UIButton) {
-    logger.info("rotateCamera")
+    //logger.info("rotateCamera")
     let position: AVCaptureDevice.Position = currentPosition == .back ? .front : .back
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { error in
-      logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { _ in
+      //logger.warn(error.description)
     }
     currentPosition = position
   }
@@ -157,10 +215,6 @@ final class PushStreamViewController: UIViewController {
     rtmpStream.paused.toggle()
   }
 
-  @IBAction func on(close: UIButton) {
-    self.dismiss(animated: true, completion: nil)
-  }
-
   @IBAction func on(publish: UIButton) {
     if publish.isSelected {
       UIApplication.shared.isIdleTimerDisabled = false
@@ -173,7 +227,7 @@ final class PushStreamViewController: UIViewController {
       if pauseButton!.isSelected {
         self.on(pause: pauseButton!)
       }
-
+      //self.stopRecording()
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
@@ -181,6 +235,8 @@ final class PushStreamViewController: UIViewController {
       rtmpConnection.connect(uri)
       publish.setTitle("■", for: [])
       publish.backgroundColor = .gray
+
+      //self.startRecording()
     }
 
     publish.isSelected.toggle()
@@ -192,14 +248,13 @@ final class PushStreamViewController: UIViewController {
     guard let data: ASObject = e.data as? ASObject, let code: String = data["code"] as? String else {
       return
     }
-    logger.info(code)
-    storageController.save(Log(msg: "\(storageController.currentTime())\(#function) \(code)"))
-
+    //logger.info(code)
     switch code {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
       rtmpStream!.publish(streamName)
-    // sharedObject!.connect(rtmpConnection)
+      // sharedObject!.connect(rtmpConnection)
+
     case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
       guard retryCount <= PushStreamViewController.maxRetryCount else {
         return
@@ -217,7 +272,6 @@ final class PushStreamViewController: UIViewController {
   private func rtmpErrorHandler(_ notification: Notification) {
     let e = Event.from(notification)
     print("rtmpErrorHandler: \(e)")
-    storageController.save(Log(msg: "\(storageController.currentTime()) rtmpErrorHandler: \(e)"))
 
     DispatchQueue.main.async {
       self.rtmpConnection.connect(self.uri)
@@ -252,37 +306,45 @@ final class PushStreamViewController: UIViewController {
     }
     switch segment.selectedSegmentIndex {
     case 1:
-      currentEffect = MonochromeEffect()
+      currentEffect = RotationEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
-      currentEffect = PronamaEffect()
+      currentEffect = PsyEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     default:
       break
     }
   }
-
-  @objc
-  private func on(_ notification: Notification) {
-    guard let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) else {
-      return
-    }
-    rtmpStream.orientation = orientation
-  }
-
-  @objc
-  private func didEnterBackground(_ notification: Notification) {
-    // rtmpStream.receiveVideo = false
-  }
-
-  @objc
-  private func didBecomeActive(_ notification: Notification) {
-    // rtmpStream.receiveVideo = true
-  }
-
-  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-    if Thread.isMainThread {
-      currentFPSLabel?.text = "\(rtmpStream.currentFPS)"
-    }
-  }
 }
+//
+//extension PushStreamViewController: RPPreviewViewControllerDelegate {
+//  //  @objc func startRecording() {
+//  func startRecording() {
+//    recorder.startRecording { [unowned self] (error) in
+//      if let unwrappedError = error {
+//        print(unwrappedError.localizedDescription)
+//        let alert =  UIAlertController(title: nil, message: unwrappedError.localizedDescription, preferredStyle: .alert)
+//        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(ok)
+//        self.present(alert, animated: true, completion: nil)
+//      } else {
+//        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
+//      }
+//    }
+//  }
+//
+//  //  @objc func stopRecording() {
+//  func stopRecording() {
+//    recorder.stopRecording { [unowned self] (preview, _) in
+//      // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
+//      if let unwrappedPreview = preview {
+//        unwrappedPreview.previewControllerDelegate = self
+//        self.present(unwrappedPreview, animated: true)
+//      }
+//    }
+//  }
+//
+//  func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
+//    dismiss(animated: true)
+//  }
+//}

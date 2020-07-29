@@ -12,6 +12,8 @@
 import UIKit
 import AVFoundation
 import AVKit
+import PiPhone
+import PictureInPicture
 
 /// - Tag: AssetListTableViewController
 class AssetListTableViewController: UITableViewController {
@@ -50,6 +52,8 @@ class AssetListTableViewController: UITableViewController {
                                            name: .AssetListManagerDidLoad, object: nil)
     tableView.tableFooterView = UIView()
 
+    PiPManager.isPictureInPicturePossible = true
+    PiPManager.contentInsetAdjustmentBehavior = .navigationBar
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -98,16 +102,20 @@ class AssetListTableViewController: UITableViewController {
     if asset.stream.name.contains("Push") {
       let vc: PushStreamViewController = sb.instantiateViewController(withIdentifier: "PushStreamViewController") as! PushStreamViewController
       //self.navigationController?.pushViewController(vc, animated: true)
+      vc.modalPresentationStyle = .fullScreen
       self.present(vc, animated: true, completion: nil)
     } else {
       let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
-
+      vc.modalPresentationStyle = .fullScreen
       let urlStr = asset.stream.playlistURL
       vc.url = urlStr
+      //  vc.delegate = self
+      //      self.navigationController?.pushViewController(vc, animated: true)
+      PictureInPicture.shared.present(with: vc)
 
-      self.present(vc, animated: true, completion: {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-      })
+      //      self.present(vc, animated: true, completion: {
+      //        self.tableView.deselectRow(at: indexPath, animated: true)
+      //      })
     }
   }
 
@@ -154,5 +162,19 @@ extension AssetListTableViewController: AssetListTableViewCellDelegate {
     guard let indexPath = tableView.indexPath(for: cell) else { return }
 
     tableView.reloadRows(at: [indexPath], with: .automatic)
+  }
+}
+
+// MARK: - VideoPlayerViewControllerDelegate
+extension AssetListTableViewController: PipViewControllerDelegate {
+  func PipViewController(_ videoPlayerViewController: UIViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+    if navigationController!.viewControllers.firstIndex(of: videoPlayerViewController) != nil {
+      completionHandler(true)
+    } else {
+      //      navigationController!.pushViewController(videoPlayerViewController, animated: true)
+      //      completionHandler(true)
+      self.present(videoPlayerViewController, animated: true)
+      completionHandler(true)
+    }
   }
 }

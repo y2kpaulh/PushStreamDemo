@@ -74,7 +74,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 def import_pods
-    pod 'HaishinKit', '~> 1.0.5'
+    pod 'HaishinKit', '~> 1.0.9'
 end
 
 target 'Your Target'  do
@@ -84,7 +84,11 @@ end
 ```
 ### Carthage
 ```
-github "shogo4405/HaishinKit.swift" ~> 1.0.5
+github "shogo4405/HaishinKit.swift" ~> 1.0.9
+```
+### Swift Package Manager
+```
+https://github.com/shogo4405/HaishinKit.swift
 ```
 
 ## License
@@ -96,7 +100,7 @@ Paypal
 
 Bitcoin
 ```txt
-1LP7Jo4VwAFdEisJSykBAtUyAusZjozSpw
+3FnjC3CmwFLTzNY5WPNz4LjTo1uxGNozUR
 ```
 
 ## Prerequisites
@@ -152,8 +156,9 @@ var rtmpStream = RTMPStream(connection: rtmpConnection)
 rtmpStream.captureSettings = [
     .fps: 30, // FPS
     .sessionPreset: AVCaptureSession.Preset.medium, // input video width/height
-    .continuousAutofocus: false, // use camera autofocus mode
-    .continuousExposure: false, //  use camera exposure mode
+    // .isVideoMirrored: false,
+    // .continuousAutofocus: false, // use camera autofocus mode
+    // .continuousExposure: false, //  use camera exposure mode
     // .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
 ]
 rtmpStream.audioSettings = [

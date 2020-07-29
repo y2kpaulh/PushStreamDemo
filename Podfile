@@ -12,4 +12,11 @@ target 'StreamDemo' do
     pod 'Kingfisher', '~> 5.0'
     pod 'Alamofire'
     pod 'IQKeyboardManager'
+    pod 'RxSwift'
+    pod 'RxCocoa'
+    pod 'PiPhone'
+    pod "PictureInPicture"
+    pod 'MessageKit'
+    pod 'Socket.IO-Client-Swift'
+    pod 'Swinject'
 end

@@ -33,17 +33,6 @@ open class VersaPlayerView: View, PIPProtocol {
     player.replaceCurrentItem(with: nil)
   }
 
-  var storageController: StorageController = StorageController()
-
-  public var logMsg: String = ""{
-    didSet {
-      if logMsg.count > 0 {
-
-        storageController.save(Log(msg: logMsg))
-      }
-    }
-  }
-
   /// VersaPlayer extension dictionary
   public var extensions: [String: VersaPlayerExtension] = [:]
 
@@ -247,12 +236,12 @@ open class VersaPlayerView: View, PIPProtocol {
   ///
   /// - Parameters:
   ///     - item: The VPlayerItem instance to add to player.
-  open func set(item: VersaPlayerItem?) {
+  open func
+    set(item: VersaPlayerItem?) {
     if !ready {
       prepare()
     }
 
-    storageController.save(Log(msg: "\(storageController.currentTime()) \(String(describing: item))"))
     player.replaceCurrentItem(with: item)
     if autoplay && item?.error == nil {
       play()
