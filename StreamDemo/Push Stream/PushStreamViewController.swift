@@ -103,10 +103,10 @@ final class PushStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         guard let orientation = DeviceUtil.videoOrientation(by: (UIApplication.shared.windows
-          .first?
-          .windowScene!
-          .interfaceOrientation)!) else {
-            return
+                                                                  .first?
+                                                                  .windowScene!
+                                                                  .interfaceOrientation)!) else {
+          return
         }
 
         print("orientationDidChangeNotification", orientation.rawValue)
@@ -253,7 +253,7 @@ final class PushStreamViewController: UIViewController {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
       rtmpStream!.publish(streamName)
-      // sharedObject!.connect(rtmpConnection)
+    // sharedObject!.connect(rtmpConnection)
 
     case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
       guard retryCount <= PushStreamViewController.maxRetryCount else {

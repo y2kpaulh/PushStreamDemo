@@ -91,12 +91,12 @@ open class NetSocket: NSObject {
     }
 
     final func doOutputProcess(_ buffer: UnsafePointer<UInt8>?, maxLength: Int) {
-        guard let buffer = buffer, 0 < maxLength else {
+        guard let buffer = buffer else {
             return
         }
         var total: Int = 0
         repeat {
-            guard let outputStream = outputStream else {
+            guard let outputStream = outputStream, outputStream.streamStatus == .open else {
                 return
             }
             let length = outputStream.write(buffer.advanced(by: total), maxLength: maxLength - total)
@@ -104,6 +104,8 @@ open class NetSocket: NSObject {
                 total += length
                 totalBytesOut.mutate { $0 += Int64(length) }
                 queueBytesOut.mutate { $0 -= Int64(length) }
+            } else {
+                deinitConnection(isDisconnected: true)
             }
         } while total < maxLength
     }
@@ -141,7 +143,7 @@ open class NetSocket: NSObject {
         outputStream.open()
 
         if 0 < timeout {
-            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
+            outputQueue.asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
         }
 
         runloop?.run()
@@ -179,6 +181,8 @@ open class NetSocket: NSObject {
             totalBytesIn.mutate { $0 += Int64(length) }
             inputBuffer.append(buffer, count: length)
             listen()
+        } else {
+            deinitConnection(isDisconnected: true)
         }
     }
 }
@@ -191,7 +195,7 @@ extension NetSocket: StreamDelegate {
         case .openCompleted:
             guard let inputStream = inputStream, let outputStream = outputStream,
                 inputStream.streamStatus == .open && outputStream.streamStatus == .open else {
-                break
+                    break
             }
             if aStream == inputStream {
                 timeoutHandler.cancel()

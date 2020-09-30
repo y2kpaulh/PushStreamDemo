@@ -143,22 +143,25 @@ class PullStreamViewController: UIViewController {
 
     playerView.isUserInteractionEnabled = false
 
-    //    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
-    //      .observeOn(MainScheduler.instance)
-    //      .subscribe(onNext: { _ in
-    //        print("didEnterBackgroundNotification")
-    //        self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
-    //        self.playerView.renderingView.playerLayer.player = nil
-    //      })
-    //      .disposed(by: disposeBag)
-    //
-    //    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
-    //      .observeOn(MainScheduler.instance)
-    //      .subscribe(onNext: { _ in
-    //        print("didBecomeActiveNotification")
-    //        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
-    //      })
-    //      .disposed(by: disposeBag)
+    NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didEnterBackgroundNotification")
+        self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
+        self.playerView.renderingView.playerLayer.player = nil
+        self.playerView.pause()
+
+      })
+      .disposed(by: disposeBag)
+
+    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { _ in
+        print("didBecomeActiveNotification")
+        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
+        self.playerView.play()
+      })
+      .disposed(by: disposeBag)
   }
 
   @objc func handleTap() {
@@ -282,7 +285,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 
   // isPlaybackLikelyToKeepUp == true
   func endBuffering(player: VersaPlayer) {
-    print("AVPlayerItem.isPlaybackLikelyToKeepUp == true")
+    //print("AVPlayerItem.isPlaybackLikelyToKeepUp == true")
     print(#function)
   }
 
@@ -329,9 +332,9 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       self.pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
 
       guard AVPictureInPictureController.isPictureInPictureSupported(),
-        let pictureInPictureController = AVPictureInPictureController(playerLayer: self.playerView.renderingView.playerLayer) else {
-          self.pipToggleButton.isEnabled = false
-          return
+            let pictureInPictureController = AVPictureInPictureController(playerLayer: self.playerView.renderingView.playerLayer) else {
+        self.pipToggleButton.isEnabled = false
+        return
       }
 
       self.pictureInPictureController = pictureInPictureController

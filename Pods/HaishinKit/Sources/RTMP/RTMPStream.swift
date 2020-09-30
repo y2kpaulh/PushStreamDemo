@@ -299,7 +299,11 @@ open class RTMPStream: NetStream {
                 mixer.videoIO.encoder.startRunning()
                 sampler?.startRunning()
                 if howToPublish == .localRecord {
-                    mixer.recorder.fileName = FilenameUtil.fileName(resourceName: info.resourceName)
+                    var fileNameValid = "videoName"
+                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
+                        fileNameValid = fileName
+                    }
+                    mixer.recorder.fileName = fileNameValid
                     mixer.recorder.startRunning()
                 }
             default:
@@ -420,11 +424,14 @@ open class RTMPStream: NetStream {
             while self.readyState == .initialized && !self.isBeingClosed {
                 usleep(100)
             }
-
+            var fileNameValid: String = "videoName"
             if self.info.resourceName == name && self.readyState == .publishing {
                 switch type {
                 case .localRecord:
-                    self.mixer.recorder.fileName = FilenameUtil.fileName(resourceName: self.info.resourceName)
+                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
+                        fileNameValid = fileName
+                    }
+                    self.mixer.recorder.fileName = fileNameValid
                     self.mixer.recorder.startRunning()
                 default:
                     self.mixer.recorder.stopRunning()
@@ -433,7 +440,7 @@ open class RTMPStream: NetStream {
                 return
             }
 
-            self.info.resourceName = name
+            self.info.resourceName = fileNameValid
             self.howToPublish = type
             self.readyState = .publish
             self.FCPublish()
@@ -514,11 +521,11 @@ open class RTMPStream: NetStream {
             metadata["height"] = mixer.videoIO.encoder.height
             metadata["framerate"] = mixer.videoIO.fps
             metadata["videocodecid"] = FLVVideoCodec.avc.rawValue
-            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1000
+            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1024
         }
         if let _: AVCaptureInput = mixer.audioIO.input {
             metadata["audiocodecid"] = FLVAudioCodec.aac.rawValue
-            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1000
+            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1024
         }
 #endif
         return metadata

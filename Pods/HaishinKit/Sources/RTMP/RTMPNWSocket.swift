@@ -71,7 +71,7 @@ final class RTMPNWSocket: RTMPSocketCompatible {
             receive(on: connection)
         }
         if 0 < timeout {
-            DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
+            outputQueue.asyncAfter(deadline: .now() + .seconds(timeout), execute: timeoutHandler)
         }
     }
 
@@ -86,6 +86,7 @@ final class RTMPNWSocket: RTMPSocketCompatible {
         }
         readyState = .closing
         timeoutHandler.cancel()
+        outputQueue = .init(label: outputQueue.label, qos: qualityOfService)
         connection = nil
     }
 

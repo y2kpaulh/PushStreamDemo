@@ -24,11 +24,11 @@ open class VersaStatefulButton: Button {
   #if os(macOS)
   open override var state: NSControl.StateValue {
     didSet {
-    if state == .on {
-    image = activeImage
-    } else {
-    image = inactiveImage
-    }
+      if state == .on {
+        image = activeImage
+      } else {
+        image = inactiveImage
+      }
     }
   }
 
@@ -38,7 +38,7 @@ open class VersaStatefulButton: Button {
   @IBInspectable public var activeImage: UIImage?
   @IBInspectable public var inactiveImage: UIImage? = nil {
     didSet {
-    setImage(inactiveImage, for: .normal)
+      setImage(inactiveImage, for: .normal)
     }
   }
   #endif

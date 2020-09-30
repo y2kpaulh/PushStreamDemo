@@ -1,22 +1,30 @@
 import AVFoundation
 import CoreImage
 
-/// The `NetStream` class is the foundation of a RTMPStream, HTTPStream.
+// MARK: -
 open class NetStream: NSObject {
+    public private(set) var mixer = AVMixer()
     private static let queueKey = DispatchSpecificKey<UnsafeMutableRawPointer>()
     private static let queueValue = UnsafeMutableRawPointer.allocate(byteCount: 1, alignment: 1)
-
-    public let lockQueue: DispatchQueue = {
+    public let lockQueue = ({ () -> DispatchQueue in
         let queue = DispatchQueue(label: "com.haishinkit.HaishinKit.NetStream.lock")
         queue.setSpecific(key: queueKey, value: queueValue)
         return queue
-    }()
+    })()
 
-    open private(set) var mixer = AVMixer()
+    deinit {
+        metadata.removeAll()
+    }
+
     open var metadata: [String: Any?] = [:]
+
     open var context: CIContext? {
-        get { mixer.videoIO.context }
-        set { mixer.videoIO.context = newValue }
+        get {
+            mixer.videoIO.context
+        }
+        set {
+            mixer.videoIO.context = newValue
+        }
     }
 
 #if os(iOS) || os(macOS)
@@ -36,31 +44,46 @@ open class NetStream: NSObject {
     }
 #endif
 
-    /// Specify stream audio compression properties.
     open var audioSettings: Setting<AudioConverter, AudioConverter.Option> {
-        get { mixer.audioIO.encoder.settings }
-        set { mixer.audioIO.encoder.settings = newValue }
+        get {
+            mixer.audioIO.encoder.settings
+        }
+        set {
+            mixer.audioIO.encoder.settings = newValue
+        }
     }
 
-    /// Specify stream video compression properties.
     open var videoSettings: Setting<H264Encoder, H264Encoder.Option> {
-        get { mixer.videoIO.encoder.settings }
-        set { mixer.videoIO.encoder.settings = newValue }
+        get {
+            mixer.videoIO.encoder.settings
+        }
+        set {
+            mixer.videoIO.encoder.settings = newValue
+        }
     }
 
-    /// Specify stream avsession properties.
     open var captureSettings: Setting<AVMixer, AVMixer.Option> {
-        get { mixer.settings }
-        set { mixer.settings = newValue }
+        get {
+            mixer.settings
+        }
+        set {
+            mixer.settings = newValue
+        }
     }
 
     open var recorderSettings: [AVMediaType: [String: Any]] {
-        get { mixer.recorder.outputSettings }
-        set { mixer.recorder.outputSettings = newValue }
-    }
-
-    deinit {
-        metadata.removeAll()
+        get {
+            var recorderSettings: [AVMediaType: [String: Any]]!
+            ensureLockQueue {
+                recorderSettings = self.mixer.recorder.outputSettings
+            }
+            return recorderSettings
+        }
+        set {
+            ensureLockQueue {
+                self.mixer.recorder.outputSettings = newValue
+            }
+        }
     }
 
 #if os(iOS) || os(macOS)

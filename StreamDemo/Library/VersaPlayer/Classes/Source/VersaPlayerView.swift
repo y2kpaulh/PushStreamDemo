@@ -237,7 +237,7 @@ open class VersaPlayerView: View, PIPProtocol {
   /// - Parameters:
   ///     - item: The VPlayerItem instance to add to player.
   open func
-    set(item: VersaPlayerItem?) {
+  set(item: VersaPlayerItem?) {
     if !ready {
       prepare()
     }

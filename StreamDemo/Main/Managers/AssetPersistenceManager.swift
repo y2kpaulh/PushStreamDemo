@@ -84,12 +84,12 @@ class AssetPersistenceManager: NSObject {
      corresponding with one of the lower bitrate variants in the asset.
      */
     guard let task =
-      assetDownloadURLSession.aggregateAssetDownloadTask(with: asset.urlAsset,
-                                                         mediaSelections: [preferredMediaSelection],
-                                                         assetTitle: asset.stream.name,
-                                                         assetArtworkData: nil,
-                                                         options:
-        [AVAssetDownloadTaskMinimumRequiredMediaBitrateKey: 265_000]) else { return }
+            assetDownloadURLSession.aggregateAssetDownloadTask(with: asset.urlAsset,
+                                                               mediaSelections: [preferredMediaSelection],
+                                                               assetTitle: asset.stream.name,
+                                                               assetArtworkData: nil,
+                                                               options:
+                                                                [AVAssetDownloadTaskMinimumRequiredMediaBitrateKey: 265_000]) else { return }
 
     // To better track the AVAssetDownloadTask, set the taskDescription to something unique for the sample.
     task.taskDescription = asset.stream.name
@@ -216,8 +216,8 @@ func displayNamesForSelectedMediaOptions(_ mediaSelection: AVMediaSelection) -> 
      selected in the specified group.
      */
     guard let mediaSelectionGroup =
-      asset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic),
-      let option = mediaSelection.selectedMediaOption(in: mediaSelectionGroup) else { continue }
+            asset.mediaSelectionGroup(forMediaCharacteristic: mediaCharacteristic),
+          let option = mediaSelection.selectedMediaOption(in: mediaSelectionGroup) else { continue }
 
     // Obtain the display string for the media selection option.
     if displayNames.isEmpty {
@@ -244,7 +244,7 @@ extension AssetPersistenceManager: AVAssetDownloadDelegate {
      once the asset itself has finished downloading.
      */
     guard let task = task as? AVAggregateAssetDownloadTask,
-      let asset = activeDownloadsMap.removeValue(forKey: task) else { return }
+          let asset = activeDownloadsMap.removeValue(forKey: task) else { return }
 
     guard let downloadURL = willDownloadToUrlMap.removeValue(forKey: task) else { return }
 

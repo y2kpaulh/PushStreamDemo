@@ -205,8 +205,9 @@ open class AnimatedImageView: UIImageView {
     /// Starts the animation.
     override open func startAnimating() {
         guard !isAnimating else { return }
-        guard let animator = animator else { return }
-        guard !animator.isReachMaxRepeatCount else { return }
+        if animator?.isReachMaxRepeatCount ?? false {
+            return
+        }
 
         displayLink.isPaused = false
     }

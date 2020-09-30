@@ -101,9 +101,9 @@ final class PsyEffect: VideoEffect {
   func getSequence(gifNamed: String) -> [UIImage]? {
 
     guard let bundleURL = Bundle.main
-      .url(forResource: gifNamed, withExtension: "gif") else {
-        print("This image named \"\(gifNamed)\" does not exist!")
-        return nil
+            .url(forResource: gifNamed, withExtension: "gif") else {
+      print("This image named \"\(gifNamed)\" does not exist!")
+      return nil
     }
 
     guard let imageData = try? Data(contentsOf: bundleURL) else {
@@ -182,9 +182,9 @@ final class PronamaEffect: VideoEffect {
   func getSequence(gifNamed: String) -> [UIImage]? {
 
     guard let bundleURL = Bundle.main
-      .url(forResource: gifNamed, withExtension: "gif") else {
-        print("This image named \"\(gifNamed)\" does not exist!")
-        return nil
+            .url(forResource: gifNamed, withExtension: "gif") else {
+      print("This image named \"\(gifNamed)\" does not exist!")
+      return nil
     }
 
     guard let imageData = try? Data(contentsOf: bundleURL) else {
@@ -236,10 +236,10 @@ final class MonochromeEffect: VideoEffect {
 final class RotationEffect: VideoEffect {
   override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
     guard #available(iOS 11.0, *),
-      let info = info,
-      let orientationAttachment = CMGetAttachment(info, key: "RPVideoSampleOrientationKey" as CFString, attachmentModeOut: nil) as? NSNumber,
-      let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) else {
-        return image
+          let info = info,
+          let orientationAttachment = CMGetAttachment(info, key: "RPVideoSampleOrientationKey" as CFString, attachmentModeOut: nil) as? NSNumber,
+          let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) else {
+      return image
     }
     switch orientation {
     case .left:

@@ -27,13 +27,13 @@ final class VideoIOComponent: IOComponent {
     }
 
     #if os(iOS) || os(macOS)
-    weak var renderer: NetStreamRenderer? = nil {
+    var renderer: NetStreamRenderer? = nil {
         didSet {
             renderer?.orientation = orientation
         }
     }
     #else
-    weak var renderer: NetStreamRenderer?
+    var renderer: NetStreamRenderer?
     #endif
 
     var formatDescription: CMVideoFormatDescription? {

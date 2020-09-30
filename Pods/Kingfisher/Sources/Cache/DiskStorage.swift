@@ -47,9 +47,6 @@ public enum DiskStorage {
 
         let metaChangingQueue: DispatchQueue
 
-        var maybeCached : Set<String>?
-        let maybeCachedCheckingQueue = DispatchQueue(label: "com.onevcat.Kingfisher.maybeCachedCheckingQueue")
-
         /// Creates a disk storage with the given `DiskStorage.Config`.
         ///
         /// - Parameter config: The config used for this disk storage.
@@ -75,19 +72,6 @@ public enum DiskStorage {
             metaChangingQueue = DispatchQueue(label: cacheName)
 
             try prepareDirectory()
-
-            maybeCachedCheckingQueue.async {
-                do {
-                    self.maybeCached = Set()
-                    try config.fileManager.contentsOfDirectory(atPath: self.directoryURL.path).forEach { fileName in
-                        self.maybeCached?.insert(fileName)
-                    }
-                } catch {
-                    // Just disable the functionality if we fail to initialize it properly. This will just revert to
-                    // the behavior which is to check file existence on disk directly.
-                    self.maybeCached = nil
-                }
-            }
         }
 
         // Creates the storage folder.
@@ -151,10 +135,6 @@ public enum DiskStorage {
                     )
                 )
             }
-
-            maybeCachedCheckingQueue.async {
-                self.maybeCached?.insert(fileURL.lastPathComponent)
-            }
         }
 
         func value(forKey key: String, extendingExpiration: ExpirationExtending = .cacheTime) throws -> T? {
@@ -170,13 +150,6 @@ public enum DiskStorage {
             let fileManager = config.fileManager
             let fileURL = cacheFileURL(forKey: key)
             let filePath = fileURL.path
-
-            let fileMaybeCached = maybeCachedCheckingQueue.sync {
-                return maybeCached?.contains(fileURL.lastPathComponent) ?? true
-            }
-            guard fileMaybeCached else {
-                return nil
-            }
             guard fileManager.fileExists(atPath: filePath) else {
                 return nil
             }
@@ -255,7 +228,7 @@ public enum DiskStorage {
         /// the `cacheKey` of an image `Source`. It is the computed key with processor identifier considered.
         public func cacheFileURL(forKey key: String) -> URL {
             let fileName = cacheFileName(forKey: key)
-            return directoryURL.appendingPathComponent(fileName, isDirectory: false)
+            return directoryURL.appendingPathComponent(fileName)
         }
 
         func cacheFileName(forKey key: String) -> String {

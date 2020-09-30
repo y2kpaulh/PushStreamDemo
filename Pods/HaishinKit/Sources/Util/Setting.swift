@@ -80,8 +80,6 @@ public class Setting<T: AnyObject, Key: KeyPathRepresentable>: ExpressibleByDict
             return value
         case let value as Int:
             return Double(value)
-        case let value as CGFloat:
-            return Double(value)
         default:
             return nil
         }
@@ -113,8 +111,6 @@ public class Setting<T: AnyObject, Key: KeyPathRepresentable>: ExpressibleByDict
             return UInt32(value)
         case let value as Float:
             return UInt32(value)
-        case let value as CGFloat:
-            return UInt32(value)
         default:
             return nil
         }
@@ -145,8 +141,6 @@ public class Setting<T: AnyObject, Key: KeyPathRepresentable>: ExpressibleByDict
         case let value as Double:
             return Int32(value)
         case let value as Float:
-            return Int32(value)
-        case let value as CGFloat:
             return Int32(value)
         default:
             return nil

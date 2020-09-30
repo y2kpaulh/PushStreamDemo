@@ -6,10 +6,9 @@ target 'StreamDemo' do
   use_frameworks!
 
   # Pods for StreamDemo
-    pod 'HaishinKit', '~> 1.0.4'
-    pod 'CountdownLabel'
+    pod 'HaishinKit'
     pod 'SnapKit'
-    pod 'Kingfisher', '~> 5.0'
+    pod 'Kingfisher'
     pod 'Alamofire'
     pod 'IQKeyboardManager'
     pod 'RxSwift'
