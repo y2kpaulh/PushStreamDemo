@@ -1,6 +1,6 @@
 # HaishinKit (formerly lf)
 [![Platform](https://img.shields.io/cocoapods/p/HaishinKit.svg?style=flat)](http://cocoapods.org/pods/HaishinKit)
-![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)
+![Language](https://img.shields.io/badge/language-Swift%205.0-orange.svg)
 [![CocoaPods](https://img.shields.io/cocoapods/v/HaishinKit.svg?style=flat)](http://cocoapods.org/pods/HaishinKit)
 [![GitHub license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://raw.githubusercontent.com/shogo4405/HaishinKit.swift/master/LICENSE.md)
 
@@ -50,9 +50,9 @@
 ## Requirements
 |-|iOS|OSX|tvOS|XCode|Swift|CocoaPods|Carthage|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+|1.1.0+|9.0+|10.11+|10.2+|12.0+|5.0+|1.5.0+|0.29.0+|
 |1.0.0+|8.0+|10.11+|10.2+|11.0+|5.0+|1.5.0+|0.29.0+|
 |0.11.0+|8.0+|10.11+|10.2+|10.0+|5.0|1.5.0+|0.29.0+|
-|0.10.0+|8.0+|10.11+|10.2+|10.0+|4.2|1.5.0+|0.29.0+|
 
 ## Cocoa Keys
 Please contains Info.plist.
@@ -74,17 +74,21 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 def import_pods
-    pod 'HaishinKit', '~> 1.0.6'
+    pod 'HaishinKit', '~> 1.1.0'
 end
 
 target 'Your Target'  do
-    platform :ios, '8.0'
+    platform :ios, '9.0'
     import_pods
 end
 ```
 ### Carthage
 ```
-github "shogo4405/HaishinKit.swift" ~> 1.0.6
+github "shogo4405/HaishinKit.swift" ~> 1.1.0
+```
+### Swift Package Manager
+```
+https://github.com/shogo4405/HaishinKit.swift
 ```
 
 ## License
@@ -96,7 +100,7 @@ Paypal
 
 Bitcoin
 ```txt
-1LP7Jo4VwAFdEisJSykBAtUyAusZjozSpw
+3FnjC3CmwFLTzNY5WPNz4LjTo1uxGNozUR
 ```
 
 ## Prerequisites
@@ -228,12 +232,6 @@ view.addSubview(hkView)
 ```
 
 ## FAQ
-### How can I run example project?
-Please hit `carthage update` command. HaishinKit needs Logboard module via Carthage.
-```sh
-carthage update
-```
-
 ### Do you support me via Email?
 Yes. Consulting fee is [$50](https://www.paypal.me/shogo4405/50USD)/1 incident. I don't recommend. 
 Please consider to use Issues.
@@ -243,11 +241,11 @@ Please consider to use Issues.
 * Adobe’s Real Time Messaging Protocol
   * http://www.adobe.com/content/dam/Adobe/en/devnet/rtmp/pdf/rtmp_specification_1.0.pdf
 * Action Message Format -- AMF 0
-  * http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/amf/pdf/amf0-file-format-specification.pdf
+  * https://www.adobe.com/content/dam/acom/en/devnet/pdf/amf0-file-format-specification.pdf
 * Action Message Format -- AMF 3 
-  * http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/amf/pdf/amf-file-format-spec.pdf
+  * https://www.adobe.com/content/dam/acom/en/devnet/pdf/amf-file-format-spec.pdf
 * Video File Format Specification Version 10
-  * https://www.adobe.com/content/dam/Adobe/en/devnet/flv/pdfs/video_file_format_spec_v10.pdf
+  * https://www.adobe.com/content/dam/acom/en/devnet/flv/video_file_format_spec_v10.pdf
 * Adobe Flash Video File Format Specification Version 10.1
   * http://download.macromedia.com/f4v/video_file_format_spec_v10_1.pdf
 

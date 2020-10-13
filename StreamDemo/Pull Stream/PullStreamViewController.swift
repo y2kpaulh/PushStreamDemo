@@ -15,11 +15,11 @@ import AVKit
 import AVFoundation
 import RxSwift
 import RxCocoa
-import PiPhone
 import PictureInPicture
 import IQKeyboardManager
 
 class PullStreamViewController: UIViewController {
+  var menuView: UIView!
 
   @IBOutlet weak var profileBtn: UIButton!
 

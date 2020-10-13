@@ -13,7 +13,6 @@ target 'StreamDemo' do
     pod 'IQKeyboardManager'
     pod 'RxSwift'
     pod 'RxCocoa'
-    pod 'PiPhone'
     pod "PictureInPicture"
     pod 'MessageKit'
     pod 'Socket.IO-Client-Swift'

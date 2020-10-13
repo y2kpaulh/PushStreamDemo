@@ -12,7 +12,6 @@
 import UIKit
 import AVFoundation
 import AVKit
-import PiPhone
 import PictureInPicture
 
 /// - Tag: AssetListTableViewController
@@ -44,9 +43,6 @@ class AssetListTableViewController: UITableViewController {
                                            selector: #selector(handleAssetListManagerDidLoad(_:)),
                                            name: .AssetListManagerDidLoad, object: nil)
     tableView.tableFooterView = UIView()
-
-    PiPManager.isPictureInPicturePossible = true
-    PiPManager.contentInsetAdjustmentBehavior = .navigationBar
   }
 
   override func viewWillAppear(_ animated: Bool) {

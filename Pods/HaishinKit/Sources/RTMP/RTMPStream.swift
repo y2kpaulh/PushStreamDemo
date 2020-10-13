@@ -277,7 +277,7 @@ open class RTMPStream: NetStream {
                 currentFPS = 0
                 frameCount = 0
                 info.clear()
-                delegate?.clear()
+                delegate?.rtmpStreamDidClear(self)
             case .playing:
                 mixer.delegate = self
                 mixer.startDecoding(rtmpConnection.audioEngine)
@@ -299,11 +299,7 @@ open class RTMPStream: NetStream {
                 mixer.videoIO.encoder.startRunning()
                 sampler?.startRunning()
                 if howToPublish == .localRecord {
-                    var fileNameValid = "videoName"
-                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
-                        fileNameValid = fileName
-                    }
-                    mixer.recorder.fileName = fileNameValid
+                    mixer.recorder.fileName = FilenameUtil.fileName(resourceName: info.resourceName)
                     mixer.recorder.startRunning()
                 }
             default:
@@ -313,7 +309,7 @@ open class RTMPStream: NetStream {
     }
     var audioTimestamp: Double = 0.0
     var videoTimestamp: Double = 0.0
-    private(set) var muxer = RTMPMuxer()
+    private let muxer = RTMPMuxer()
     private var sampler: MP4Sampler?
     private var frameCount: UInt16 = 0
     private var dispatcher: IEventDispatcher!
@@ -424,14 +420,11 @@ open class RTMPStream: NetStream {
             while self.readyState == .initialized && !self.isBeingClosed {
                 usleep(100)
             }
-            var fileNameValid: String = "videoName"
+
             if self.info.resourceName == name && self.readyState == .publishing {
                 switch type {
                 case .localRecord:
-                    if let fileName = self.info.resourceName, fileName.count < FILENAME_MAX {
-                        fileNameValid = fileName
-                    }
-                    self.mixer.recorder.fileName = fileNameValid
+                    self.mixer.recorder.fileName = FilenameUtil.fileName(resourceName: self.info.resourceName)
                     self.mixer.recorder.startRunning()
                 default:
                     self.mixer.recorder.stopRunning()
@@ -440,7 +433,7 @@ open class RTMPStream: NetStream {
                 return
             }
 
-            self.info.resourceName = fileNameValid
+            self.info.resourceName = name
             self.howToPublish = type
             self.readyState = .publish
             self.FCPublish()
@@ -521,11 +514,11 @@ open class RTMPStream: NetStream {
             metadata["height"] = mixer.videoIO.encoder.height
             metadata["framerate"] = mixer.videoIO.fps
             metadata["videocodecid"] = FLVVideoCodec.avc.rawValue
-            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1024
+            metadata["videodatarate"] = mixer.videoIO.encoder.bitrate / 1000
         }
         if let _: AVCaptureInput = mixer.audioIO.input {
             metadata["audiocodecid"] = FLVAudioCodec.aac.rawValue
-            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1024
+            metadata["audiodatarate"] = mixer.audioIO.encoder.bitrate / 1000
         }
 #endif
         return metadata
@@ -638,10 +631,10 @@ extension RTMPStream: AVMixerDelegate {
     // MARK: AVMixerDelegate
     func didOutputVideo(_ buffer: CMSampleBuffer) {
         frameCount += 1
-        delegate?.didOutputVideo(buffer)
+        delegate?.rtmpStream(self, didOutput: buffer)
     }
 
     func didOutputAudio(_ buffer: AVAudioPCMBuffer, presentationTimeStamp: CMTime) {
-        delegate?.didOutputAudio(buffer, presentationTimeStamp: presentationTimeStamp)
+        delegate?.rtmpStream(self, didOutput: buffer, presentationTimeStamp: presentationTimeStamp)
     }
 }

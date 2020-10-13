@@ -35,8 +35,8 @@ public class AudioConverter {
         }
     }
 
-    public static let minimumBitrate: UInt32 = 8 * 1024
-    public static let defaultBitrate: UInt32 = 32 * 1024
+    public static let minimumBitrate: UInt32 = 8 * 1000
+    public static let defaultBitrate: UInt32 = 32 * 1000
     /// 0 means according to a input source
     public static let defaultChannels: UInt32 = 0
     /// 0 means according to a input source
@@ -131,12 +131,7 @@ public class AudioConverter {
     }
     private var audioStreamPacketDescriptionPointer: UnsafeMutablePointer<AudioStreamPacketDescription>?
 
-    private let inputDataProc: AudioConverterComplexInputDataProc = {(
-        converter: AudioConverterRef,
-        ioNumberDataPackets: UnsafeMutablePointer<UInt32>,
-        ioData: UnsafeMutablePointer<AudioBufferList>,
-        outDataPacketDescription: UnsafeMutablePointer<UnsafeMutablePointer<AudioStreamPacketDescription>?>?,
-        inUserData: UnsafeMutableRawPointer?) in
+    private let inputDataProc: AudioConverterComplexInputDataProc = {(converter: AudioConverterRef, ioNumberDataPackets: UnsafeMutablePointer<UInt32>, ioData: UnsafeMutablePointer<AudioBufferList>, outDataPacketDescription: UnsafeMutablePointer<UnsafeMutablePointer<AudioStreamPacketDescription>?>?, inUserData: UnsafeMutableRawPointer?) in
         Unmanaged<AudioConverter>.fromOpaque(inUserData!).takeUnretainedValue().onInputDataForAudioConverter(
             ioNumberDataPackets,
             ioData: ioData,
@@ -173,9 +168,7 @@ public class AudioConverter {
             currentAudioBuffer.clear()
             return
         }
-        currentAudioBuffer.input.unsafeMutablePointer.pointee.mBuffers.mNumberChannels = 1
-        currentAudioBuffer.input.unsafeMutablePointer.pointee.mBuffers.mData = bytes
-        currentAudioBuffer.input.unsafeMutablePointer.pointee.mBuffers.mDataByteSize = UInt32(count)
+        currentAudioBuffer.write(bytes, count: count, presentationTimeStamp: presentationTimeStamp)
         convert(numSamples * Int(destination.bytesPerFrame), presentationTimeStamp: presentationTimeStamp)
     }
 

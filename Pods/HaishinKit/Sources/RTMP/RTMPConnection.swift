@@ -414,7 +414,7 @@ open class RTMPConnection: EventDispatcher {
                 "videoCodecs": SupportVideo.h264.rawValue,
                 "videoFunction": VideoFunction.clientSeek.rawValue,
                 "pageUrl": pageUrl,
-                "objectEncoding": objectEncoding
+                "objectEncoding": objectEncoding.rawValue
             ],
             arguments: arguments
         )
@@ -441,17 +441,17 @@ open class RTMPConnection: EventDispatcher {
             }
             if total == measureInterval - 1 {
                 for (_, stream) in streams {
-                    stream.delegate?.didPublishInsufficientBW(stream, withConnection: self)
+                    stream.delegate?.rtmpStream(stream, didPublishInsufficientBW: self)
                 }
             } else if total == 0 {
                 for (_, stream) in streams {
-                    stream.delegate?.didPublishSufficientBW(stream, withConnection: self)
+                    stream.delegate?.rtmpStream(stream, didPublishSufficientBW: self)
                 }
             }
             previousQueueBytesOut.removeFirst()
         }
         for (_, stream) in streams {
-            stream.delegate?.didStatics(stream, withConneciton: self)
+            stream.delegate?.rtmpStream(stream, didStatics: self)
         }
     }
 }

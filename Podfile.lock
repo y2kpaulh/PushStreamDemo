@@ -1,25 +1,24 @@
 PODS:
-  - Alamofire (5.0.2)
-  - HaishinKit (1.0.6):
-    - Logboard (~> 2.1.2)
-  - InputBarAccessoryView (4.3.2):
-    - InputBarAccessoryView/Core (= 4.3.2)
-  - InputBarAccessoryView/Core (4.3.2)
+  - Alamofire (5.2.2)
+  - HaishinKit (1.1.0):
+    - Logboard (~> 2.2.0)
+  - InputBarAccessoryView (5.2.1):
+    - InputBarAccessoryView/Core (= 5.2.1)
+  - InputBarAccessoryView/Core (5.2.1)
   - IQKeyboardManager (6.5.6)
-  - Kingfisher (5.13.2):
-    - Kingfisher/Core (= 5.13.2)
-  - Kingfisher/Core (5.13.2)
-  - Logboard (2.1.2)
-  - MessageKit (3.1.0):
-    - InputBarAccessoryView (~> 4.3.0)
+  - Kingfisher (5.15.6):
+    - Kingfisher/Core (= 5.15.6)
+  - Kingfisher/Core (5.15.6)
+  - Logboard (2.2.0)
+  - MessageKit (3.4.2):
+    - InputBarAccessoryView (~> 5.2.1)
   - PictureInPicture (0.3.0)
-  - PiPhone (1.0.1)
-  - RxCocoa (5.1.0):
+  - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
-  - RxRelay (5.1.0):
+  - RxRelay (5.1.1):
     - RxSwift (~> 5)
-  - RxSwift (5.1.0)
+  - RxSwift (5.1.1)
   - SnapKit (5.0.1)
   - Socket.IO-Client-Swift (15.2.0):
     - Starscream (~> 3.1)
@@ -33,7 +32,6 @@ DEPENDENCIES:
   - Kingfisher
   - MessageKit
   - PictureInPicture
-  - PiPhone
   - RxCocoa
   - RxSwift
   - SnapKit
@@ -50,7 +48,6 @@ SPEC REPOS:
     - Logboard
     - MessageKit
     - PictureInPicture
-    - PiPhone
     - RxCocoa
     - RxRelay
     - RxSwift
@@ -60,23 +57,22 @@ SPEC REPOS:
     - Swinject
 
 SPEC CHECKSUMS:
-  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
-  HaishinKit: b3d14a39257c5afad19ee1ae94d0d8bfd15a933e
-  InputBarAccessoryView: 7985d418040a05fe894bd4b8328dd43ab35517c3
+  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  HaishinKit: e74d7d7ae19045ca47472c41304d82001a23b39f
+  InputBarAccessoryView: 39a7ed22727baf3b8550ecdf6c8a4d28b2c6aa91
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
-  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
-  Logboard: e3342fa111e26268bb89577e6a40a0660a423ddd
-  MessageKit: 3beb578737a5aa2bba25cc27c7b6d6faa09af5a7
+  Kingfisher: b3554e7bf6106115b44e8795300bad580ef2fdc7
+  Logboard: b185f536297db9defd75b78ff75a7371769700d8
+  MessageKit: 5ff0908bce5a7b6e11bd0b60e13a33e03697d161
   PictureInPicture: bfb333702279f2abf03cc38f2ff004fa842bf3c3
-  PiPhone: 580aacde4e54e466bafa49803e993cb2ed1b6a2b
-  RxCocoa: 13d2a4d7546a34b8ececae8c281e4ea1dbb94f2b
-  RxRelay: a168bd6caf712d00c676ac344e9295afc93b418e
-  RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: e8b7faa998871e20420674fbb5e2c326339a1904
+PODFILE CHECKSUM: f630bb25cfcc546945108baeb80f792832b5f5dc
 
 COCOAPODS: 1.9.3

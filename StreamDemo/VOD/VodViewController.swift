@@ -15,7 +15,6 @@ import AVKit
 import AVFoundation
 import RxSwift
 import RxCocoa
-import PiPhone
 
 protocol PipViewControllerDelegate: class {
   func PipViewController(_ videoPlayerViewController: UIViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void)
