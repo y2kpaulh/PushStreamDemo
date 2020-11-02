@@ -32,20 +32,17 @@ final class CurrentTimeEffect: VideoEffect {
   var dateImg: CIImage?
 
   override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
-    let now = Date()
     UIGraphicsBeginImageContext(image.extent.size)
 
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .center
+    paragraphStyle.alignment = .left
+    paragraphStyle.lineBreakMode = .byCharWrapping
 
-    let attrs: [NSAttributedString.Key: Any] = [
-      .font: UIFont.systemFont(ofSize: 36),
-      .paragraphStyle: paragraphStyle
-    ]
+    let txt = "Donec id elit non mi porta gravida at eget metus. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec id elit non mi porta gravida at eget metus. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec ullamcorper nulla non metus auctor fringilla.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Cras justo odio, dapibus ac facilisis in, egestas eget quam.Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Maecenas sed diam eget risus varius blandit sit amet non magna."
 
-    let attributedString = NSAttributedString(string: now.description, attributes: attrs)
+    let attributedString = self.chatAtrribuedText(name: "홍인표", message: txt)
 
-    attributedString.draw(with: CGRect(x: 0, y: 100, width: 500, height: 448), options: .usesLineFragmentOrigin, context: nil)
+    attributedString.draw(with: CGRect(x: 100, y: 400, width: 500, height: 800), options: .usesLineFragmentOrigin, context: nil)
 
     dateImg = CIImage(image: UIGraphicsGetImageFromCurrentImageContext()!, options: nil)
 
@@ -55,6 +52,19 @@ final class CurrentTimeEffect: VideoEffect {
     filter!.setValue(image, forKey: "inputBackgroundImage")
 
     return filter!.outputImage!
+  }
+
+  func chatAtrribuedText(name: String, message: String) -> NSAttributedString {
+    let combination = NSMutableAttributedString()
+
+    let nameStr = Utils.shared.attributedText(name, font: .systemFont(ofSize: 14, weight: .bold), color: UIColor(white: 1.0, alpha: 0.7), dropShadow: true)
+
+    let msgStr = Utils.shared.attributedText(" \(message)", font: .systemFont(ofSize: 14, weight: .regular), color: .white, dropShadow: true)
+
+    combination.append(nameStr)
+    combination.append(msgStr)
+
+    return combination
   }
 }
 

@@ -23,6 +23,8 @@ PODS:
   - Socket.IO-Client-Swift (15.2.0):
     - Starscream (~> 3.1)
   - Starscream (3.1.1)
+  - SwiftHEXColors (1.4.1)
+  - SwiftyAttributes (5.1.1)
   - Swinject (2.7.1)
 
 DEPENDENCIES:
@@ -36,6 +38,8 @@ DEPENDENCIES:
   - RxSwift
   - SnapKit
   - Socket.IO-Client-Swift
+  - SwiftHEXColors
+  - SwiftyAttributes
   - Swinject
 
 SPEC REPOS:
@@ -54,6 +58,8 @@ SPEC REPOS:
     - SnapKit
     - Socket.IO-Client-Swift
     - Starscream
+    - SwiftHEXColors
+    - SwiftyAttributes
     - Swinject
 
 SPEC CHECKSUMS:
@@ -71,8 +77,10 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  SwiftHEXColors: 1cb6e5d55c52749aa33db8f088ac55eb71ca4c7f
+  SwiftyAttributes: e3e13891ddac3c62b3d7798d5c3969cea88e62bb
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: f630bb25cfcc546945108baeb80f792832b5f5dc
+PODFILE CHECKSUM: 63263cad1ad274dbeb72dcfee89aa55c0c16217b
 
 COCOAPODS: 1.9.3

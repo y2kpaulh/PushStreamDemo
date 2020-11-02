@@ -116,6 +116,7 @@ class PullStreamViewController: UIViewController {
 
     IQKeyboardManager.shared().isEnabled = true
     IQKeyboardManager.shared().isEnableAutoToolbar = true
+    self.playerView.removeFromSuperview()
   }
 
   func configPlayer(url: String) {
@@ -139,7 +140,7 @@ class PullStreamViewController: UIViewController {
     //video view round 처리
     playerView.renderingView.cornerRadius = 8
 
-    playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
+    playerView.renderingView.playerLayer.videoGravity = .resizeAspect
 
     playerView.isUserInteractionEnabled = false
 
@@ -147,10 +148,10 @@ class PullStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didEnterBackgroundNotification")
+        guard self.playerView.player != nil else { return }
+        self.playerView.pause()
         self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
         self.playerView.renderingView.playerLayer.player = nil
-        self.playerView.pause()
-
       })
       .disposed(by: disposeBag)
 
@@ -474,6 +475,8 @@ extension PullStreamViewController {
 
   @objc private func pictureInPictureDismissed() {
     print("pictureInPictureDismissed")
+    self.playerView.player.pause()
+    self.playerView.player.replaceCurrentItem(with: nil)
   }
 
   @objc private func pictureInPictureDidBeginMakingSmaller() {

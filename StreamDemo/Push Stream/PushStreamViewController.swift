@@ -306,7 +306,7 @@ final class PushStreamViewController: UIViewController {
     }
     switch segment.selectedSegmentIndex {
     case 1:
-      currentEffect = RotationEffect()
+      currentEffect = CurrentTimeEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
       currentEffect = PsyEffect()

@@ -67,6 +67,7 @@
 		2E60870E24A5839300C1747A /* ChatSocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E60870224A5839300C1747A /* ChatSocketIOManager.swift */; };
 		2E60870F24A5839300C1747A /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E60870424A5839300C1747A /* UIViewController+Extensions.swift */; };
 		2E60871024A5839300C1747A /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E60870524A5839300C1747A /* UIColor+Extensions.swift */; };
+		2E7278B4254FDCD600387E81 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7278B3254FDCD600387E81 /* Utils.swift */; };
 		2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */; };
 		2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */; };
 		2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */; };
@@ -142,6 +143,7 @@
 		2E60870424A5839300C1747A /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		2E60870524A5839300C1747A /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liveStream.entitlements; sourceTree = "<group>"; };
+		2E7278B3254FDCD600387E81 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */,
+				2E7278B3254FDCD600387E81 /* Utils.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -714,6 +717,7 @@
 				2E44884B240DF7850084C4FE /* VersaPlayerPlaybackDelegate.swift in Sources */,
 				2E448856240DF7850084C4FE /* VersaStatefulButton.swift in Sources */,
 				2E448857240DF7850084C4FE /* VersaSeekbarSlider.swift in Sources */,
+				2E7278B4254FDCD600387E81 /* Utils.swift in Sources */,
 				2E448859240DF7850084C4FE /* VersaPlayerControlsCoordinator.swift in Sources */,
 				2E448824240DF4E40084C4FE /* PerfMeasurements.swift in Sources */,
 				2E44881F240DF4E40084C4FE /* AssetListTableViewCell.swift in Sources */,

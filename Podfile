@@ -17,4 +17,7 @@ target 'StreamDemo' do
     pod 'MessageKit'
     pod 'Socket.IO-Client-Swift'
     pod 'Swinject'
+    pod 'SwiftHEXColors'
+    pod 'SwiftyAttributes'
+
 end
