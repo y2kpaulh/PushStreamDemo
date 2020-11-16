@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (5.2.1)
-  - CountdownLabel (4.0.1)
   - HaishinKit (1.0.10):
     - Logboard (~> 2.1.3)
   - InputBarAccessoryView (4.3.2):
@@ -28,7 +27,6 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - CountdownLabel
   - HaishinKit (~> 1.0.4)
   - IQKeyboardManager
   - Kingfisher (~> 5.0)
@@ -43,7 +41,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
-    - CountdownLabel
     - HaishinKit
     - InputBarAccessoryView
     - IQKeyboardManager
@@ -61,7 +58,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
-  CountdownLabel: c9975e3f329140b5e7d1f45cd63b1300badd1712
   HaishinKit: 4de4fbb027c656e351329a97da96c0541adab01a
   InputBarAccessoryView: 7985d418040a05fe894bd4b8328dd43ab35517c3
   IQKeyboardManager: 3a8b9e603f8b0eeaf5f096a1f2b2cfcf121992ef
@@ -77,6 +73,6 @@ SPEC CHECKSUMS:
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: ab9641d2c43bcc299b361d23b57fe8b1427d8cef
+PODFILE CHECKSUM: 585da7871ff8ff2cc7adad7f1dc0e4449c34a237
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

@@ -320,9 +320,9 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
       self.pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
 
       guard AVPictureInPictureController.isPictureInPictureSupported(),
-        let pictureInPictureController = AVPictureInPictureController(playerLayer: self.playerView.renderingView.playerLayer) else {
-          self.pipToggleButton.isEnabled = false
-          return
+            let pictureInPictureController = AVPictureInPictureController(playerLayer: self.playerView.renderingView.playerLayer) else {
+        self.pipToggleButton.isEnabled = false
+        return
       }
 
       self.pictureInPictureController = pictureInPictureController

@@ -84,14 +84,14 @@ final class ChatRoomViewController: ChatViewController {
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
         $0.setSize(CGSize(width: 50, height: 25), animated: false)
       }.onTextViewDidChange { (item, textView) in
-      item.title = "\(textView.text.count)/140"
-      let isOverLimit = textView.text.count > 140
-      item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
-      if isOverLimit {
-        item.inputBarAccessoryView?.sendButton.isEnabled = false
-      }
-      let color = isOverLimit ? .orange : UIColor(white: 0.6, alpha: 1)
-      item.setTitleColor(color, for: .normal)
+        item.title = "\(textView.text.count)/140"
+        let isOverLimit = textView.text.count > 140
+        item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
+        if isOverLimit {
+          item.inputBarAccessoryView?.sendButton.isEnabled = false
+        }
+        let color = isOverLimit ? .orange : UIColor(white: 0.6, alpha: 1)
+        item.setTitleColor(color, for: .normal)
       }
     let bottomItems = [.flexibleSpace, charCountButton]
 
@@ -141,12 +141,12 @@ final class ChatRoomViewController: ChatViewController {
         $0.setSize(CGSize(width: 25, height: 25), animated: false)
         $0.tintColor = UIColor(white: 0.8, alpha: 1)
       }.onSelected {
-      $0.tintColor = .orange
+        $0.tintColor = .orange
       }.onDeselected {
-      $0.tintColor = UIColor(white: 0.8, alpha: 1)
+        $0.tintColor = UIColor(white: 0.8, alpha: 1)
       }.onTouchUpInside { btn in
-      print("Item Tapped", btn)
-      self.handleTap()
+        print("Item Tapped", btn)
+        self.handleTap()
       }
   }
 

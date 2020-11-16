@@ -7,7 +7,7 @@ target 'StreamDemo' do
 
   # Pods for StreamDemo
     pod 'HaishinKit', '~> 1.0.4'
-    pod 'CountdownLabel'
+    #pod 'CountdownLabel'
     pod 'SnapKit'
     pod 'Kingfisher', '~> 5.0'
     pod 'Alamofire'

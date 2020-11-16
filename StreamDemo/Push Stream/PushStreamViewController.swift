@@ -103,10 +103,10 @@ final class PushStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         guard let orientation = DeviceUtil.videoOrientation(by: (UIApplication.shared.windows
-          .first?
-          .windowScene!
-          .interfaceOrientation)!) else {
-            return
+                                                                  .first?
+                                                                  .windowScene!
+                                                                  .interfaceOrientation)!) else {
+          return
         }
 
         print("orientationDidChangeNotification", orientation.rawValue)
@@ -119,7 +119,7 @@ final class PushStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didEnterBackgroundNotification")
-        // rtmpStream.receiveVideo = false
+        self.rtmpStream.receiveVideo = false
       })
       .disposed(by: disposeBag)
 
@@ -127,7 +127,7 @@ final class PushStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didBecomeActiveNotification")
-        // rtmpStream.receiveVideo = true
+        self.rtmpStream.receiveVideo = true
       })
       .disposed(by: disposeBag)
   }
@@ -136,11 +136,12 @@ final class PushStreamViewController: UIViewController {
     //logger.info("viewWillAppear")
     super.viewWillAppear(animated)
 
-    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { _ in
-      //logger.warn(error.description)
+    rtmpStream.attachAudio(AVCaptureDevice.default(for: .audio)) { error in
+      print(error.description)
+
     }
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { _ in
-      //logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: currentPosition)) { error in
+      print(error.description)
     }
     rtmpStream.rx.observeWeakly(UInt16.self, "currentFPS", options: .new)
       .observeOn(MainScheduler.instance)
@@ -171,8 +172,8 @@ final class PushStreamViewController: UIViewController {
   @IBAction func rotateCamera(_ sender: UIButton) {
     //logger.info("rotateCamera")
     let position: AVCaptureDevice.Position = currentPosition == .back ? .front : .back
-    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { _ in
-      //logger.warn(error.description)
+    rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { error in
+      print(error.description)
     }
     currentPosition = position
   }
@@ -253,7 +254,7 @@ final class PushStreamViewController: UIViewController {
     case RTMPConnection.Code.connectSuccess.rawValue:
       retryCount = 0
       rtmpStream!.publish(streamName)
-      // sharedObject!.connect(rtmpConnection)
+    // sharedObject!.connect(rtmpConnection)
 
     case RTMPConnection.Code.connectFailed.rawValue, RTMPConnection.Code.connectClosed.rawValue:
       guard retryCount <= PushStreamViewController.maxRetryCount else {
@@ -306,7 +307,7 @@ final class PushStreamViewController: UIViewController {
     }
     switch segment.selectedSegmentIndex {
     case 1:
-      currentEffect = RotationEffect()
+      currentEffect = CurrentTimeEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
       currentEffect = PsyEffect()

@@ -261,9 +261,9 @@ extension VersaPlayer {
         preferredTimescale: CMTimeScale(NSEC_PER_SEC)
       ),
       queue: DispatchQueue.main) { [weak self] (time) in
-        guard let self = self else { return }
-        NotificationCenter.default.post(name: VersaPlayer.VPlayerNotificationName.timeChanged.notification, object: self, userInfo: [VPlayerNotificationInfoKey.time.rawValue: time])
-        self.handler?.playbackDelegate?.timeDidChange(player: self, to: time)
+      guard let self = self else { return }
+      NotificationCenter.default.post(name: VersaPlayer.VPlayerNotificationName.timeChanged.notification, object: self, userInfo: [VPlayerNotificationInfoKey.time.rawValue: time])
+      self.handler?.playbackDelegate?.timeDidChange(player: self, to: time)
     }
 
     addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
@@ -357,9 +357,9 @@ extension VersaPlayer {
     guard
       let certificateURL = handler.decryptionDelegate?.urlFor(player: self),
       let certificateData = try? Data(contentsOf: certificateURL) else {
-        print("VersaPlayerResourceLoadingError", #function, "Unable to read the certificate data.")
-        loadingRequest.finishLoading(with: NSError(domain: "quasar.studio.error", code: -2, userInfo: nil))
-        return false
+      print("VersaPlayerResourceLoadingError", #function, "Unable to read the certificate data.")
+      loadingRequest.finishLoading(with: NSError(domain: "quasar.studio.error", code: -2, userInfo: nil))
+      return false
     }
 
     let contentId = handler.decryptionDelegate?.contentIdFor(player: self) ?? ""
@@ -367,9 +367,9 @@ extension VersaPlayer {
       let contentIdData = contentId.data(using: String.Encoding.utf8),
       let spcData = try? loadingRequest.streamingContentKeyRequestData(forApp: certificateData, contentIdentifier: contentIdData, options: nil),
       let dataRequest = loadingRequest.dataRequest else {
-        loadingRequest.finishLoading(with: NSError(domain: "quasar.studio.error", code: -3, userInfo: nil))
-        print("VersaPlayerResourceLoadingError", #function, "Unable to read the SPC data.")
-        return false
+      loadingRequest.finishLoading(with: NSError(domain: "quasar.studio.error", code: -3, userInfo: nil))
+      print("VersaPlayerResourceLoadingError", #function, "Unable to read the SPC data.")
+      return false
     }
 
     guard let ckcURL = handler.decryptionDelegate?.contentKeyContextURLFor(player: self) else {

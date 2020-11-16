@@ -354,9 +354,9 @@ extension VodViewController: VersaPlayerPlaybackDelegate {
     pipToggleButton.setImage(AVPictureInPictureController.pictureInPictureButtonStopImage(compatibleWith: nil), for: [.selected, .highlighted])
 
     guard AVPictureInPictureController.isPictureInPictureSupported(),
-      let pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.renderingView.playerLayer) else {
-        pipToggleButton.isEnabled = false
-        return
+          let pictureInPictureController = AVPictureInPictureController(playerLayer: playerView.renderingView.playerLayer) else {
+      pipToggleButton.isEnabled = false
+      return
     }
 
     self.pictureInPictureController = pictureInPictureController

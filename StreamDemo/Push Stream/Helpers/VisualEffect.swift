@@ -36,16 +36,17 @@ final class CurrentTimeEffect: VideoEffect {
     UIGraphicsBeginImageContext(image.extent.size)
 
     let paragraphStyle = NSMutableParagraphStyle()
-    paragraphStyle.alignment = .center
+    paragraphStyle.alignment = .left
+    paragraphStyle.lineBreakMode = .byCharWrapping
 
     let attrs: [NSAttributedString.Key: Any] = [
-      .font: UIFont.systemFont(ofSize: 36),
+      .font: UIFont.systemFont(ofSize: 40),
       .paragraphStyle: paragraphStyle
     ]
 
     let attributedString = NSAttributedString(string: now.description, attributes: attrs)
 
-    attributedString.draw(with: CGRect(x: 0, y: 100, width: 500, height: 448), options: .usesLineFragmentOrigin, context: nil)
+    attributedString.draw(with: CGRect(x: 20, y: 400, width: 800, height: 1000), options: .usesLineFragmentOrigin, context: nil)
 
     dateImg = CIImage(image: UIGraphicsGetImageFromCurrentImageContext()!, options: nil)
 
@@ -101,9 +102,9 @@ final class PsyEffect: VideoEffect {
   func getSequence(gifNamed: String) -> [UIImage]? {
 
     guard let bundleURL = Bundle.main
-      .url(forResource: gifNamed, withExtension: "gif") else {
-        print("This image named \"\(gifNamed)\" does not exist!")
-        return nil
+            .url(forResource: gifNamed, withExtension: "gif") else {
+      print("This image named \"\(gifNamed)\" does not exist!")
+      return nil
     }
 
     guard let imageData = try? Data(contentsOf: bundleURL) else {
@@ -182,9 +183,9 @@ final class PronamaEffect: VideoEffect {
   func getSequence(gifNamed: String) -> [UIImage]? {
 
     guard let bundleURL = Bundle.main
-      .url(forResource: gifNamed, withExtension: "gif") else {
-        print("This image named \"\(gifNamed)\" does not exist!")
-        return nil
+            .url(forResource: gifNamed, withExtension: "gif") else {
+      print("This image named \"\(gifNamed)\" does not exist!")
+      return nil
     }
 
     guard let imageData = try? Data(contentsOf: bundleURL) else {
@@ -236,10 +237,10 @@ final class MonochromeEffect: VideoEffect {
 final class RotationEffect: VideoEffect {
   override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
     guard #available(iOS 11.0, *),
-      let info = info,
-      let orientationAttachment = CMGetAttachment(info, key: "RPVideoSampleOrientationKey" as CFString, attachmentModeOut: nil) as? NSNumber,
-      let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) else {
-        return image
+          let info = info,
+          let orientationAttachment = CMGetAttachment(info, key: "RPVideoSampleOrientationKey" as CFString, attachmentModeOut: nil) as? NSNumber,
+          let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) else {
+      return image
     }
     switch orientation {
     case .left:

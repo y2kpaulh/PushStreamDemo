@@ -88,7 +88,7 @@ class AssetListTableViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     guard let cell = tableView.cellForRow(at: indexPath) as? AssetListTableViewCell, let asset = cell.asset
-      else { return }
+    else { return }
     print(asset.stream.playlistURL)
 
     if asset.stream.name.contains("Push") {
