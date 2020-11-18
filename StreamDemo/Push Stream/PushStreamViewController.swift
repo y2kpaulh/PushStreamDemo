@@ -63,6 +63,7 @@ final class PushStreamViewController: UIViewController {
     zoomSlider.slider.thumbRect(forBounds: zoomSlider.slider.bounds, trackRect: CGRect(x: 0, y: 0, width: 10, height: 10), value: 0.0)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
+
     configStreaming()
   }
 
@@ -205,8 +206,7 @@ final class PushStreamViewController: UIViewController {
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
 
-    rtmpStream.setZoomFactor(CGFloat(zoomSlider.value), ramping: true, withRate: 5.0)
-
+    rtmpStream.setZoomFactor(CGFloat(zoomSlider.value), ramping: true, withRate: 2.0)
   }
 
   @IBAction func on(pause: UIButton) {
