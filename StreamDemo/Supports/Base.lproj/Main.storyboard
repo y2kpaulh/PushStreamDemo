@@ -861,10 +861,7 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="48" height="48"/>
-        </designable>
-        <designable name="xLt-ts-V8q">
-            <size key="intrinsicContentSize" width="30" height="-1"/>
+            <size key="intrinsicContentSize" width="28" height="28"/>
         </designable>
     </designables>
     <resources>
@@ -875,9 +872,9 @@
         <image name="fb" width="500" height="500"/>
         <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
         <image name="mute" width="50" height="50"/>
-        <image name="pause" width="48" height="48"/>
+        <image name="pause" width="28" height="28"/>
         <image name="pip" width="24" height="24"/>
-        <image name="play" width="48" height="48"/>
+        <image name="play" width="28" height="28"/>
         <image name="tabBarItem:bu5-2M-jWr:image" width="0.0" height="0.0">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T

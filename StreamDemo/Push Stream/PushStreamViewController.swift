@@ -368,6 +368,7 @@ extension PushStreamViewController {
       .sessionPreset: captureSize,
       .continuousAutofocus: true,
       .continuousExposure: true,
+      .isVideoMirrored: true,
       .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
 
@@ -378,13 +379,15 @@ extension PushStreamViewController {
     ]
 
     if resolution.width == 720 {
-      rtmpStream.videoSettings[.bitrate] = 128 * 1024
+      rtmpStream.videoSettings[.bitrate] = 1024 * 1000
       rtmpStream.captureSettings[.fps] = 29.97
     } else {
-      rtmpStream.videoSettings[.bitrate] = 1024 * 1024
+      rtmpStream.videoSettings[.bitrate] = 1024 * 1000
       rtmpStream.captureSettings[.fps] = 60
     }
 
-    rtmpStream.audioSettings[.bitrate] = 128 * 1024
+    rtmpStream.audioSettings[.bitrate] = 128 * 1000
+    rtmpStream.audioSettings[.muted] = false
+
   }
 }
