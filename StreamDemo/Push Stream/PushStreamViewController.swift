@@ -6,6 +6,7 @@ import VideoToolbox
 import RxSwift
 import RxCocoa
 import ReplayKit
+import VerticalSlider
 
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
   static let `default` = ExampleRecorderDelegate()
@@ -32,17 +33,9 @@ final class PushStreamViewController: UIViewController {
   let controller = RPBroadcastController()
   let recorder = RPScreenRecorder.shared()
 
+  @IBOutlet weak var zoomSlider: VerticalSlider!
+  @IBOutlet weak var publishStateView: UIView!
   @IBOutlet private weak var lfView: GLHKView?
-  @IBOutlet private weak var currentFPSLabel: UILabel?
-  @IBOutlet private weak var publishButton: UIButton?
-  @IBOutlet private weak var pauseButton: UIButton?
-  @IBOutlet private weak var videoBitrateLabel: UILabel?
-  @IBOutlet private weak var videoBitrateSlider: UISlider?
-  @IBOutlet private weak var audioBitrateLabel: UILabel?
-  @IBOutlet private weak var zoomSlider: UISlider?
-  @IBOutlet private weak var audioBitrateSlider: UISlider?
-  @IBOutlet private weak var fpsControl: UISegmentedControl?
-  @IBOutlet private weak var effectSegmentControl: UISegmentedControl?
   @IBOutlet weak var closeBtn: UIButton!
 
   private var rtmpConnection = RTMPConnection()
@@ -53,14 +46,49 @@ final class PushStreamViewController: UIViewController {
   private var retryCount: Int = 0
   private var disposeBag = DisposeBag()
 
+  let hdResolution: CGSize = CGSize(width: 720, height: 1280)
+  let fhdResolution: CGSize = CGSize(width: 1080, height: 1920)
+  var currentResolution: CGSize!
+
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    self.currentResolution = self.hdResolution
 
     let image = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
     closeBtn.setImage(image, for: .normal)
     closeBtn.tintColor = .white
 
+    zoomSlider.slider.addTarget(self, action: #selector(sliderChanged), for: .valueChanged)
+    zoomSlider.slider.thumbRect(forBounds: zoomSlider.slider.bounds, trackRect: CGRect(x: 0, y: 0, width: 10, height: 10), value: 0.0)
+    zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
+    zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
     configStreaming()
+  }
+
+  func progressImage(with progress: Float) -> UIImage {
+    let layer = CALayer()
+    layer.backgroundColor = UIColor.white.cgColor
+    layer.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+    layer.cornerRadius = 15
+
+    let label = UILabel(frame: layer.frame)
+    label.text = String(format: "%dx", Int(progress))//String(format: "%.1fx", progress)
+    label.font = UIFont.systemFont(ofSize: 12)
+    layer.addSublayer(label.layer)
+    label.textAlignment = .center
+    label.tag = 100
+
+    UIGraphicsBeginImageContext(layer.frame.size)
+    layer.render(in: UIGraphicsGetCurrentContext()!)
+
+    let degrees = 30.0
+    let radians = CGFloat(degrees * M_PI / 180)
+    layer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
+
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return image!
   }
 
   func configStreaming() {
@@ -81,23 +109,13 @@ final class PushStreamViewController: UIViewController {
 
     rtmpStream = RTMPStream(connection: rtmpConnection)
 
-    rtmpStream.captureSettings = [
-      .sessionPreset: AVCaptureSession.Preset.hd1280x720,
-      .continuousAutofocus: true,
-      .continuousExposure: true,
-      .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
-    ]
+    if let orientation = DeviceUtil.videoOrientation(by: UIApplication.shared.statusBarOrientation) {
+      rtmpStream.orientation = orientation
+    }
 
-    rtmpStream.videoSettings = [
-      .width: 720,
-      .height: 1280,
-      .profileLevel: kVTProfileLevel_H264_High_AutoLevel
-    ]
+    self.configResolution(resolution: self.currentResolution)
 
     rtmpStream.mixer.recorder.delegate = ExampleRecorderDelegate.shared
-
-    videoBitrateSlider?.value = Float(RTMPStream.defaultVideoBitrate) / 1024
-    audioBitrateSlider?.value = Float(RTMPStream.defaultAudioBitrate) / 1024
 
     NotificationCenter.default.rx.notification(UIDevice.orientationDidChangeNotification)
       .observeOn(MainScheduler.instance)
@@ -148,12 +166,12 @@ final class PushStreamViewController: UIViewController {
       .subscribe(onNext: { [weak self] fps in
         guard let self = self else { return }
         guard let currentFps = fps else { return }
-        self.currentFPSLabel?.text = "\(currentFps) fps"
+        //        self.currentFPSLabel?.text = "\(currentFps) fps"
       })
       .disposed(by: disposeBag)
 
     lfView?.attachStream(rtmpStream)
-    lfView?.videoGravity = .resizeAspectFill
+    lfView?.videoGravity = .resizeAspect
     lfView?.cornerRadius = 8
   }
 
@@ -182,18 +200,13 @@ final class PushStreamViewController: UIViewController {
     rtmpStream.torch.toggle()
   }
 
-  @IBAction func on(slider: UISlider) {
-    if slider == audioBitrateSlider {
-      audioBitrateLabel?.text = "audio \(Int(slider.value))/kbps"
-      rtmpStream.audioSettings[.bitrate] = slider.value * 1024
-    }
-    if slider == videoBitrateSlider {
-      videoBitrateLabel?.text = "video \(Int(slider.value))/kbps"
-      rtmpStream.videoSettings[.bitrate] = slider.value * 1024
-    }
-    if slider == zoomSlider {
-      rtmpStream.setZoomFactor(CGFloat(slider.value), ramping: true, withRate: 5.0)
-    }
+  @objc internal func sliderChanged() {
+    print(#function, zoomSlider.value)
+    zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
+    zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
+
+    rtmpStream.setZoomFactor(CGFloat(zoomSlider.value), ramping: true, withRate: 5.0)
+
   }
 
   @IBAction func on(pause: UIButton) {
@@ -222,21 +235,18 @@ final class PushStreamViewController: UIViewController {
       rtmpConnection.close()
       rtmpConnection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.removeEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
-      publish.setTitle("●", for: [])
-      publish.backgroundColor = .red
+      self.publishStateView.backgroundColor = .red
 
-      if pauseButton!.isSelected {
-        self.on(pause: pauseButton!)
-      }
+      //      if pauseButton!.isSelected {
+      //        self.on(pause: pauseButton!)
+      //      }
       self.stopRecording()
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.addEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
       rtmpConnection.connect(uri)
-      publish.setTitle("■", for: [])
-      publish.backgroundColor = .gray
-
+      self.publishStateView.backgroundColor = .lightGray
       self.startRecording()
     }
 
@@ -288,14 +298,12 @@ final class PushStreamViewController: UIViewController {
     }
   }
 
-  @IBAction private func onFPSValueChanged(_ segment: UISegmentedControl) {
+  @IBAction private func resolutionValueChanged(_ segment: UISegmentedControl) {
     switch segment.selectedSegmentIndex {
     case 0:
-      rtmpStream.captureSettings[.fps] = 15.0
+      self.configResolution(resolution: hdResolution)
     case 1:
-      rtmpStream.captureSettings[.fps] = 30.0
-    case 2:
-      rtmpStream.captureSettings[.fps] = 60.0
+      self.configResolution(resolution: fhdResolution)
     default:
       break
     }
@@ -347,5 +355,36 @@ extension PushStreamViewController: RPPreviewViewControllerDelegate {
 
   func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
     dismiss(animated: true)
+  }
+}
+
+extension PushStreamViewController {
+  func configResolution(resolution: CGSize) {
+    let captureSize = resolution.width == 720 ? AVCaptureSession.Preset.hd1280x720 : AVCaptureSession.Preset.hd1920x1080
+
+    print(#function, captureSize, resolution.width, resolution.height)
+
+    rtmpStream.captureSettings = [
+      .sessionPreset: captureSize,
+      .continuousAutofocus: true,
+      .continuousExposure: true,
+      .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
+    ]
+
+    rtmpStream.videoSettings = [
+      .width: resolution.width,
+      .height: resolution.height,
+      .profileLevel: kVTProfileLevel_H264_High_AutoLevel
+    ]
+
+    if resolution.width == 720 {
+      rtmpStream.videoSettings[.bitrate] = 128 * 1024
+      rtmpStream.captureSettings[.fps] = 29.97
+    } else {
+      rtmpStream.videoSettings[.bitrate] = 1024 * 1024
+      rtmpStream.captureSettings[.fps] = 60
+    }
+
+    rtmpStream.audioSettings[.bitrate] = 128 * 1024
   }
 }

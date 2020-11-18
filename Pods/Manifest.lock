@@ -24,6 +24,7 @@ PODS:
     - Starscream (~> 3.1)
   - Starscream (3.1.1)
   - Swinject (2.7.1)
+  - VerticalSlider (2.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -37,6 +38,7 @@ DEPENDENCIES:
   - SnapKit
   - Socket.IO-Client-Swift
   - Swinject
+  - VerticalSlider
 
 SPEC REPOS:
   trunk:
@@ -55,6 +57,7 @@ SPEC REPOS:
     - Socket.IO-Client-Swift
     - Starscream
     - Swinject
+    - VerticalSlider
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
@@ -72,7 +75,8 @@ SPEC CHECKSUMS:
   Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
+  VerticalSlider: 655f2bc3ed062bac13e21c174f5ff93b8308571d
 
-PODFILE CHECKSUM: 585da7871ff8ff2cc7adad7f1dc0e4449c34a237
+PODFILE CHECKSUM: 2f7d6d0a6c2f96312809c0fbfea0da5b6b01809c
 
 COCOAPODS: 1.9.3

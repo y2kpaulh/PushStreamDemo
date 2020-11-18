@@ -130,7 +130,7 @@ class PullStreamViewController: UIViewController {
     //video view round 처리
     playerView.renderingView.cornerRadius = 8
 
-    playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
+    playerView.renderingView.playerLayer.videoGravity = .resizeAspect
 
     playerView.isUserInteractionEnabled = false
 
