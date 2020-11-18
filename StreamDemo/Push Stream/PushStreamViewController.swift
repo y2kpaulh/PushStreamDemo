@@ -78,12 +78,12 @@ final class PushStreamViewController: UIViewController {
     layer.addSublayer(label.layer)
     label.textAlignment = .center
     label.tag = 100
-
+    label.transform = CGAffineTransform(rotationAngle: .pi/2)
     UIGraphicsBeginImageContext(layer.frame.size)
     layer.render(in: UIGraphicsGetCurrentContext()!)
 
     let degrees = 30.0
-    let radians = CGFloat(degrees * M_PI / 180)
+    let radians = CGFloat(degrees * .pi / 180)
     layer.transform = CATransform3DMakeRotation(radians, 0.0, 0.0, 1.0)
 
     let image = UIGraphicsGetImageFromCurrentImageContext()
