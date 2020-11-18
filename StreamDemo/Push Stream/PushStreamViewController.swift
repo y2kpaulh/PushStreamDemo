@@ -8,36 +8,18 @@ import RxCocoa
 import ReplayKit
 import VerticalSlider
 
-final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
-  static let `default` = ExampleRecorderDelegate()
-
-  override func didFinishWriting(_ recorder: AVRecorder) {
-    guard let writer: AVAssetWriter = recorder.writer else { return }
-    PHPhotoLibrary.shared().performChanges({() -> Void in
-      PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: writer.outputURL)
-    }, completionHandler: { _, error -> Void in
-      do {
-        try FileManager.default.removeItem(at: writer.outputURL)
-      } catch {
-        print(error)
-      }
-    })
-  }
-}
-
 final class PushStreamViewController: UIViewController {
   private static let maxRetryCount: Int = 5
   let preferences = UserDefaults.standard
   var uri = ""
   var streamName = "ShallWeShop-iOS"
-  let controller = RPBroadcastController()
-  let recorder = RPScreenRecorder.shared()
 
   @IBOutlet weak var zoomSlider: VerticalSlider!
   @IBOutlet weak var publishStateView: UIView!
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet weak var closeBtn: UIButton!
 
+  @IBOutlet weak var publishTimeLabel: UILabel!
   private var rtmpConnection = RTMPConnection()
   private var rtmpStream: RTMPStream!
   private var sharedObject: RTMPSharedObject!
@@ -49,6 +31,8 @@ final class PushStreamViewController: UIViewController {
   let hdResolution: CGSize = CGSize(width: 720, height: 1280)
   let fhdResolution: CGSize = CGSize(width: 1080, height: 1920)
   var currentResolution: CGSize!
+  var publishTimer: Disposable?
+  var isPublishStream = false
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -116,8 +100,6 @@ final class PushStreamViewController: UIViewController {
 
     self.configResolution(resolution: self.currentResolution)
 
-    rtmpStream.mixer.recorder.delegate = ExampleRecorderDelegate.shared
-
     NotificationCenter.default.rx.notification(UIDevice.orientationDidChangeNotification)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
@@ -179,6 +161,7 @@ final class PushStreamViewController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     //logger.info("viewWillDisappear")
     super.viewWillDisappear(animated)
+    publishTimer?.dispose()
 
     rtmpStream.close()
     rtmpStream.dispose()
@@ -236,18 +219,19 @@ final class PushStreamViewController: UIViewController {
       rtmpConnection.removeEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.removeEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
       self.publishStateView.backgroundColor = .red
-
+      self.stopPublishTimer()
       //      if pauseButton!.isSelected {
       //        self.on(pause: pauseButton!)
       //      }
-      self.stopRecording()
+      //self.stopRecording()
     } else {
       UIApplication.shared.isIdleTimerDisabled = true
       rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(rtmpStatusHandler), observer: self)
       rtmpConnection.addEventListener(.ioError, selector: #selector(rtmpErrorHandler), observer: self)
       rtmpConnection.connect(uri)
       self.publishStateView.backgroundColor = .lightGray
-      self.startRecording()
+      self.startPublishTimer()
+      //self.startRecording()
     }
 
     publish.isSelected.toggle()
@@ -326,38 +310,6 @@ final class PushStreamViewController: UIViewController {
   }
 }
 
-extension PushStreamViewController: RPPreviewViewControllerDelegate {
-  //  @objc func startRecording() {
-  func startRecording() {
-    recorder.startRecording { [unowned self] (error) in
-      if let unwrappedError = error {
-        print(unwrappedError.localizedDescription)
-        let alert =  UIAlertController(title: nil, message: unwrappedError.localizedDescription, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-      } else {
-        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(self.stopRecording))
-      }
-    }
-  }
-
-  //  @objc func stopRecording() {
-  func stopRecording() {
-    recorder.stopRecording { [unowned self] (preview, _) in
-      // self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(self.startRecording))
-      if let unwrappedPreview = preview {
-        unwrappedPreview.previewControllerDelegate = self
-        self.present(unwrappedPreview, animated: true)
-      }
-    }
-  }
-
-  func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-    dismiss(animated: true)
-  }
-}
-
 extension PushStreamViewController {
   func configResolution(resolution: CGSize) {
     let captureSize = resolution.width == 720 ? AVCaptureSession.Preset.hd1280x720 : AVCaptureSession.Preset.hd1920x1080
@@ -388,6 +340,46 @@ extension PushStreamViewController {
 
     rtmpStream.audioSettings[.bitrate] = 128 * 1000
     rtmpStream.audioSettings[.muted] = false
+  }
 
+  func startPublishTimer() {
+    isPublishStream = true
+
+    publishTimer = Observable<Int>
+      .interval(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+      .map { $0 + 1 }
+      .map { self.convertToHMS(number: $0) }
+      .bind(to: publishTimeLabel.rx.text)
+    //      .subscribe(onNext: { sec in
+    //        print(self.convertToHMS(number: sec))
+    //        self.publishTimeLabel.text = self.convertToHMS(number: sec)
+    //      })
+  }
+
+  func stopPublishTimer() {
+    publishTimer?.dispose()
+    publishTimeLabel.text = ""
+  }
+
+  func convertToHMS(number: Int) -> String {
+    let hour    = number / 3600
+    let minute  = (number % 3600) / 60
+    let second = (number % 3600) % 60
+
+    var h = String(hour)
+    var m = String(minute)
+    var s = String(second)
+
+    if h.count == 1 {
+      h = "0\(hour)"
+    }
+    if m.count == 1 {
+      m = "0\(minute)"
+    }
+    if s.count == 1 {
+      s = "0\(second)"
+    }
+
+    return "\(h):\(m):\(s)"
   }
 }

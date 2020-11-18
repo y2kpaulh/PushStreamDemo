@@ -319,11 +319,19 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="72o-s5-sGh">
+                                        <rect key="frame" x="12" y="70" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="72o-s5-sGh" secondAttribute="trailing" constant="20" symbolic="YES" id="APk-qc-Jc6"/>
                                     <constraint firstAttribute="bottom" secondItem="UoK-A2-Udh" secondAttribute="bottom" constant="30" id="Q7V-Vq-Bb5"/>
                                     <constraint firstItem="UoK-A2-Udh" firstAttribute="centerX" secondItem="nQQ-MQ-PdA" secondAttribute="centerX" constant="-10" id="Ygo-zL-Qut"/>
+                                    <constraint firstItem="72o-s5-sGh" firstAttribute="leading" secondItem="nQQ-MQ-PdA" secondAttribute="leading" constant="12" id="f7O-mJ-8uy"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLt-ts-V8q" customClass="VerticalSlider" customModule="VerticalSlider">
@@ -399,6 +407,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="xLt-ts-V8q" secondAttribute="trailing" id="K6i-mT-7rd"/>
                             <constraint firstAttribute="trailing" secondItem="nQQ-MQ-PdA" secondAttribute="trailing" id="Lxo-pL-tmV"/>
                             <constraint firstItem="nQQ-MQ-PdA" firstAttribute="leading" secondItem="uRw-s2-J7x" secondAttribute="leading" id="PA1-zN-3kq"/>
+                            <constraint firstItem="72o-s5-sGh" firstAttribute="centerY" secondItem="b9R-G6-53P" secondAttribute="centerY" id="Ui8-Yz-2VZ"/>
                             <constraint firstAttribute="bottom" secondItem="nQQ-MQ-PdA" secondAttribute="bottom" id="XMO-Ri-7wE"/>
                             <constraint firstItem="AUB-gb-BjO" firstAttribute="top" secondItem="b9R-G6-53P" secondAttribute="bottom" constant="10" id="XY3-jc-q9q"/>
                             <constraint firstAttribute="trailingMargin" secondItem="b9R-G6-53P" secondAttribute="trailing" constant="0.5" id="gee-hF-qZn"/>
@@ -410,6 +419,7 @@
                         <outlet property="closeBtn" destination="CNg-NH-9vw" id="PlQ-Og-R1H"/>
                         <outlet property="lfView" destination="nQQ-MQ-PdA" id="QYF-AT-hjl"/>
                         <outlet property="publishStateView" destination="jLW-O1-wxx" id="twS-P9-17e"/>
+                        <outlet property="publishTimeLabel" destination="72o-s5-sGh" id="m53-WW-5WM"/>
                         <outlet property="zoomSlider" destination="xLt-ts-V8q" id="BAH-cl-xMR"/>
                     </connections>
                 </viewController>
@@ -861,7 +871,10 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="28" height="28"/>
+            <size key="intrinsicContentSize" width="48" height="48"/>
+        </designable>
+        <designable name="xLt-ts-V8q">
+            <size key="intrinsicContentSize" width="30" height="-1"/>
         </designable>
     </designables>
     <resources>
@@ -872,9 +885,9 @@
         <image name="fb" width="500" height="500"/>
         <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
         <image name="mute" width="50" height="50"/>
-        <image name="pause" width="28" height="28"/>
+        <image name="pause" width="48" height="48"/>
         <image name="pip" width="24" height="24"/>
-        <image name="play" width="28" height="28"/>
+        <image name="play" width="48" height="48"/>
         <image name="tabBarItem:bu5-2M-jWr:image" width="0.0" height="0.0">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05T
