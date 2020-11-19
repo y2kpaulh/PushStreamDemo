@@ -154,7 +154,7 @@ final class PushStreamViewController: UIViewController {
       .disposed(by: disposeBag)
 
     lfView?.attachStream(rtmpStream)
-    lfView?.videoGravity = .resizeAspect
+    lfView?.videoGravity = .resizeAspectFill
     lfView?.cornerRadius = 8
   }
 
