@@ -357,7 +357,7 @@ extension PushStreamViewController {
       .sessionPreset: captureSize,
       .continuousAutofocus: true,
       .continuousExposure: true,
-      .isVideoMirrored: true,
+//      .isVideoMirrored: true,
       .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
 

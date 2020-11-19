@@ -28,8 +28,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     if preferences.string(forKey: "pushUrl") == nil {
       preferences.set("rtmp://epiensup1.xst.kinxcdn.com/epiens/", forKey: "pushUrl")
-      preferences.set("test1", forKey: "streamKey")
-      preferences.set("http://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8", forKey: "pullUrl")
+      preferences.set("SWS-T-000000000097", forKey: "streamKey")
+      preferences.set("http://epiens.xst.kinxcdn.com/epiens/SWS-T-000000000097/playlist.m3u8", forKey: "pullUrl")
 
       preferences.synchronize()
     }
