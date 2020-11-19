@@ -420,12 +420,13 @@
                         <outlet property="lfView" destination="nQQ-MQ-PdA" id="QYF-AT-hjl"/>
                         <outlet property="publishStateView" destination="jLW-O1-wxx" id="twS-P9-17e"/>
                         <outlet property="publishTimeLabel" destination="72o-s5-sGh" id="m53-WW-5WM"/>
+                        <outlet property="resolutionControl" destination="AUB-gb-BjO" id="tKR-Rf-u79"/>
                         <outlet property="zoomSlider" destination="xLt-ts-V8q" id="BAH-cl-xMR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lHX-10-ELx" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1373.913043478261" y="1935.9375"/>
+            <point key="canvasLocation" x="912" y="1965"/>
         </scene>
         <!--PreferenceViewController-->
         <scene sceneID="08b-gX-3XY">
