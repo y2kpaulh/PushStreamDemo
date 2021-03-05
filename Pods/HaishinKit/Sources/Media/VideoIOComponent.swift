@@ -244,6 +244,25 @@ final class VideoIOComponent: IOComponent {
             return [Float(device.minExposureTargetBias), Float(device.maxExposureTargetBias)]
         }
     }
+    
+    var exposureBias: Float = 0 {
+        didSet {
+            let exposureMode: AVCaptureDevice.ExposureMode = continuousExposure ? .continuousAutoExposure : .autoExpose
+            guard let device: AVCaptureDevice = (input as? AVCaptureDeviceInput)?.device,
+                device.isExposureModeSupported(exposureMode) else {
+                    logger.warn("exposureMode(\(exposureMode.rawValue)) is not supported")
+                    return
+            }
+            do {
+                try device.lockForConfiguration()
+                device.exposureMode = .autoExpose
+                device.setExposureTargetBias(exposureBias, completionHandler: nil)
+                device.unlockForConfiguration()
+            } catch let error as NSError {
+                logger.error("while locking device for autoexpose: \(error)")
+            }
+        }
+    }
 
     #if os(iOS)
     var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode = .off {

@@ -90,7 +90,11 @@ open class NetStream: NSObject {
     }
 
 open func camExposureRange() ->[Float]? {
-  return  mixer.videoIO.camExposureRange
+  return mixer.videoIO.camExposureRange
+}
+
+open func changeExposureValue(bias: Float) {
+     mixer.videoIO.exposureBias = bias
 }
 #endif
 

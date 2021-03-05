@@ -19,7 +19,7 @@ final class PushStreamViewController: UIViewController {
   @IBOutlet weak var publishStateView: UIView!
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet weak var closeBtn: UIButton!
-
+  @IBOutlet weak var brightnessSlider: UISlider!
   @IBOutlet weak var publishTimeLabel: UILabel!
   private var rtmpConnection = RTMPConnection()
   private var rtmpStream: RTMPStream!
@@ -164,6 +164,10 @@ final class PushStreamViewController: UIViewController {
     guard let camExposureRange = rtmpStream.camExposureRange() else { return }
 
     print("camExposureRange", camExposureRange)
+
+    self.brightnessSlider.minimumValue = Float(camExposureRange[0])
+    self.brightnessSlider.maximumValue = Float(camExposureRange[1])
+    self.brightnessSlider.value = (brightnessSlider.minimumValue + brightnessSlider.maximumValue)/2
 
   }
 
@@ -348,6 +352,10 @@ final class PushStreamViewController: UIViewController {
       break
     }
   }
+
+  @IBAction func changeSlider(_ sender: UISlider) {
+    rtmpStream.changeExposureValue(bias: Float(sender.value))
+  }
 }
 
 extension PushStreamViewController {
@@ -449,4 +457,5 @@ extension PushStreamViewController {
     alert.addAction(okAction)
     present(alert, animated: true, completion: nil)
   }
+
 }

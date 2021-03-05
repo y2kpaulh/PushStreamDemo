@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zPT-5P-8Ql">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zPT-5P-8Ql">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -325,6 +325,16 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JHQ-xB-oTy">
+                                        <rect key="frame" x="181" y="709" width="204" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="b0u-9T-QZK"/>
+                                            <constraint firstAttribute="width" constant="200" id="orT-J1-wf2"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="changeSlider:" destination="PlH-Fq-UGR" eventType="valueChanged" id="plU-K2-EHc"/>
+                                        </connections>
+                                    </slider>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -332,6 +342,8 @@
                                     <constraint firstAttribute="bottom" secondItem="UoK-A2-Udh" secondAttribute="bottom" constant="30" id="Q7V-Vq-Bb5"/>
                                     <constraint firstItem="UoK-A2-Udh" firstAttribute="centerX" secondItem="nQQ-MQ-PdA" secondAttribute="centerX" constant="-10" id="Ygo-zL-Qut"/>
                                     <constraint firstItem="72o-s5-sGh" firstAttribute="leading" secondItem="nQQ-MQ-PdA" secondAttribute="leading" constant="12" id="f7O-mJ-8uy"/>
+                                    <constraint firstAttribute="trailing" secondItem="JHQ-xB-oTy" secondAttribute="trailing" constant="31" id="vVJ-7u-fi6"/>
+                                    <constraint firstAttribute="bottom" secondItem="JHQ-xB-oTy" secondAttribute="bottom" constant="157" id="y2s-53-LTs"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLt-ts-V8q" customClass="VerticalSlider" customModule="VerticalSlider">
@@ -416,6 +428,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="tabBarItem:bu5-2M-jWr:image" id="bu5-2M-jWr"/>
                     <connections>
+                        <outlet property="brightnessSlider" destination="JHQ-xB-oTy" id="zgb-aG-g4d"/>
                         <outlet property="closeBtn" destination="CNg-NH-9vw" id="PlQ-Og-R1H"/>
                         <outlet property="lfView" destination="nQQ-MQ-PdA" id="QYF-AT-hjl"/>
                         <outlet property="publishStateView" destination="jLW-O1-wxx" id="twS-P9-17e"/>
@@ -872,7 +885,7 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="48" height="48"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
         <designable name="xLt-ts-V8q">
             <size key="intrinsicContentSize" width="30" height="-1"/>
@@ -992,15 +1005,6 @@ FAEAAAAAAAACAQAAAAAAAABPAAAAAAAAAAAAAAAAAAAUBA
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="viewFlipsideBackgroundColor">
             <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
