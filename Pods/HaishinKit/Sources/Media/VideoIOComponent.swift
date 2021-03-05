@@ -232,6 +232,19 @@ final class VideoIOComponent: IOComponent {
         }
     }
 
+    var camExposureRange: [Float]? {
+        get{
+            let exposureMode: AVCaptureDevice.ExposureMode = continuousExposure ? .continuousAutoExposure : .autoExpose
+                guard let device: AVCaptureDevice = (input as? AVCaptureDeviceInput)?.device,
+                    device.isExposureModeSupported(exposureMode) else {
+                        logger.warn("exposureMode(\(exposureMode.rawValue)) is not supported")
+                        return nil
+                }
+        
+            return [Float(device.minExposureTargetBias), Float(device.maxExposureTargetBias)]
+        }
+    }
+
     #if os(iOS)
     var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode = .off {
         didSet {

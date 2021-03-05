@@ -14,8 +14,8 @@ final class PushStreamViewController: UIViewController {
   var uri = ""
   var streamName = "ShallWeShop-iOS"
 
-    @IBOutlet weak var resolutionControl: UISegmentedControl!
-    @IBOutlet weak var zoomSlider: VerticalSlider!
+  @IBOutlet weak var resolutionControl: UISegmentedControl!
+  @IBOutlet weak var zoomSlider: VerticalSlider!
   @IBOutlet weak var publishStateView: UIView!
   @IBOutlet private weak var lfView: GLHKView?
   @IBOutlet weak var closeBtn: UIButton!
@@ -49,10 +49,8 @@ final class PushStreamViewController: UIViewController {
     zoomSlider.slider.thumbRect(forBounds: zoomSlider.slider.bounds, trackRect: CGRect(x: 0, y: 0, width: 10, height: 10), value: 0.0)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
-    
-    configStreaming()
-    
 
+    configStreaming()
   }
 
   func progressImage(with progress: Float) -> UIImage {
@@ -135,7 +133,7 @@ final class PushStreamViewController: UIViewController {
         self.rtmpStream.receiveVideo = true
       })
       .disposed(by: disposeBag)
-    
+
     self.frontCamMaxResolution = getFrontCameraMaxResolution()
   }
 
@@ -162,6 +160,11 @@ final class PushStreamViewController: UIViewController {
     lfView?.attachStream(rtmpStream)
     lfView?.videoGravity = .resizeAspectFill
     lfView?.cornerRadius = 8
+
+    guard let camExposureRange = rtmpStream.camExposureRange() else { return }
+
+    print("camExposureRange", camExposureRange)
+
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -181,25 +184,25 @@ final class PushStreamViewController: UIViewController {
     //logger.info("rotateCamera")
     let position: AVCaptureDevice.Position = currentPosition == .back ? .front : .back
     var resolution = CGSize(width: 0, height: 0)
-    
+
     //현재 back 카메라 1080p인데, front 카메라로 변경하는 경우
-    print("currentPosition",currentPosition.rawValue)
-    print("currentResolution",currentResolution.width)
-    print("frontCamMaxResolution.width",frontCamMaxResolution.width)
-    
+    print("currentPosition", currentPosition.rawValue)
+    print("currentResolution", currentResolution.width)
+    print("frontCamMaxResolution.width", frontCamMaxResolution.width)
+
     if currentPosition == .back && currentResolution.width >= 1080 && frontCamMaxResolution.width < 1080 {
-        self.alertView(msg: "front cam is not supported 1080p resolution.")
-        self.resolutionControl.selectedSegmentIndex = 0
-        return
+      self.alertView(msg: "front cam is not supported 1080p resolution.")
+      self.resolutionControl.selectedSegmentIndex = 0
+      return
     }
-    
+
     if let formatDescription = DeviceUtil.device(withPosition: position)?.activeFormat.formatDescription {
-          let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-          resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
-        if self.rtmpStream.orientation == .portrait {
-              resolution = CGSize(width: resolution.height, height: resolution.width)
-          }
+      let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+      resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
+      if self.rtmpStream.orientation == .portrait {
+        resolution = CGSize(width: resolution.height, height: resolution.width)
       }
+    }
 
     print("resolution", resolution)
     rtmpStream.attachCamera(DeviceUtil.device(withPosition: position)) { error in
@@ -315,15 +318,15 @@ final class PushStreamViewController: UIViewController {
     case 0:
       self.configResolution(resolution: hdResolution)
     case 1:
-        print("currentPosition",currentPosition.rawValue)
-        print("currentResolution",currentResolution.width)
-        print("frontCamMaxResolution.width",frontCamMaxResolution.width)
-        if currentPosition == .front && frontCamMaxResolution.width < 1080 {
-            self.alertView(msg: "front cam is not supported 1080p resolution.")
-            self.resolutionControl.selectedSegmentIndex = 0
-            return
-        }
-        
+      print("currentPosition", currentPosition.rawValue)
+      print("currentResolution", currentResolution.width)
+      print("frontCamMaxResolution.width", frontCamMaxResolution.width)
+      if currentPosition == .front && frontCamMaxResolution.width < 1080 {
+        self.alertView(msg: "front cam is not supported 1080p resolution.")
+        self.resolutionControl.selectedSegmentIndex = 0
+        return
+      }
+
       self.configResolution(resolution: fhdResolution)
     default:
       break
@@ -357,7 +360,7 @@ extension PushStreamViewController {
       .sessionPreset: captureSize,
       .continuousAutofocus: true,
       .continuousExposure: true,
-//      .isVideoMirrored: true,
+      //      .isVideoMirrored: true,
       .preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode.auto
     ]
 
@@ -377,7 +380,7 @@ extension PushStreamViewController {
 
     rtmpStream.audioSettings[.bitrate] = 128 * 1000
     rtmpStream.audioSettings[.muted] = false
-    
+
     self.currentResolution = resolution
   }
 
@@ -421,30 +424,29 @@ extension PushStreamViewController {
 
     return "\(h):\(m):\(s)"
   }
-    
-    func getFrontCameraMaxResolution() -> CGSize {
-        var resolution = CGSize(width: 0, height: 0)
 
-        if let formatDescription = DeviceUtil.device(withPosition: .front)?.activeFormat.formatDescription {
-              let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-              resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
-            if self.rtmpStream.orientation == .portrait {
-                  resolution = CGSize(width: resolution.height, height: resolution.width)
-              }
-          }
-        
-        print("front cam max res:", resolution)
-    
-        return resolution
+  func getFrontCameraMaxResolution() -> CGSize {
+    var resolution = CGSize(width: 0, height: 0)
+
+    if let formatDescription = DeviceUtil.device(withPosition: .front)?.activeFormat.formatDescription {
+      let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+      resolution = CGSize(width: CGFloat(dimensions.width), height: CGFloat(dimensions.height))
+      if self.rtmpStream.orientation == .portrait {
+        resolution = CGSize(width: resolution.height, height: resolution.width)
+      }
     }
-    
-    
-    func alertView(msg: String) {
-        let alert = UIAlertController(title: "Warning", message: msg, preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler : nil )
-//       let cancel = UIAlertAction(title: "cancel", style: .cancel, handler : nil)
-//       alert.addAction(cancel)
-       alert.addAction(okAction)
-       present(alert, animated: true, completion: nil)
-    }
+
+    print("front cam max res:", resolution)
+
+    return resolution
+  }
+
+  func alertView(msg: String) {
+    let alert = UIAlertController(title: "Warning", message: msg, preferredStyle: UIAlertController.Style.alert)
+    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil )
+    //       let cancel = UIAlertAction(title: "cancel", style: .cancel, handler : nil)
+    //       alert.addAction(cancel)
+    alert.addAction(okAction)
+    present(alert, animated: true, completion: nil)
+  }
 }

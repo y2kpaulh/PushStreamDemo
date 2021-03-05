@@ -88,6 +88,10 @@ open class NetStream: NSObject {
         mixer.videoIO.focusPointOfInterest = focus
         mixer.videoIO.exposurePointOfInterest = exposure
     }
+
+open func camExposureRange() ->[Float]? {
+  return  mixer.videoIO.camExposureRange
+}
 #endif
 
     open func appendSampleBuffer(_ sampleBuffer: CMSampleBuffer, withType: AVMediaType, options: [NSObject: AnyObject]? = nil) {

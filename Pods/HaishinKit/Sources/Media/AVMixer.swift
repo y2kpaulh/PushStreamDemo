@@ -81,7 +81,7 @@ public class AVMixer {
         get { videoIO.continuousExposure }
         set { videoIO.continuousExposure = newValue }
     }
-
+    
     var continuousAutofocus: Bool {
         get { videoIO.continuousAutofocus }
         set { videoIO.continuousAutofocus = newValue }
