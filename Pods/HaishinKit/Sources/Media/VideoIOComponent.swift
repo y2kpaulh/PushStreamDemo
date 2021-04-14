@@ -184,7 +184,7 @@ final class VideoIOComponent: IOComponent {
             do {
                 try device.lockForConfiguration()
                 device.focusPointOfInterest = point
-                device.focusMode = .continuousAutoFocus
+                device.focusMode = .autoFocus
                 device.unlockForConfiguration()
             } catch let error as NSError {
                 logger.error("while locking device for focusPointOfInterest: \(error)")
@@ -192,6 +192,9 @@ final class VideoIOComponent: IOComponent {
         }
     }
 
+    var initialZoomScale: CGFloat = 0
+    var zoomScaleRange: ClosedRange<CGFloat> = 1...10
+    
     var exposurePointOfInterest: CGPoint? {
         didSet {
             guard
@@ -203,7 +206,7 @@ final class VideoIOComponent: IOComponent {
             do {
                 try device.lockForConfiguration()
                 device.exposurePointOfInterest = point
-                device.exposureMode = .continuousAutoExposure
+                device.exposureMode = .autoExpose
                 device.unlockForConfiguration()
             } catch let error as NSError {
                 logger.error("while locking device for exposurePointOfInterest: \(error)")

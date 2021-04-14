@@ -2,6 +2,7 @@
 
 import AVFoundation
 import CoreImage
+import Foundation
 
 extension VideoIOComponent {
     var zoomFactor: CGFloat {
@@ -25,6 +26,36 @@ extension VideoIOComponent {
             device.unlockForConfiguration()
         } catch let error as NSError {
             logger.error("while locking device for ramp: \(error)")
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    func setPinchZoomFactor(_ state: UIGestureRecognizer.State, scale: CGFloat) {
+        guard let device: AVCaptureDevice = (input as? AVCaptureDeviceInput)?.device,
+            1 <= zoomFactor && zoomFactor < device.activeFormat.videoMaxZoomFactor
+            else { return }
+        
+        switch state {
+        case .began:
+            initialZoomScale = device.videoZoomFactor
+            
+        case .changed:
+            let minAvailableZoomScale = device.minAvailableVideoZoomFactor
+            let maxAvailableZoomScale = device.maxAvailableVideoZoomFactor
+            let availableZoomScaleRange = minAvailableZoomScale...maxAvailableZoomScale
+            let resolvedZoomScaleRange = zoomScaleRange.clamped(to: availableZoomScaleRange)
+
+            let resolvedScale = max(resolvedZoomScaleRange.lowerBound, min(scale * initialZoomScale, resolvedZoomScaleRange.upperBound))
+            
+            do {
+                try device.lockForConfiguration()
+                device.videoZoomFactor = resolvedScale
+                device.unlockForConfiguration()
+            } catch let error as NSError {
+                logger.error("while locking device for clamp: \(error)")
+            }
+        default:
+            return
         }
     }
 

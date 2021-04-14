@@ -50,6 +50,12 @@ final class PushStreamViewController: UIViewController {
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.normal)
     zoomSlider.slider.setThumbImage(self.progressImage(with: self.zoomSlider.slider.value), for: UIControl.State.selected)
 
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapScreen(_:)))
+    self.view.addGestureRecognizer(tapGesture)
+
+    let pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinchZoom(_:)))
+    self.view.addGestureRecognizer(pinch)
+
     configStreaming()
   }
 
@@ -308,7 +314,21 @@ final class PushStreamViewController: UIViewController {
     }
   }
 
-  func tapScreen(_ gesture: UIGestureRecognizer) {
+  @objc
+  private func pinchZoom(_ pinch: UIPinchGestureRecognizer) {
+    switch pinch.state {
+    case .began:
+      rtmpStream.setPinchZoomFactor(.began, scale: 0)
+
+    case .changed:
+      rtmpStream.setPinchZoomFactor(.changed, scale: pinch.scale)
+
+    default:
+      return
+    }
+  }
+
+  @objc func tapScreen(_ gesture: UIGestureRecognizer) {
     if let gestureView = gesture.view, gesture.state == .ended {
       let touchPoint: CGPoint = gesture.location(in: gestureView)
       let pointOfInterest = CGPoint(x: touchPoint.x / gestureView.bounds.size.width, y: touchPoint.y / gestureView.bounds.size.height)
