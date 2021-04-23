@@ -68,6 +68,7 @@
 		2E60870F24A5839300C1747A /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E60870424A5839300C1747A /* UIViewController+Extensions.swift */; };
 		2E60871024A5839300C1747A /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E60870524A5839300C1747A /* UIColor+Extensions.swift */; };
 		2E7CF75D23FBE4A4009EB9D9 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */; };
+		2E94675A26316CCB0019D882 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E94675926316CCB0019D882 /* UIImage+Extension.swift */; };
 		2EE2BAA0240DFD1F004DB1F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */; };
 		2EE2BAA1240DFD1F004DB1F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */; };
 		2EE2BAAC240E2D79004DB1F6 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAAA240E2D79004DB1F6 /* Stream.swift */; };
@@ -143,6 +144,7 @@
 		2E60870524A5839300C1747A /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		2E6DC85C23FBA55800A9E1C5 /* liveStream.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = liveStream.entitlements; sourceTree = "<group>"; };
 		2E7CF75C23FBE4A4009EB9D9 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		2E94675926316CCB0019D882 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		2EE2BA9E240DFD1F004DB1F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		2EE2BA9F240DFD1F004DB1F6 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2EE2BAAA240E2D79004DB1F6 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 		2EE2BAB3240E6291004DB1F6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2E94675926316CCB0019D882 /* UIImage+Extension.swift */,
 				2E2F1FE023F67C4300B8FFEA /* VisualEffect.swift */,
 			);
 			path = Helpers;
@@ -691,6 +694,7 @@
 				2E448848240DF7850084C4FE /* VersaPlayerPlaybackError.swift in Sources */,
 				2E448849240DF7850084C4FE /* VersaPlayerRenderingView.swift in Sources */,
 				2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */,
+				2E94675A26316CCB0019D882 /* UIImage+Extension.swift in Sources */,
 				2E448855240DF7850084C4FE /* VersaTimeLabel.swift in Sources */,
 				2E44884E240DF7850084C4FE /* VersaPlayer.swift in Sources */,
 				2E44884D240DF7850084C4FE /* VersaPlayerMediaTrack.swift in Sources */,

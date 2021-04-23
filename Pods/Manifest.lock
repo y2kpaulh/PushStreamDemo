@@ -25,6 +25,9 @@ PODS:
   - Starscream (3.1.1)
   - Swinject (2.7.1)
   - VerticalSlider (2.0.0)
+  - Vivid (0.9)
+  - YUCIHighPassSkinSmoothing (1.4):
+    - Vivid
 
 DEPENDENCIES:
   - Alamofire
@@ -39,6 +42,7 @@ DEPENDENCIES:
   - Socket.IO-Client-Swift
   - Swinject
   - VerticalSlider
+  - YUCIHighPassSkinSmoothing
 
 SPEC REPOS:
   trunk:
@@ -58,6 +62,8 @@ SPEC REPOS:
     - Starscream
     - Swinject
     - VerticalSlider
+    - Vivid
+    - YUCIHighPassSkinSmoothing
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
@@ -76,7 +82,9 @@ SPEC CHECKSUMS:
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
   VerticalSlider: 655f2bc3ed062bac13e21c174f5ff93b8308571d
+  Vivid: 0fde7409beac71224deb151dd78f98a5bb860497
+  YUCIHighPassSkinSmoothing: 8418fd1bf605ec22b647c57745b863b352f72097
 
-PODFILE CHECKSUM: 2f7d6d0a6c2f96312809c0fbfea0da5b6b01809c
+PODFILE CHECKSUM: f5f42544d4e682412a499df14a963005087e820d
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

@@ -335,13 +335,29 @@
                                             <action selector="changeSlider:" destination="PlH-Fq-UGR" eventType="valueChanged" id="plU-K2-EHc"/>
                                         </connections>
                                     </slider>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="thv-YX-GZI">
+                                        <rect key="frame" x="167" y="141" width="200" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="3kO-mr-hLX"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="None"/>
+                                            <segment title="Monochrome"/>
+                                            <segment title="Pronama"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="onEffectValueChanged:" destination="PlH-Fq-UGR" eventType="valueChanged" id="YBW-nt-SVi"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="72o-s5-sGh" secondAttribute="trailing" constant="20" symbolic="YES" id="APk-qc-Jc6"/>
+                                    <constraint firstItem="thv-YX-GZI" firstAttribute="top" secondItem="nQQ-MQ-PdA" secondAttribute="top" constant="141" id="FTP-rn-SN4"/>
                                     <constraint firstAttribute="bottom" secondItem="UoK-A2-Udh" secondAttribute="bottom" constant="30" id="Q7V-Vq-Bb5"/>
                                     <constraint firstItem="UoK-A2-Udh" firstAttribute="centerX" secondItem="nQQ-MQ-PdA" secondAttribute="centerX" constant="-10" id="Ygo-zL-Qut"/>
                                     <constraint firstItem="72o-s5-sGh" firstAttribute="leading" secondItem="nQQ-MQ-PdA" secondAttribute="leading" constant="12" id="f7O-mJ-8uy"/>
+                                    <constraint firstAttribute="trailing" secondItem="thv-YX-GZI" secondAttribute="trailing" constant="47" id="qSq-kS-OoW"/>
                                     <constraint firstAttribute="trailing" secondItem="JHQ-xB-oTy" secondAttribute="trailing" constant="31" id="vVJ-7u-fi6"/>
                                     <constraint firstAttribute="bottom" secondItem="JHQ-xB-oTy" secondAttribute="bottom" constant="157" id="y2s-53-LTs"/>
                                 </constraints>
@@ -885,10 +901,7 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="48" height="48"/>
-        </designable>
-        <designable name="xLt-ts-V8q">
-            <size key="intrinsicContentSize" width="30" height="-1"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
     </designables>
     <resources>

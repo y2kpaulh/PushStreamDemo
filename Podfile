@@ -19,4 +19,5 @@ target 'StreamDemo' do
     pod 'Socket.IO-Client-Swift'
     pod 'Swinject'
     pod 'VerticalSlider'
+    pod 'YUCIHighPassSkinSmoothing'
 end

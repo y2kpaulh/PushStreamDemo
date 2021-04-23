@@ -363,10 +363,10 @@ final class PushStreamViewController: UIViewController {
     }
     switch segment.selectedSegmentIndex {
     case 1:
-      currentEffect = CurrentTimeEffect()
+      currentEffect = BeautyEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     case 2:
-      currentEffect = PsyEffect()
+      currentEffect = BeautyMirrorEffect()
       _ = rtmpStream.registerVideoEffect(currentEffect!)
     default:
       break

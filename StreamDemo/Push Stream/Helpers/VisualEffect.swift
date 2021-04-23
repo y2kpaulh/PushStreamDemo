@@ -1,6 +1,8 @@
 import AVFoundation
 import HaishinKit
 import UIKit
+import YUCIHighPassSkinSmoothing
+import Vivid
 
 //final class CurrentTimeEffect: VideoEffect {
 //  let filter: CIFilter? = CIFilter(name: "CISourceOverCompositing")
@@ -56,6 +58,24 @@ final class CurrentTimeEffect: VideoEffect {
     filter!.setValue(image, forKey: "inputBackgroundImage")
 
     return filter!.outputImage!
+  }
+}
+
+final class MirrorEffect: VideoEffect {
+  let filter = CIFilter(name: "CIAffineTransform")
+
+  override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
+    guard let filter: CIFilter = filter else {
+      return image
+    }
+
+    let tx =  CGAffineTransform(scaleX: -1.0, y: 1.0)
+
+    filter.setValue(image, forKey: "inputImage")
+    filter.setValue(tx, forKey: kCIInputTransformKey)
+    let outpuImage = filter.outputImage!
+
+    return outpuImage
   }
 }
 
@@ -234,21 +254,46 @@ final class MonochromeEffect: VideoEffect {
   }
 }
 
-final class RotationEffect: VideoEffect {
+final class BeautyEffect: VideoEffect {
+  let filter = CIFilter(name: "YUCIHighPassSkinSmoothing")
+
   override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
-    guard #available(iOS 11.0, *),
-          let info = info,
-          let orientationAttachment = CMGetAttachment(info, key: "RPVideoSampleOrientationKey" as CFString, attachmentModeOut: nil) as? NSNumber,
-          let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) else {
+    guard let filter: CIFilter = filter else {
       return image
     }
-    switch orientation {
-    case .left:
-      return image.oriented(.right)
-    case .right:
-      return image.oriented(.left)
-    default:
+
+    filter.setValue(image, forKey: kCIInputImageKey)
+    filter.setValue(0.3, forKey: "inputAmount")
+    filter.setValue(7.0 * image.extent.width/750.0, forKey: kCIInputRadiusKey)
+
+    let outpuImage = filter.outputImage!
+
+    return outpuImage
+  }
+}
+
+final class BeautyMirrorEffect: VideoEffect {
+  let beautyFilter = CIFilter(name: "YUCIHighPassSkinSmoothing")
+  let transfromFilter = CIFilter(name: "CIAffineTransform")
+
+  override func execute(_ image: CIImage, info: CMSampleBuffer?) -> CIImage {
+    guard let beautyFilter: CIFilter = beautyFilter, let transfromFilter: CIFilter = transfromFilter else {
       return image
     }
+
+    let tx = CGAffineTransform(scaleX: -1.0, y: 1.0)
+
+    beautyFilter.setValue(image, forKey: kCIInputImageKey)
+    beautyFilter.setValue(0.3, forKey: "inputAmount")
+    beautyFilter.setValue(7.0 * image.extent.width/750.0, forKey: kCIInputRadiusKey)
+
+    let beautyImage = beautyFilter.outputImage!
+
+    transfromFilter.setValue(beautyImage, forKey: "inputImage")
+    transfromFilter.setValue(tx, forKey: kCIInputTransformKey)
+
+    let outpuImage = transfromFilter.outputImage!
+
+    return outpuImage
   }
 }
