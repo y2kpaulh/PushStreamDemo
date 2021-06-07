@@ -17,6 +17,7 @@ import RxSwift
 import RxCocoa
 import PictureInPicture
 import IQKeyboardManager
+import Combine
 
 class PullStreamViewController: UIViewController {
   var menuView: UIView!
@@ -50,9 +51,11 @@ class PullStreamViewController: UIViewController {
   var savedAvPlayer: AVPlayer?
 
   private var disposeBag = DisposeBag()
+  private var subscriptions = Set<AnyCancellable>()
 
   var url: String = ""
 
+  @IBOutlet weak var playerViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var closeBtn: UIButton!
 
   // let chatView = ChatRoomViewController()
@@ -129,7 +132,7 @@ class PullStreamViewController: UIViewController {
       playerView.set(item: item)
     }
 
-    playerView.layer.backgroundColor = UIColor.black.cgColor
+    //playerView.layer.backgroundColor = UIColor.black.cgColor
     // playerView.use(controls: controls)
     playerView.playbackDelegate = self
     //
@@ -155,14 +158,37 @@ class PullStreamViewController: UIViewController {
       })
       .disposed(by: disposeBag)
 
-    NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { _ in
-        print("didBecomeActiveNotification")
-        self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
-        self.playerView.play()
+    NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
+      .sink(receiveValue: {[weak self] _ in
+        guard let self = self else { return }
+        guard self.playerViewHeightConstraint != nil else { return }
+        
+        DispatchQueue.main.async {
+          switch UIDevice.current.orientation {
+          case .portrait:
+            self.playerViewHeightConstraint.constant = 250
+
+          case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
+            self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
+
+          default:
+            break
+          }
+        }
       })
-      .disposed(by: disposeBag)
+      .store(in: &subscriptions)
+
+    /*
+     NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+     .observeOn(MainScheduler.instance)
+     .subscribe(onNext: { _ in
+     print("didBecomeActiveNotification")
+     self.playerView.renderingView.playerLayer.player = self.savedAvPlayer
+     self.playerView.play()
+     })
+     .disposed(by: disposeBag)
+     */
+
   }
 
   @objc func handleTap() {
