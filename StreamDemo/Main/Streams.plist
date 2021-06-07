@@ -10,7 +10,13 @@
 	</dict>
 	<dict>
 		<key>name</key>
-		<string>iOS Pull Stream</string>
+		<string>iOS Portrait Pull Stream</string>
+		<key>playlist_url</key>
+		<string>https://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8</string>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iOS Landscape Pull Stream</string>
 		<key>playlist_url</key>
 		<string>https://epiens.xst.kinxcdn.com/epiens/test1/playlist.m3u8</string>
 	</dict>

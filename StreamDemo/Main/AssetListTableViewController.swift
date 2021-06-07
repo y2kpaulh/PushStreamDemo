@@ -94,13 +94,24 @@ class AssetListTableViewController: UITableViewController {
       vc.modalPresentationStyle = .fullScreen
       self.present(vc, animated: true, completion: nil)
     } else {
-      let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
-      vc.modalPresentationStyle = .fullScreen
-      let urlStr = asset.stream.playlistURL
-      vc.url = urlStr
-      //  vc.delegate = self
-      //      self.navigationController?.pushViewController(vc, animated: true)
-      PictureInPicture.shared.present(with: vc)
+
+      if indexPath.row == 1 {
+        let vc: PullStreamViewController = sb.instantiateViewController(withIdentifier: "PullStreamViewController") as! PullStreamViewController
+        vc.modalPresentationStyle = .fullScreen
+        let urlStr = asset.stream.playlistURL
+        vc.url = urlStr
+        //  vc.delegate = self
+        //      self.navigationController?.pushViewController(vc, animated: true)
+        PictureInPicture.shared.present(with: vc)
+      } else {
+        let vc: LandspacePullStreamViewController = sb.instantiateViewController(withIdentifier: "LandspacePullStreamViewController") as! LandspacePullStreamViewController
+        vc.modalPresentationStyle = .fullScreen
+        let urlStr = asset.stream.playlistURL
+        vc.url = urlStr
+        //  vc.delegate = self
+        //      self.navigationController?.pushViewController(vc, animated: true)
+        PictureInPicture.shared.present(with: vc)
+      }
 
       //      self.present(vc, animated: true, completion: {
       //        self.tableView.deselectRow(at: indexPath, animated: true)

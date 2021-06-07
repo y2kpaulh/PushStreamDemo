@@ -152,10 +152,10 @@
             </objects>
             <point key="canvasLocation" x="-1039" y="1936"/>
         </scene>
-        <!--Pull Stream View Controller-->
+        <!--Landspace Pull Stream View Controller-->
         <scene sceneID="of6-aB-Dbz">
             <objects>
-                <viewController storyboardIdentifier="PullStreamViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Fv-At-36m" customClass="PullStreamViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandspacePullStreamViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Fv-At-36m" customClass="LandspacePullStreamViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="diu-4n-FgP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -933,10 +933,116 @@
             </objects>
             <point key="canvasLocation" x="1097" y="1521"/>
         </scene>
+        <!--Pull Stream View Controller-->
+        <scene sceneID="OJ9-Iv-KaI">
+            <objects>
+                <viewController storyboardIdentifier="PullStreamViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="awI-gd-Cvs" customClass="PullStreamViewController" customModule="StreamDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ore-HH-VQm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="33J-ty-vj4" customClass="VersaPlayerView" customModule="StreamDemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Voo-hZ-l5s" userLabel="TopMenuView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQV-Ly-Ano">
+                                        <rect key="frame" x="10" y="10" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="5Gj-dd-20V"/>
+                                            <constraint firstAttribute="height" constant="40" id="92L-3y-Thq"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isCircular" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" systemColor="systemOrangeColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RbX-n0-8tU">
+                                        <rect key="frame" x="60" y="30" width="296" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNQ-2e-lp8">
+                                        <rect key="frame" x="364" y="25" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="BkS-m2-s57"/>
+                                            <constraint firstAttribute="width" constant="20" id="qd1-Jd-IjA"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" backgroundImage="downArrow"/>
+                                        <state key="selected" backgroundImage="mute"/>
+                                        <connections>
+                                            <action selector="tapCloseBtn:" destination="awI-gd-Cvs" eventType="touchUpInside" id="UTH-4u-iR3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="umw-8g-sRb">
+                                        <rect key="frame" x="319" y="20" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="SVw-C9-1XL"/>
+                                            <constraint firstAttribute="width" constant="30" id="fgo-lK-sEA"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="volumeOn"/>
+                                        <state key="selected" backgroundImage="mute"/>
+                                        <connections>
+                                            <action selector="onTapVolumeButton:" destination="awI-gd-Cvs" eventType="touchUpInside" id="I2g-ui-tQJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="aQV-Ly-Ano" firstAttribute="centerY" secondItem="Voo-hZ-l5s" secondAttribute="centerY" id="KNN-P0-01s"/>
+                                    <constraint firstItem="hNQ-2e-lp8" firstAttribute="centerY" secondItem="Voo-hZ-l5s" secondAttribute="centerY" constant="5" id="LXY-iY-MWP"/>
+                                    <constraint firstItem="umw-8g-sRb" firstAttribute="centerY" secondItem="hNQ-2e-lp8" secondAttribute="centerY" id="Py4-6E-iae"/>
+                                    <constraint firstAttribute="height" constant="60" id="faC-dY-Lcu"/>
+                                    <constraint firstAttribute="trailing" secondItem="hNQ-2e-lp8" secondAttribute="trailing" constant="30" id="fyv-Oq-vII"/>
+                                    <constraint firstItem="hNQ-2e-lp8" firstAttribute="leading" secondItem="RbX-n0-8tU" secondAttribute="trailing" constant="8" id="gD2-Zj-fZ9"/>
+                                    <constraint firstItem="aQV-Ly-Ano" firstAttribute="leading" secondItem="Voo-hZ-l5s" secondAttribute="leading" constant="10" id="idY-cT-53g"/>
+                                    <constraint firstItem="hNQ-2e-lp8" firstAttribute="leading" secondItem="umw-8g-sRb" secondAttribute="trailing" constant="15" id="pcU-l2-0Wt"/>
+                                    <constraint firstItem="RbX-n0-8tU" firstAttribute="centerY" secondItem="aQV-Ly-Ano" secondAttribute="centerY" id="pj0-xQ-eO7"/>
+                                    <constraint firstItem="RbX-n0-8tU" firstAttribute="leading" secondItem="aQV-Ly-Ano" secondAttribute="trailing" constant="10" id="tbP-Qw-C28"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gli-tr-aE4"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Voo-hZ-l5s" firstAttribute="trailing" secondItem="gli-tr-aE4" secondAttribute="trailing" id="0E6-UG-MIf"/>
+                            <constraint firstItem="33J-ty-vj4" firstAttribute="trailing" secondItem="ore-HH-VQm" secondAttribute="trailing" id="0n8-mZ-GgC"/>
+                            <constraint firstItem="33J-ty-vj4" firstAttribute="top" secondItem="ore-HH-VQm" secondAttribute="top" id="Jyj-hg-15q"/>
+                            <constraint firstItem="33J-ty-vj4" firstAttribute="trailing" secondItem="gli-tr-aE4" secondAttribute="trailing" id="PAo-6T-WJC"/>
+                            <constraint firstItem="Voo-hZ-l5s" firstAttribute="top" secondItem="gli-tr-aE4" secondAttribute="top" id="Q1B-QK-nmp"/>
+                            <constraint firstItem="Voo-hZ-l5s" firstAttribute="leading" secondItem="gli-tr-aE4" secondAttribute="leading" id="RuE-8U-Kiz"/>
+                            <constraint firstItem="33J-ty-vj4" firstAttribute="leading" secondItem="ore-HH-VQm" secondAttribute="leading" id="bEh-jc-XGw"/>
+                            <constraint firstAttribute="bottom" secondItem="33J-ty-vj4" secondAttribute="bottom" id="eBt-zf-JIR"/>
+                            <constraint firstItem="33J-ty-vj4" firstAttribute="leading" secondItem="gli-tr-aE4" secondAttribute="leading" id="hA0-SN-hf0"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="efE-3n-gYQ"/>
+                    <connections>
+                        <outlet property="closeBtn" destination="hNQ-2e-lp8" id="atH-rt-RkK"/>
+                        <outlet property="playerView" destination="33J-ty-vj4" id="SAs-ag-aj2"/>
+                        <outlet property="profileBtn" destination="aQV-Ly-Ano" id="IxL-rC-X5n"/>
+                        <outlet property="titleLabel" destination="RbX-n0-8tU" id="Eki-Fz-JWl"/>
+                        <outlet property="topMenuView" destination="Voo-hZ-l5s" id="r7P-hY-EzR"/>
+                        <outlet property="volumeBtn" destination="umw-8g-sRb" id="MYe-Tv-MvW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zdK-KL-Bcv" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-213.04347826086959" y="2587.5"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="28" height="28"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
     </designables>
     <resources>

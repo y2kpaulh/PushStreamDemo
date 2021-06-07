@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LandspacePullStreamViewController.swift
 //  TestPlayer
 //
 //  Created by Inpyo Hong on 2020/03/02.
@@ -19,7 +19,7 @@ import PictureInPicture
 import IQKeyboardManager
 import Combine
 
-class PullStreamViewController: UIViewController {
+class LandspacePullStreamViewController: UIViewController {
   var menuView: UIView!
 
   @IBOutlet weak var profileBtn: UIButton!
@@ -55,6 +55,7 @@ class PullStreamViewController: UIViewController {
 
   var url: String = ""
 
+  @IBOutlet weak var playerViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var closeBtn: UIButton!
 
   // let chatView = ChatRoomViewController()
@@ -157,6 +158,26 @@ class PullStreamViewController: UIViewController {
       })
       .disposed(by: disposeBag)
 
+    NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
+      .sink(receiveValue: {[weak self] _ in
+        guard let self = self else { return }
+        guard self.playerViewHeightConstraint != nil else { return }
+
+        DispatchQueue.main.async {
+          switch UIDevice.current.orientation {
+          case .portrait:
+            self.playerViewHeightConstraint.constant = 250
+
+          case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
+            self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
+
+          default:
+            break
+          }
+        }
+      })
+      .store(in: &subscriptions)
+
     /*
      NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
      .observeOn(MainScheduler.instance)
@@ -213,7 +234,7 @@ class PullStreamViewController: UIViewController {
 
 }
 
-extension PullStreamViewController: VersaPlayerPlaybackDelegate {
+extension LandspacePullStreamViewController: VersaPlayerPlaybackDelegate {
 
   func playbackItemReady(player: VersaPlayer, item: VersaPlayerItem?) {
     print(#function)
@@ -451,7 +472,7 @@ extension PullStreamViewController: VersaPlayerPlaybackDelegate {
 //    }
 //  }
 //}
-extension PullStreamViewController {
+extension LandspacePullStreamViewController {
   fileprivate func observeNotifications() {
     NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeSmaller), name: .PictureInPictureMadeSmaller, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(pictureInPictureMadeLarger), name: .PictureInPictureMadeLarger, object: nil)

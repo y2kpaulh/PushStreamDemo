@@ -76,6 +76,7 @@
 		2EE2BAB2240E55D1004DB1F6 /* SRFacebookAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE2BAB1240E55D1004DB1F6 /* SRFacebookAnimation.swift */; };
 		2EE3DAD924AB36FD00995F1A /* VodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE3DAD824AB36FD00995F1A /* VodViewController.swift */; };
 		2EE635032410CB1500C88FBC /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE635022410CB1500C88FBC /* DebugViewController.swift */; };
+		2EEFE66E266DBC03008A5CDA /* LandspacePullStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEFE66D266DBC03008A5CDA /* LandspacePullStreamViewController.swift */; };
 		43B1590A153FE951F860FF64 /* Pods_StreamDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +154,7 @@
 		2EE3DAD824AB36FD00995F1A /* VodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VodViewController.swift; sourceTree = "<group>"; };
 		2EE635022410CB1500C88FBC /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
 		2EEDB62C24892899009CBAB8 /* StreamDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StreamDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		2EEFE66D266DBC03008A5CDA /* LandspacePullStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandspacePullStreamViewController.swift; sourceTree = "<group>"; };
 		3AB336ED1936E4C8EA2D2CDF /* Pods-stream.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-stream.release.xcconfig"; path = "Target Support Files/Pods-stream/Pods-stream.release.xcconfig"; sourceTree = "<group>"; };
 		A0F090ED0550591F27B37CC7 /* Pods_StreamDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF31E4C71B17EE2C4091C5BC /* Pods-StreamDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamDemo.debug.xcconfig"; path = "Target Support Files/Pods-StreamDemo/Pods-StreamDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				2E209C2C23FE54E700CB80CE /* PullStreamViewController.swift */,
+				2EEFE66C266DBC03008A5CDA /* Landspace */,
 			);
 			path = "Pull Stream";
 			sourceTree = "<group>";
@@ -502,6 +505,15 @@
 			path = Debug;
 			sourceTree = "<group>";
 		};
+		2EEFE66C266DBC03008A5CDA /* Landspace */ = {
+			isa = PBXGroup;
+			children = (
+				2EEFE66D266DBC03008A5CDA /* LandspacePullStreamViewController.swift */,
+			);
+			name = Landspace;
+			path = StreamDemo/Landspace;
+			sourceTree = SOURCE_ROOT;
+		};
 		E4CCE397A47D8D6D8203C8DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -692,6 +704,7 @@
 				2E60870A24A5839300C1747A /* ChatSocket.swift in Sources */,
 				2E448822240DF4E40084C4FE /* StreamListManager.swift in Sources */,
 				2E448848240DF7850084C4FE /* VersaPlayerPlaybackError.swift in Sources */,
+				2EEFE66E266DBC03008A5CDA /* LandspacePullStreamViewController.swift in Sources */,
 				2E448849240DF7850084C4FE /* VersaPlayerRenderingView.swift in Sources */,
 				2E2F1FC123F67B4F00B8FFEA /* AppDelegate.swift in Sources */,
 				2E448855240DF7850084C4FE /* VersaTimeLabel.swift in Sources */,
