@@ -93,7 +93,19 @@ class LandspacePullStreamViewController: UIViewController {
   }
 
   @IBAction func tapFullScreenBtn(_ sender: Any) {
+    self.fullScreenBtn.isSelected = !self.fullScreenBtn.isSelected
 
+    switch self.fullScreenBtn.isSelected {
+    case true:
+      let value = UIInterfaceOrientation.landscapeRight.rawValue
+      UIDevice.current.setValue(value, forKey: "orientation")
+      UIViewController.attemptRotationToDeviceOrientation()
+
+    case false:
+      let value = UIInterfaceOrientation.portrait.rawValue
+      UIDevice.current.setValue(value, forKey: "orientation")
+      UIViewController.attemptRotationToDeviceOrientation()
+    }
   }
 
   @IBAction private func onTapVolumeButton(_ sender: UIButton) {
