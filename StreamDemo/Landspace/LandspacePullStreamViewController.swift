@@ -55,7 +55,6 @@ class LandspacePullStreamViewController: UIViewController {
 
   var url: String = ""
 
-  @IBOutlet weak var playerViewWidthConstraint: NSLayoutConstraint!
   @IBOutlet weak var playerViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var closeBtn: UIButton!
   @IBOutlet weak var fullScreenBtn: UIButton!
@@ -91,8 +90,8 @@ class LandspacePullStreamViewController: UIViewController {
   @IBAction func tapCloseBtn(_ sender: Any) {
     //self.dismiss(animated: true, completion: nil)
     PictureInPicture.shared.makeSmaller()
-
   }
+
   @IBAction func tapFullScreenBtn(_ sender: Any) {
 
   }
@@ -242,9 +241,10 @@ class LandspacePullStreamViewController: UIViewController {
     return path
   }
 
-  //  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-  //    return [.portrait, .landscape]
-  //  }
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return [.portrait, .landscape]
+  }
+  //
   //  override var shouldAutorotate: Bool {
   //    return false
   //  }
