@@ -161,11 +161,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqc-Y9-wIA" customClass="VersaPlayerView" customModule="StreamDemo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="250"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="414" id="jv3-1H-8vg"/>
-                                    <constraint firstAttribute="height" constant="250" id="nIu-P2-QbU"/>
+                                    <constraint firstAttribute="height" constant="250" id="E6i-PK-bTh"/>
                                 </constraints>
                             </view>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB3-ut-nTs" userLabel="TopMenuView">
@@ -237,7 +236,7 @@
                         <viewLayoutGuide key="safeArea" id="fOE-BS-35h"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="dqc-Y9-wIA" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="0yR-De-nZt"/>
+                            <constraint firstItem="dqc-Y9-wIA" firstAttribute="top" secondItem="diu-4n-FgP" secondAttribute="top" id="0yR-De-nZt"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="trailing" secondItem="fOE-BS-35h" secondAttribute="trailing" id="3k9-kL-nb8"/>
                             <constraint firstItem="dqc-Y9-wIA" firstAttribute="leading" secondItem="diu-4n-FgP" secondAttribute="leading" id="Adl-yB-YQU"/>
                             <constraint firstItem="dqc-Y9-wIA" firstAttribute="trailing" secondItem="diu-4n-FgP" secondAttribute="trailing" id="L8o-Ap-VdM"/>
@@ -249,7 +248,6 @@
                     <connections>
                         <outlet property="closeBtn" destination="yUz-ml-bzN" id="brH-Sg-QGY"/>
                         <outlet property="playerView" destination="dqc-Y9-wIA" id="B2a-QH-uRd"/>
-                        <outlet property="playerViewHeightConstraint" destination="nIu-P2-QbU" id="7nC-QC-mYR"/>
                         <outlet property="profileBtn" destination="Yaa-HW-h5v" id="oZ0-TE-iCP"/>
                         <outlet property="titleLabel" destination="GGV-bX-O1Z" id="8Ce-yK-aK5"/>
                         <outlet property="topMenuView" destination="LB3-ut-nTs" id="nGs-ba-0v1"/>
@@ -1042,7 +1040,7 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="30" height="30"/>
+            <size key="intrinsicContentSize" width="28" height="28"/>
         </designable>
     </designables>
     <resources>

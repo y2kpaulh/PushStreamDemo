@@ -55,6 +55,7 @@ class LandspacePullStreamViewController: UIViewController {
 
   var url: String = ""
 
+  @IBOutlet weak var playerViewWidthConstraint: NSLayoutConstraint!
   @IBOutlet weak var playerViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var closeBtn: UIButton!
 
@@ -161,19 +162,33 @@ class LandspacePullStreamViewController: UIViewController {
     NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
       .sink(receiveValue: {[weak self] _ in
         guard let self = self else { return }
-        guard self.playerViewHeightConstraint != nil else { return }
 
-        DispatchQueue.main.async {
-          switch UIDevice.current.orientation {
-          case .portrait:
-            self.playerViewHeightConstraint.constant = 250
+        switch UIDevice.current.orientation {
+        case .unknown: print("unknown")
+        case .portrait: print("portrait")
+        case .portraitUpsideDown: print("portraitUpsideDown")
+        case .landscapeLeft: print("landscapeLeft")
+        case .landscapeRight: print("landscapeRight")
+        case .faceUp: print("faceUp")
+        case .faceDown: print("faceDown")
+        @unknown default:
+          fatalError()
+        }
 
-          case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
-            self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
+        switch UIDevice.current.orientation {
+        case .unknown: break
+        case .portrait:
+          self.playerView.renderingView.playerLayer.minimizeToFrame(CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 250))
 
-          default:
-            break
-          }
+        case .portraitUpsideDown: break
+
+        case .landscapeLeft:
+          self.playerView.renderingView.playerLayer.goLeftFullscreen()
+
+        case .landscapeRight:
+          self.playerView.renderingView.playerLayer.goRightFullscreen()
+        default:
+          break
         }
       })
       .store(in: &subscriptions)
