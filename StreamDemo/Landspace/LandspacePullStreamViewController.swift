@@ -58,6 +58,7 @@ class LandspacePullStreamViewController: UIViewController {
   @IBOutlet weak var playerViewWidthConstraint: NSLayoutConstraint!
   @IBOutlet weak var playerViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var closeBtn: UIButton!
+  @IBOutlet weak var fullScreenBtn: UIButton!
 
   // let chatView = ChatRoomViewController()
 
@@ -92,6 +93,9 @@ class LandspacePullStreamViewController: UIViewController {
     PictureInPicture.shared.makeSmaller()
 
   }
+  @IBAction func tapFullScreenBtn(_ sender: Any) {
+
+  }
 
   @IBAction private func onTapVolumeButton(_ sender: UIButton) {
     let isMuted = !sender.isSelected
@@ -106,6 +110,11 @@ class LandspacePullStreamViewController: UIViewController {
 
     self.titleLabel.text = "Inpyo"
     self.profileBtn.setImage(UIImage(named: "Inpyo"), for: .normal)
+
+    if let delegate = UIApplication.shared.delegate as? AppDelegate {
+      delegate.orientationLock = [.portrait, .landscape]
+    }
+
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -247,6 +256,19 @@ class LandspacePullStreamViewController: UIViewController {
     return path
   }
 
+  //  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+  //    return [.portrait, .landscape]
+  //  }
+  //  override var shouldAutorotate: Bool {
+  //    return false
+  //  }
+  //  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+  //    .portrait
+  //  }
+  //
+  override var shouldAutorotate: Bool {
+    return true
+  }
 }
 
 extension LandspacePullStreamViewController: VersaPlayerPlaybackDelegate {

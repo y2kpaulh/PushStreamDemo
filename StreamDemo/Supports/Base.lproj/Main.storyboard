@@ -137,6 +137,7 @@
         <!--Navigation Controller-->
         <scene sceneID="I3o-W2-5bh">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WOG-sv-dZA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zPT-5P-8Ql" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VVz-Fu-YRD">
@@ -148,7 +149,6 @@
                         <segue destination="xYV-6W-bnf" kind="relationship" relationship="rootViewController" id="JL8-ap-ODs"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WOG-sv-dZA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1039" y="1936"/>
         </scene>
@@ -161,10 +161,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqc-Y9-wIA" customClass="VersaPlayerView" customModule="StreamDemo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="250"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="E6i-PK-bTh"/>
+                                    <constraint firstAttribute="height" constant="250" id="nIu-P2-QbU"/>
                                 </constraints>
                             </view>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB3-ut-nTs" userLabel="TopMenuView">
@@ -232,22 +232,38 @@
                                     <constraint firstItem="yUz-ml-bzN" firstAttribute="leading" secondItem="GGV-bX-O1Z" secondAttribute="trailing" constant="8" id="w5W-Ie-3OD"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQb-zh-Pk8">
+                                <rect key="frame" x="380" y="270" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="6SD-J2-piC"/>
+                                    <constraint firstAttribute="height" constant="24" id="JzO-6Y-q8f"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="fullscreen"/>
+                                <connections>
+                                    <action selector="tapFullScreenBtn:" destination="3Fv-At-36m" eventType="touchUpInside" id="ydL-JX-D8Y"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fOE-BS-35h"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="dqc-Y9-wIA" firstAttribute="top" secondItem="diu-4n-FgP" secondAttribute="top" id="0yR-De-nZt"/>
+                            <constraint firstItem="dqc-Y9-wIA" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="0yR-De-nZt"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="trailing" secondItem="fOE-BS-35h" secondAttribute="trailing" id="3k9-kL-nb8"/>
                             <constraint firstItem="dqc-Y9-wIA" firstAttribute="leading" secondItem="diu-4n-FgP" secondAttribute="leading" id="Adl-yB-YQU"/>
                             <constraint firstItem="dqc-Y9-wIA" firstAttribute="trailing" secondItem="diu-4n-FgP" secondAttribute="trailing" id="L8o-Ap-VdM"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="leading" secondItem="fOE-BS-35h" secondAttribute="leading" id="a1p-Yq-7pU"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="kJS-0h-2Bq"/>
+                            <constraint firstItem="PQb-zh-Pk8" firstAttribute="bottom" secondItem="dqc-Y9-wIA" secondAttribute="bottom" id="uoQ-38-azj"/>
+                            <constraint firstItem="PQb-zh-Pk8" firstAttribute="trailing" secondItem="dqc-Y9-wIA" secondAttribute="trailing" constant="-10" id="x3S-JH-Hpa"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HM2-pC-5Lr"/>
                     <connections>
                         <outlet property="closeBtn" destination="yUz-ml-bzN" id="brH-Sg-QGY"/>
+                        <outlet property="fullScreenBtn" destination="PQb-zh-Pk8" id="ZKw-k9-QOD"/>
                         <outlet property="playerView" destination="dqc-Y9-wIA" id="B2a-QH-uRd"/>
+                        <outlet property="playerViewHeightConstraint" destination="nIu-P2-QbU" id="Dt0-kq-Yh9"/>
                         <outlet property="profileBtn" destination="Yaa-HW-h5v" id="oZ0-TE-iCP"/>
                         <outlet property="titleLabel" destination="GGV-bX-O1Z" id="8Ce-yK-aK5"/>
                         <outlet property="topMenuView" destination="LB3-ut-nTs" id="nGs-ba-0v1"/>
@@ -1050,6 +1066,7 @@
         <image name="doc" catalog="system" width="115" height="128"/>
         <image name="downArrow" width="512" height="512"/>
         <image name="fb" width="500" height="500"/>
+        <image name="fullscreen" width="24" height="24"/>
         <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
         <image name="mute" width="50" height="50"/>
         <image name="pause" width="28" height="28"/>
