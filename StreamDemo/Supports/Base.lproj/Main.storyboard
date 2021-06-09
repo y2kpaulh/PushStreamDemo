@@ -137,7 +137,6 @@
         <!--Navigation Controller-->
         <scene sceneID="I3o-W2-5bh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WOG-sv-dZA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zPT-5P-8Ql" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VVz-Fu-YRD">
@@ -149,6 +148,7 @@
                         <segue destination="xYV-6W-bnf" kind="relationship" relationship="rootViewController" id="JL8-ap-ODs"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WOG-sv-dZA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1039" y="1936"/>
         </scene>
@@ -233,13 +233,14 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQb-zh-Pk8">
-                                <rect key="frame" x="380" y="270" width="24" height="24"/>
+                                <rect key="frame" x="360" y="270" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="6SD-J2-piC"/>
                                     <constraint firstAttribute="height" constant="24" id="JzO-6Y-q8f"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="fullscreen"/>
+                                <state key="selected" image="fullscreen_disable"/>
                                 <connections>
                                     <action selector="tapFullScreenBtn:" destination="3Fv-At-36m" eventType="touchUpInside" id="ydL-JX-D8Y"/>
                                 </connections>
@@ -255,7 +256,7 @@
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="leading" secondItem="fOE-BS-35h" secondAttribute="leading" id="a1p-Yq-7pU"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="kJS-0h-2Bq"/>
                             <constraint firstItem="PQb-zh-Pk8" firstAttribute="bottom" secondItem="dqc-Y9-wIA" secondAttribute="bottom" id="uoQ-38-azj"/>
-                            <constraint firstItem="PQb-zh-Pk8" firstAttribute="trailing" secondItem="dqc-Y9-wIA" secondAttribute="trailing" constant="-10" id="x3S-JH-Hpa"/>
+                            <constraint firstItem="PQb-zh-Pk8" firstAttribute="trailing" secondItem="dqc-Y9-wIA" secondAttribute="trailing" constant="-30" id="x3S-JH-Hpa"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HM2-pC-5Lr"/>
@@ -1056,7 +1057,7 @@
     </scenes>
     <designables>
         <designable name="7Pa-wC-fHY">
-            <size key="intrinsicContentSize" width="28" height="28"/>
+            <size key="intrinsicContentSize" width="30" height="30"/>
         </designable>
     </designables>
     <resources>
@@ -1067,6 +1068,7 @@
         <image name="downArrow" width="512" height="512"/>
         <image name="fb" width="500" height="500"/>
         <image name="fullscreen" width="24" height="24"/>
+        <image name="fullscreen_disable" width="24" height="24"/>
         <image name="lightbulb.fill" catalog="system" width="113" height="128"/>
         <image name="mute" width="50" height="50"/>
         <image name="pause" width="28" height="28"/>
