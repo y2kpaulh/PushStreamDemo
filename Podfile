@@ -19,5 +19,5 @@ target 'StreamDemo' do
     pod 'Swinject'
     pod 'SwiftHEXColors'
     pod 'SwiftyAttributes'
-
+    pod 'FloatingPanel'
 end
