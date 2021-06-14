@@ -3,13 +3,14 @@ import HaishinKit
 import Logboard
 import UIKit
 import IQKeyboardManager
+import Combine
 
 //let logger = Logboard.with("com.epiens.livestream")
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
 
-  var orientationLock = UIInterfaceOrientationMask.portrait
+  var orientationLock = CurrentValueSubject<UIInterfaceOrientationMask, Never>(.portrait)
 
   var window: UIWindow?
 
@@ -47,7 +48,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
   func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-    return self.orientationLock
+    return self.orientationLock.value
   }
 
 }

@@ -123,7 +123,7 @@ class LandspacePullStreamViewController: UIViewController {
     self.profileBtn.setImage(UIImage(named: "Inpyo"), for: .normal)
 
     if let delegate = UIApplication.shared.delegate as? AppDelegate {
-      delegate.orientationLock = [.portrait, .landscape]
+      delegate.orientationLock.send([.portrait, .landscape])
     }
 
   }
@@ -172,7 +172,7 @@ class LandspacePullStreamViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         print("didEnterBackgroundNotification")
-        guard self.playerView.player != nil else { return }
+        guard self.playerView != nil else { return }
         self.playerView.pause()
         self.savedAvPlayer = self.playerView.renderingView.playerLayer.player
         self.playerView.renderingView.playerLayer.player = nil
