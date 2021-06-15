@@ -13,7 +13,6 @@ import UIKit
 import AVFoundation
 import AVKit
 import PictureInPicture
-import FloatingPanel
 import Combine
 
 /// - Tag: AssetListTableViewController
@@ -22,7 +21,6 @@ class AssetListTableViewController: UIViewController, UITableViewDelegate, UITab
   @IBOutlet weak var tableView: UITableView!
 
   let preferences = UserDefaults.standard
-  var fpc: FloatingPanelController!
   var subscriptions = Set<AnyCancellable>()
 
   private let contentHeightSubject = CurrentValueSubject<CGFloat, Never>(UIScreen.main.bounds.height)
@@ -116,21 +114,11 @@ class AssetListTableViewController: UIViewController, UITableViewDelegate, UITab
         //      self.navigationController?.pushViewController(vc, animated: true)
         PictureInPicture.shared.present(with: vc)
       } else {
-
-        //        setupFpcView()
         let vc: LandspacePullStreamViewController = sb.instantiateViewController(withIdentifier: "LandspacePullStreamViewController") as! LandspacePullStreamViewController
         let urlStr = asset.stream.playlistURL
         vc.url = urlStr
         //  vc.delegate = self
         //      self.navigationController?.pushViewController(vc, animated: true)
-
-        // Set a content view controller.
-        //        let contentVC = ContentViewController()
-        //
-        //        self.contentHeight
-        //            .assign(to: \.viewHeight, on: contentVC)
-        //            .store(in: &subscriptions)
-        // fpc.set(contentViewController: vc)
 
         vc.modalPresentationStyle = .fullScreen
 
@@ -174,26 +162,6 @@ class AssetListTableViewController: UIViewController, UITableViewDelegate, UITab
   @IBAction func tapDebugBtn(_ sender: Any) {
 
   }
-
-  func setupFpcView() {
-    // Initialize a `FloatingPanelController` object.
-    fpc = FloatingPanelController(delegate: self)
-    fpc.layout = LandscapeVideoVcFloatingPanelLayout()
-
-    // Assign self as the delegate of the controller.
-    fpc.delegate = self
-
-    fpc.changePanelStyle()
-
-    // Track a scroll view(or the siblings) in the content view controller.
-    //fpc.track(scrollView: contentVC.tableView)
-
-    // Add and show the views managed by the `FloatingPanelController` object to self.view.
-    fpc.addPanel(toParent: self)
-    fpc.changePanelStyle()
-
-    // setUpSecondPanel()
-  }
 }
 
 /**
@@ -219,65 +187,5 @@ extension AssetListTableViewController: PipViewControllerDelegate {
       self.present(videoPlayerViewController, animated: true)
       completionHandler(true)
     }
-  }
-}
-
-extension AssetListTableViewController: FloatingPanelControllerDelegate {
-  func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
-    print(#function, fpc.state)
-
-    switch fpc.state {
-    case .full:
-      print("full state")
-    case .tip:
-      print("tip state")
-
-    default: break
-    }
-  }
-
-  func floatingPanel(_ vc: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
-    print(#function, size)
-    return LandscapeVideoVcFloatingPanelLayout()
-  }
-
-  func floatingPanelDidMove(_ fpc: FloatingPanelController) {
-    guard fpc.surfaceLocation.y > 0 && UIScreen.main.bounds.height - fpc.surfaceLocation.y >= 100 else { return }
-    print(#function, UIScreen.main.bounds.height - fpc.surfaceLocation.y)
-
-    self.contentHeightSubject.send(UIScreen.main.bounds.height - fpc.surfaceLocation.y)
-  }
-}
-
-extension FloatingPanelController {
-  func changePanelStyle() {
-    let appearance = SurfaceAppearance()
-    let shadow = SurfaceAppearance.Shadow()
-    shadow.color = UIColor.black
-    shadow.offset = CGSize(width: 0, height: -1.0)
-    shadow.opacity = 0.15
-    shadow.radius = 2
-    appearance.shadows = [shadow]
-    appearance.cornerRadius = 0//15.0
-
-    appearance.backgroundColor = .clear
-    appearance.borderColor = .clear
-    appearance.borderWidth = 0
-
-    surfaceView.grabberHandle.isHidden = true
-
-    surfaceView.appearance = appearance
-  }
-}
-
-class LandscapeVideoVcFloatingPanelLayout: FloatingPanelLayout {
-  let position: FloatingPanelPosition = .bottom
-  let initialState: FloatingPanelState = .full
-  var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
-    return [
-      .full: FloatingPanelLayoutAnchor(absoluteInset: 0.0, edge: .top, referenceGuide: .superview),
-      //            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
-      .tip: FloatingPanelLayoutAnchor(absoluteInset: 100.0, edge: .bottom, referenceGuide: .safeArea)
-    ]
   }
 }
