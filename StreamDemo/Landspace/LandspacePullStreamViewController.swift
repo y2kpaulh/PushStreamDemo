@@ -100,11 +100,14 @@ class LandspacePullStreamViewController: UIViewController {
       let value = UIInterfaceOrientation.landscapeRight.rawValue
       UIDevice.current.setValue(value, forKey: "orientation")
       UIViewController.attemptRotationToDeviceOrientation()
+    //      self.playerView.setFullscreen(enabled: true)
 
     case false:
       let value = UIInterfaceOrientation.portrait.rawValue
       UIDevice.current.setValue(value, forKey: "orientation")
       UIViewController.attemptRotationToDeviceOrientation()
+    //      self.playerView.setFullscreen(enabled: false)
+
     }
   }
 
@@ -140,7 +143,7 @@ class LandspacePullStreamViewController: UIViewController {
 
     IQKeyboardManager.shared().isEnabled = true
     IQKeyboardManager.shared().isEnableAutoToolbar = true
-    self.playerView.removeFromSuperview()
+    //self.playerView.removeFromSuperview()
   }
 
   func configPlayer(url: String) {
@@ -187,9 +190,11 @@ class LandspacePullStreamViewController: UIViewController {
         DispatchQueue.main.async {
           switch UIDevice.current.orientation {
           case .portrait:
+            // self.playerView.setFullscreen(enabled: false)
             self.playerViewHeightConstraint.constant = 250
 
           case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
+            // self.playerView.setFullscreen(enabled: true)
             self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
 
           default:

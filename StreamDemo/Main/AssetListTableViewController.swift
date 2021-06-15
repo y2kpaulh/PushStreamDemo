@@ -13,11 +13,23 @@ import UIKit
 import AVFoundation
 import AVKit
 import PictureInPicture
+import FloatingPanel
+import Combine
 
 /// - Tag: AssetListTableViewController
-class AssetListTableViewController: UITableViewController {
+class AssetListTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
   // MARK: Properties
+  @IBOutlet weak var tableView: UITableView!
+
   let preferences = UserDefaults.standard
+  var fpc: FloatingPanelController!
+  var subscriptions = Set<AnyCancellable>()
+
+  private let contentHeightSubject = CurrentValueSubject<CGFloat, Never>(UIScreen.main.bounds.height)
+
+  var contentHeight: AnyPublisher<CGFloat, Never> {
+    return contentHeightSubject.eraseToAnyPublisher()
+  }
 
   // MARK: Deinitialization
 
@@ -35,14 +47,14 @@ class AssetListTableViewController: UITableViewController {
     super.viewDidLoad()
 
     // General setup for auto sizing UITableViewCells.
-    tableView.estimatedRowHeight = 75.0
-    tableView.rowHeight = UITableView.automaticDimension
-    tableView.tableFooterView = nil
+    self.tableView.estimatedRowHeight = 75.0
+    self.tableView.rowHeight = UITableView.automaticDimension
+    self.tableView.tableFooterView = nil
 
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(handleAssetListManagerDidLoad(_:)),
                                            name: .AssetListManagerDidLoad, object: nil)
-    tableView.tableFooterView = UIView()
+    self.tableView.tableFooterView = UIView()
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -51,15 +63,15 @@ class AssetListTableViewController: UITableViewController {
 
   // MARK: - Table view data source
 
-  override func numberOfSections(in tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return AssetListManager.sharedManager.numberOfAssets()
   }
 
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: AssetListTableViewCell.reuseIdentifier, for: indexPath)
 
     let asset = AssetListManager.sharedManager.asset(at: indexPath.row)
@@ -83,7 +95,7 @@ class AssetListTableViewController: UITableViewController {
     return cell
   }
 
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     guard let cell = tableView.cellForRow(at: indexPath) as? AssetListTableViewCell, let asset = cell.asset
     else { return }
     print(asset.stream.playlistURL)
@@ -104,22 +116,33 @@ class AssetListTableViewController: UITableViewController {
         //      self.navigationController?.pushViewController(vc, animated: true)
         PictureInPicture.shared.present(with: vc)
       } else {
+
+        //        setupFpcView()
         let vc: LandspacePullStreamViewController = sb.instantiateViewController(withIdentifier: "LandspacePullStreamViewController") as! LandspacePullStreamViewController
-        vc.modalPresentationStyle = .fullScreen
         let urlStr = asset.stream.playlistURL
         vc.url = urlStr
         //  vc.delegate = self
         //      self.navigationController?.pushViewController(vc, animated: true)
-        PictureInPicture.shared.present(with: vc)
+
+        // Set a content view controller.
+        //        let contentVC = ContentViewController()
+        //
+        //        self.contentHeight
+        //            .assign(to: \.viewHeight, on: contentVC)
+        //            .store(in: &subscriptions)
+        // fpc.set(contentViewController: vc)
+
+        vc.modalPresentationStyle = .fullScreen
+
+        self.present(vc, animated: true, completion: {
+          self.tableView.deselectRow(at: indexPath, animated: true)
+        })
       }
 
-      //      self.present(vc, animated: true, completion: {
-      //        self.tableView.deselectRow(at: indexPath, animated: true)
-      //      })
     }
   }
 
-  override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
     guard let cell = tableView.cellForRow(at: indexPath) as? AssetListTableViewCell, let asset = cell.asset else { return }
 
     print(asset.stream.name)
@@ -151,6 +174,26 @@ class AssetListTableViewController: UITableViewController {
   @IBAction func tapDebugBtn(_ sender: Any) {
 
   }
+
+  func setupFpcView() {
+    // Initialize a `FloatingPanelController` object.
+    fpc = FloatingPanelController(delegate: self)
+    fpc.layout = LandscapeVideoVcFloatingPanelLayout()
+
+    // Assign self as the delegate of the controller.
+    fpc.delegate = self
+
+    fpc.changePanelStyle()
+
+    // Track a scroll view(or the siblings) in the content view controller.
+    //fpc.track(scrollView: contentVC.tableView)
+
+    // Add and show the views managed by the `FloatingPanelController` object to self.view.
+    fpc.addPanel(toParent: self)
+    fpc.changePanelStyle()
+
+    // setUpSecondPanel()
+  }
 }
 
 /**
@@ -159,7 +202,7 @@ class AssetListTableViewController: UITableViewController {
 extension AssetListTableViewController: AssetListTableViewCellDelegate {
 
   func assetListTableViewCell(_ cell: AssetListTableViewCell, downloadStateDidChange newState: Asset.DownloadState) {
-    guard let indexPath = tableView.indexPath(for: cell) else { return }
+    guard let indexPath = self.tableView.indexPath(for: cell) else { return }
 
     tableView.reloadRows(at: [indexPath], with: .automatic)
   }
@@ -176,5 +219,65 @@ extension AssetListTableViewController: PipViewControllerDelegate {
       self.present(videoPlayerViewController, animated: true)
       completionHandler(true)
     }
+  }
+}
+
+extension AssetListTableViewController: FloatingPanelControllerDelegate {
+  func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
+    print(#function, fpc.state)
+
+    switch fpc.state {
+    case .full:
+      print("full state")
+    case .tip:
+      print("tip state")
+
+    default: break
+    }
+  }
+
+  func floatingPanel(_ vc: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
+    print(#function, size)
+    return LandscapeVideoVcFloatingPanelLayout()
+  }
+
+  func floatingPanelDidMove(_ fpc: FloatingPanelController) {
+    guard fpc.surfaceLocation.y > 0 && UIScreen.main.bounds.height - fpc.surfaceLocation.y >= 100 else { return }
+    print(#function, UIScreen.main.bounds.height - fpc.surfaceLocation.y)
+
+    self.contentHeightSubject.send(UIScreen.main.bounds.height - fpc.surfaceLocation.y)
+  }
+}
+
+extension FloatingPanelController {
+  func changePanelStyle() {
+    let appearance = SurfaceAppearance()
+    let shadow = SurfaceAppearance.Shadow()
+    shadow.color = UIColor.black
+    shadow.offset = CGSize(width: 0, height: -1.0)
+    shadow.opacity = 0.15
+    shadow.radius = 2
+    appearance.shadows = [shadow]
+    appearance.cornerRadius = 0//15.0
+
+    appearance.backgroundColor = .clear
+    appearance.borderColor = .clear
+    appearance.borderWidth = 0
+
+    surfaceView.grabberHandle.isHidden = true
+
+    surfaceView.appearance = appearance
+  }
+}
+
+class LandscapeVideoVcFloatingPanelLayout: FloatingPanelLayout {
+  let position: FloatingPanelPosition = .bottom
+  let initialState: FloatingPanelState = .full
+  var anchors: [FloatingPanelState: FloatingPanelLayoutAnchoring] {
+    return [
+      .full: FloatingPanelLayoutAnchor(absoluteInset: 0.0, edge: .top, referenceGuide: .superview),
+      //            .half: FloatingPanelLayoutAnchor(fractionalInset: 0.5, edge: .bottom, referenceGuide: .safeArea),
+      .tip: FloatingPanelLayoutAnchor(absoluteInset: 100.0, edge: .bottom, referenceGuide: .safeArea)
+    ]
   }
 }
