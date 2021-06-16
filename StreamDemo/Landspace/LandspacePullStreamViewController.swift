@@ -190,12 +190,14 @@ class LandspacePullStreamViewController: UIViewController {
         DispatchQueue.main.async {
           switch UIDevice.current.orientation {
           case .portrait:
-            // self.playerView.setFullscreen(enabled: false)
+            //            self.playerView.setFullscreen(enabled: false)
             self.playerViewHeightConstraint.constant = 250
+            self.playerView.renderingView.playerLayer.videoGravity = .resizeAspect
 
           case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
-            // self.playerView.setFullscreen(enabled: true)
+            //            self.playerView.setFullscreen(enabled: true)
             self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
+            self.playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
 
           default:
             break
