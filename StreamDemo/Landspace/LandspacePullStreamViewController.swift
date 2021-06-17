@@ -144,6 +144,10 @@ class LandspacePullStreamViewController: UIViewController {
     IQKeyboardManager.shared().isEnabled = true
     IQKeyboardManager.shared().isEnableAutoToolbar = true
     //self.playerView.removeFromSuperview()
+
+    if let delegate = UIApplication.shared.delegate as? AppDelegate {
+      delegate.orientationLock.send([.portrait])
+    }
   }
 
   func configPlayer(url: String) {
@@ -258,21 +262,6 @@ class LandspacePullStreamViewController: UIViewController {
     path.addLine(to: endPoint)
 
     return path
-  }
-
-  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-    return [.portrait, .landscape]
-  }
-  //
-  //  override var shouldAutorotate: Bool {
-  //    return false
-  //  }
-  //  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-  //    .portrait
-  //  }
-  //
-  override var shouldAutorotate: Bool {
-    return true
   }
 }
 
@@ -492,6 +481,10 @@ extension LandspacePullStreamViewController: VersaPlayerPlaybackDelegate {
     //
     //    // 채팅창 화면 사이즈 및 위치
     //    chatView.view.frame = CGRect(x: 0, y: 140, width: view.bounds.width, height: view.bounds.height - 200)
+  }
+
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    .lightContent
   }
 }
 
