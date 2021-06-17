@@ -53,6 +53,10 @@ class AssetListTableViewController: UIViewController, UITableViewDelegate, UITab
                                            selector: #selector(handleAssetListManagerDidLoad(_:)),
                                            name: .AssetListManagerDidLoad, object: nil)
     self.tableView.tableFooterView = UIView()
+
+    if let delegate = UIApplication.shared.delegate as? AppDelegate {
+      delegate.orientationLock.send([.portrait])
+    }
   }
 
   override func viewWillAppear(_ animated: Bool) {
