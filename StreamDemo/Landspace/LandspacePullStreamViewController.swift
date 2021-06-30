@@ -107,7 +107,6 @@ class LandspacePullStreamViewController: UIViewController {
       UIDevice.current.setValue(value, forKey: "orientation")
       UIViewController.attemptRotationToDeviceOrientation()
     //      self.playerView.setFullscreen(enabled: false)
-
     }
   }
 
@@ -170,9 +169,7 @@ class LandspacePullStreamViewController: UIViewController {
 
     //video view round 처리
     playerView.renderingView.cornerRadius = 8
-
     playerView.renderingView.playerLayer.videoGravity = .resizeAspect
-
     playerView.isUserInteractionEnabled = false
 
     NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
@@ -197,11 +194,13 @@ class LandspacePullStreamViewController: UIViewController {
             //            self.playerView.setFullscreen(enabled: false)
             self.playerViewHeightConstraint.constant = 250
             self.playerView.renderingView.playerLayer.videoGravity = .resizeAspect
+            self.fullScreenBtn.isSelected = false
 
           case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
             //            self.playerView.setFullscreen(enabled: true)
             self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
             self.playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
+            self.fullScreenBtn.isSelected = true
 
           default:
             break
