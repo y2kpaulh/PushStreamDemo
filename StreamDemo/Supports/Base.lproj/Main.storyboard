@@ -172,6 +172,10 @@
                                     <constraint firstItem="MWs-QS-GPK" firstAttribute="top" secondItem="dqc-Y9-wIA" secondAttribute="bottom" id="vGj-Eg-Z8c"/>
                                 </constraints>
                             </stackView>
+                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ORh-4U-7QB">
+                                <rect key="frame" x="0.0" y="44" width="414" height="250"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                            </view>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LB3-ut-nTs" userLabel="TopMenuView">
                                 <rect key="frame" x="0.0" y="44" width="414" height="60"/>
                                 <subviews>
@@ -255,21 +259,26 @@
                         <viewLayoutGuide key="safeArea" id="fOE-BS-35h"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ORh-4U-7QB" firstAttribute="leading" secondItem="dqc-Y9-wIA" secondAttribute="leading" id="8hq-xq-4n3"/>
                             <constraint firstItem="PQb-zh-Pk8" firstAttribute="bottom" secondItem="dqc-Y9-wIA" secondAttribute="bottom" id="Afy-MH-S5N"/>
                             <constraint firstItem="PQb-zh-Pk8" firstAttribute="trailing" secondItem="LB3-ut-nTs" secondAttribute="trailing" id="HJM-2e-Kff"/>
                             <constraint firstItem="OKT-6i-Q4u" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="Hvc-zz-IjQ"/>
                             <constraint firstItem="OKT-6i-Q4u" firstAttribute="leading" secondItem="fOE-BS-35h" secondAttribute="leading" id="LCg-5m-4fY"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="leading" secondItem="fOE-BS-35h" secondAttribute="leading" id="Q6X-mS-Q5L"/>
+                            <constraint firstItem="ORh-4U-7QB" firstAttribute="trailing" secondItem="dqc-Y9-wIA" secondAttribute="trailing" id="amY-Dd-HbF"/>
+                            <constraint firstItem="ORh-4U-7QB" firstAttribute="top" secondItem="dqc-Y9-wIA" secondAttribute="top" id="bSM-zm-hfp"/>
                             <constraint firstItem="fOE-BS-35h" firstAttribute="trailing" secondItem="LB3-ut-nTs" secondAttribute="trailing" id="egm-D4-wDc"/>
                             <constraint firstItem="LB3-ut-nTs" firstAttribute="top" secondItem="fOE-BS-35h" secondAttribute="top" id="m2O-GA-g3d"/>
                             <constraint firstItem="OKT-6i-Q4u" firstAttribute="trailing" secondItem="fOE-BS-35h" secondAttribute="trailing" id="mLi-Sl-dZd"/>
                             <constraint firstAttribute="bottom" secondItem="OKT-6i-Q4u" secondAttribute="bottom" id="wBu-fu-JxP"/>
+                            <constraint firstItem="ORh-4U-7QB" firstAttribute="bottom" secondItem="dqc-Y9-wIA" secondAttribute="bottom" id="wps-3g-uaQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HM2-pC-5Lr"/>
                     <connections>
                         <outlet property="closeBtn" destination="yUz-ml-bzN" id="brH-Sg-QGY"/>
                         <outlet property="fullScreenBtn" destination="PQb-zh-Pk8" id="ZKw-k9-QOD"/>
+                        <outlet property="landscapeMenuView" destination="ORh-4U-7QB" id="UEs-hg-yIG"/>
                         <outlet property="playerView" destination="dqc-Y9-wIA" id="B2a-QH-uRd"/>
                         <outlet property="playerViewHeightConstraint" destination="gUw-IK-tQ7" id="QOc-VV-d26"/>
                         <outlet property="profileBtn" destination="Yaa-HW-h5v" id="oZ0-TE-iCP"/>

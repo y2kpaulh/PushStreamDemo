@@ -27,6 +27,7 @@ class LandspacePullStreamViewController: UIViewController {
   //  @IBOutlet weak var streamTypeLabel: UILabel!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var playerView: VersaPlayerView!
+  @IBOutlet weak var landscapeMenuView: UIView!
   @IBOutlet weak var volumeBtn: UIButton!
 
   // @IBOutlet weak var controls: VersaPlayerControls!
@@ -97,15 +98,13 @@ class LandspacePullStreamViewController: UIViewController {
 
     switch self.fullScreenBtn.isSelected {
     case true:
-      let value = UIInterfaceOrientation.landscapeRight.rawValue
-      UIDevice.current.setValue(value, forKey: "orientation")
-      UIViewController.attemptRotationToDeviceOrientation()
+      UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+      self.landscapeMenuView.isHidden = true
     //      self.playerView.setFullscreen(enabled: true)
 
     case false:
-      let value = UIInterfaceOrientation.portrait.rawValue
-      UIDevice.current.setValue(value, forKey: "orientation")
-      UIViewController.attemptRotationToDeviceOrientation()
+      UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+      self.landscapeMenuView.isHidden = false
     //      self.playerView.setFullscreen(enabled: false)
     }
   }
@@ -128,6 +127,7 @@ class LandspacePullStreamViewController: UIViewController {
       delegate.orientationLock.send([.portrait, .landscape])
     }
 
+    UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -168,7 +168,7 @@ class LandspacePullStreamViewController: UIViewController {
     //    }
 
     //video view round 처리
-    playerView.renderingView.cornerRadius = 8
+    //playerView.renderingView.cornerRadius = 8
     playerView.renderingView.playerLayer.videoGravity = .resizeAspect
     playerView.isUserInteractionEnabled = false
 
@@ -195,12 +195,14 @@ class LandspacePullStreamViewController: UIViewController {
             self.playerViewHeightConstraint.constant = 250
             self.playerView.renderingView.playerLayer.videoGravity = .resizeAspect
             self.fullScreenBtn.isSelected = false
+            self.landscapeMenuView.isHidden = true
 
           case .portraitUpsideDown, .landscapeLeft, .landscapeRight:
             //            self.playerView.setFullscreen(enabled: true)
             self.playerViewHeightConstraint.constant = UIScreen.main.bounds.height
             self.playerView.renderingView.playerLayer.videoGravity = .resizeAspectFill
             self.fullScreenBtn.isSelected = true
+            self.landscapeMenuView.isHidden = false
 
           default:
             break
